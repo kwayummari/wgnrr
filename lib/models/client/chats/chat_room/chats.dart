@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/widgets/individual_chat.dart';
 
 class Chats extends StatefulWidget {
   var doctor;
@@ -21,21 +22,7 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-  Future send_comments() async {
-    const url = '${murl}message/message_write.php';
-    var response = await http.post(Uri.parse(url), body: {
-      "username": username.toString(),
-      "doctor": widget.doctor.toString(),
-      "comments": comments.text,
-      "part": '1'.toString(),
-    });
-    if (response.statusCode == 200) {
-      setState(() {
-        get_comments();
-        comments.clear();
-      });
-    }
-  }
+  
 
   var comment;
   List _comments = [];
@@ -55,7 +42,7 @@ class _ChatsState extends State<Chats> {
     }
   }
 
-  final _formKey = GlobalKey<FormState>();
+  
   bool isLoading = false;
   done() async {
     await Future.delayed(Duration(seconds: 5), () {
@@ -88,7 +75,7 @@ class _ChatsState extends State<Chats> {
     getValidationData();
   }
 
-  TextEditingController comments = TextEditingController();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -117,10 +104,9 @@ class _ChatsState extends State<Chats> {
                       child: Text(
                         'No comments available at the moment',
                         style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
+                            color: Colors.black,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16),
                       ),
                     )
                   ],
@@ -202,73 +188,7 @@ class _ChatsState extends State<Chats> {
                   ],
                 ),
               ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 30),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: HexColor('#742B90'),
-                      borderRadius: BorderRadius.circular(25.0),
-                      border: Border.all(color: HexColor('#742B90'))),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minWidth: MediaQuery.of(context).size.width / 1.3,
-                      maxWidth: MediaQuery.of(context).size.width / 1.2,
-                      minHeight: 30.0,
-                      maxHeight: 250.0,
-                    ),
-                    child: Scrollbar(
-                      child: TextFormField(
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                        cursorColor: Colors.white,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        controller: comments,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                if (!_formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                send_comments();
-                              },
-                              icon: Icon(
-                                Icons.send,
-                                color: Colors.white,
-                              )),
-                          border: InputBorder.none,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: HexColor('#742B90')),
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          fillColor: Colors.white,
-                          hoverColor: HexColor('#742B90'),
-                          focusColor: HexColor('#742B90'),
-                          hintText: 'Message',
-                          hintStyle: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
-                          contentPadding: EdgeInsets.only(
-                              top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
+              Individualchats(client: widget.client, doctor: widget.doctor, username: username, get_comments: get_comments(),)
       ]),
     );
   }
