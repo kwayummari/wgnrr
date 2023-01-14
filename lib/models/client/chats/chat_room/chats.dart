@@ -188,7 +188,7 @@ class _ChatsState extends State<Chats> {
                   ],
                 ),
               ),
-              Individualchats(client: widget.client, doctor: widget.doctor, username: username, get_comments: get_comments(),)
+              Individualchats(client: widget.client, doctor: widget.doctor, username: username)
       ]),
     );
   }

@@ -1,21 +1,25 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
+
+import 'display_image.dart';
 
 class Individualchats extends StatefulWidget {
   var username;
   var doctor;
   var client;
-  void get_comments;
   Individualchats(
       {super.key,
       required this.client,
       required this.doctor,
-      required this.get_comments,
       required this.username});
 
   @override
@@ -32,12 +36,31 @@ class _IndividualchatsState extends State<Individualchats> {
       "doctor": widget.doctor.toString(),
       "comments": comments.text,
       "part": '1'.toString(),
+      "type": '1'.toString(),
     });
     if (response.statusCode == 200) {
       setState(() {
-        widget.get_comments;
+        get_comments();
         comments.clear();
+        Navigator.pop(context);
       });
+    }
+  }
+
+  var comment;
+  List _comments = [];
+  Future get_comments() async {
+    http.Response response;
+    const url = '${murl}message/message.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "client": widget.client.toString(),
+      "doctor": widget.doctor.toString()
+    });
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          _comments = json.decode(response1.body);
+        });
     }
   }
 
@@ -113,7 +136,23 @@ class _IndividualchatsState extends State<Individualchats> {
                 CircleAvatar(
                     backgroundColor: HexColor('#742B90'),
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          ImagePickerPlus picker = ImagePickerPlus(context);
+                          SelectedImagesDetails? details =
+                              await picker.pickBoth(
+                            source: ImageSource.both,
+                            multiSelection: true,
+                            galleryDisplaySettings: GalleryDisplaySettings(
+                              tabsTexts: _tabsTexts(),
+                              appTheme: AppTheme(
+                                  focusColor: Colors.white,
+                                  primaryColor: Colors.black),
+                              cropImage: true,
+                              showImagePreview: true,
+                            ),
+                          );
+                          if (details != null) await displayDetails(details);
+                        },
                         icon: Icon(
                           Icons.camera_alt,
                           color: Colors.white,
@@ -123,6 +162,32 @@ class _IndividualchatsState extends State<Individualchats> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  TabsTexts _tabsTexts() {
+    return TabsTexts(
+      videoText: "VIDEO",
+      galleryText: "GALLERY",
+      deletingText: "DELETE",
+      clearImagesText: "Delete Selected Photo",
+      limitingText: "10 The maximum number of images is",
+    );
+  }
+
+  Future<void> displayDetails(SelectedImagesDetails details) async {
+    await Navigator.of(context).push(
+      CupertinoPageRoute(
+        builder: (context) {
+          return DisplayImages(
+            selectedBytes: details.selectedFiles,
+            details: details,
+            aspectRatio: details.aspectRatio,
+            doctor: widget.doctor,
+            username: widget.username, client: widget.client,
+          );
+        },
       ),
     );
   }
