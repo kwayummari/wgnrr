@@ -119,7 +119,7 @@ class _ChoicesState extends State<Choices> {
                                 Text(
                                   language == 'Kiswahili'
                                       ? 'Soma zaidi'
-                                      : 'Read More',
+                                      : 'View More',
                                   style: TextStyle(color: HexColor('#800B24')),
                                 ),
                                 Icon(

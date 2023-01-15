@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:badges/badges.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ionicons/ionicons.dart';
@@ -71,6 +72,25 @@ class _AllState extends State<All> {
         }
       });
     }
+  }
+
+  Future<Widget> Count(choice_id, choice_specific_id) async {
+    List sourcename = [];
+    const url = '${murl}comment/comment.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "choice_id": choice_id.toString(),
+      "choice_specific_id": choice_specific_id.toString()
+    });
+    if (response.statusCode == 200) {
+      setState(() {
+        sourcename = json.decode(response.body);
+      });
+    }
+    return Text(
+      sourcename.length.toString(),
+      textScaleFactor: 1.3,
+      textAlign: TextAlign.center,
+    );
   }
 
   TextEditingController search = TextEditingController();
@@ -323,7 +343,7 @@ class _AllState extends State<All> {
                       IconButton(
                           onPressed: () async {
                             final urlImage =
-                                'http://127.0.0.1/wgnrr_api/choices/image/${data[index]['image']}';
+                                '${murl}choices/image/${data[index]['image']}';
                             final url = Uri.parse(urlImage);
                             final response = await http.get(url);
                             final bytes = response.bodyBytes;
@@ -362,9 +382,27 @@ class _AllState extends State<All> {
                                       choice_specific_id: data[index]['id'],
                                     ))));
                           },
-                          child: Icon(
-                            Ionicons.chatbox,
-                            color: HexColor('#742B90'),
+                          child: Badge(
+                            badgeColor: HexColor('#f5841f'),
+                            badgeContent: FutureBuilder<Widget>(
+                              future: Count(
+                                widget.id,
+                                data[index]['id'],
+                              ),
+                              builder: (BuildContext _, snapshot) {
+                                if (snapshot.hasError) {
+                                  // Error
+                                  return Text('', textScaleFactor: 1);
+                                } else if (!(snapshot.hasData)) {
+                                  return Text('Loading...');
+                                }
+                                return Center(child: snapshot.data);
+                              },
+                            ),
+                            child: Icon(
+                              Ionicons.chatbox,
+                              color: HexColor('#742B90'),
+                            ),
                           ),
                         ),
                       ),

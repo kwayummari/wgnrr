@@ -14,7 +14,11 @@ class Comment extends StatefulWidget {
   var choice_id;
   var choice_specific_id;
   var title;
-  Comment({Key? key, required this.choice_id, required this.choice_specific_id, required this.title})
+  Comment(
+      {Key? key,
+      required this.choice_id,
+      required this.choice_specific_id,
+      required this.title})
       : super(key: key);
 
   @override
@@ -32,6 +36,7 @@ class _CommentState extends State<Comment> {
     });
     if (response.statusCode == 200) {
       setState(() {
+        comments.clear();
         get_comments();
       });
     }
@@ -43,11 +48,10 @@ class _CommentState extends State<Comment> {
   Future get_comments() async {
     http.Response response;
     const url = '${murl}comment/comment.php';
-    var response1 = await http
-        .post(Uri.parse(url), body: {
-          "choice_id": widget.choice_id.toString(),
-          "choice_specific_id": widget.choice_specific_id.toString()
-          });
+    var response1 = await http.post(Uri.parse(url), body: {
+      "choice_id": widget.choice_id.toString(),
+      "choice_specific_id": widget.choice_specific_id.toString()
+    });
     if (response1.statusCode == 200) {
       if (mounted)
         setState(() {

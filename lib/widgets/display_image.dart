@@ -32,18 +32,23 @@ class DisplayImages extends StatefulWidget {
 class _DisplayImagesState extends State<DisplayImages> {
   TextEditingController comments = TextEditingController();
   Future send_comments() async {
-    const url = '${murl}message/message_write.php';
-    var response = await http.post(Uri.parse(url), body: {
-      "username": widget.username.toString(),
-      "doctor": widget.doctor.toString(),
-      "comments": comments.text,
-      "part": '1'.toString(),
-    });
-    if (response.statusCode == 200) {
-      setState(() {
-        get_comments();
-        comments.clear();
-      });
+    if (widget.selectedBytes.length == 1) {
+      const url = '${murl}message/message_write.php';
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.fields['username'] = widget.username.toString();
+      request.fields['doctor'] = widget.doctor.toString();
+      request.fields['part'] = '1'.toString();
+      request.fields['type'] = '2'.toString();
+      request.fields['comments'] = comments.text;
+      // var file = await http.MultipartFile.fromBytes("img", widget.selectedBytes., filename: '');
+      //   request.files.add(file);
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        setState(() {
+          get_comments();
+          comments.clear();
+        });
+      }
     }
   }
 
@@ -62,6 +67,12 @@ class _DisplayImagesState extends State<DisplayImages> {
           _comments = json.decode(response1.body);
         });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print(widget.selectedBytes);
   }
 
   @override
