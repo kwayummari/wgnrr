@@ -8,10 +8,12 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:video_player/video_player.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/widget/comment/comment.dart';
@@ -54,21 +56,32 @@ class _AllState extends State<All> {
       status = s;
       bot = b;
       language = l;
+      fecth_data();
     });
   }
 
   List data = [];
   Future fecth_data() async {
+    var l;
+    if (language == 'Kiswahili') {
+      setState(() {
+        l = 2;
+      });
+    } else {
+      setState(() {
+        l = 1;
+      });
+    }
     const url = '${murl}choices/choices_specific.php';
     var response = await http.post(Uri.parse(url), body: {
       "category_id": widget.id.toString(),
+      "language": l.toString(),
     });
     if (response.statusCode == 200) {
       setState(() {
         data = json.decode(response.body);
         for (int i = 0; i < data.length; i++) {
           datas.add(data[i]['name']);
-          ;
         }
       });
     }
@@ -93,12 +106,52 @@ class _AllState extends State<All> {
     );
   }
 
+  late VideoPlayerController controller;
+  late Future<void> initializeVideoPlayerFuture;
+  Future<Widget> checkvp(link) async {
+    var file_type = lookupMimeType(link);
+    final names = file_type.toString().split("/");
+    final type = names[0];
+    type != 'image' ? controller = VideoPlayerController.network(link) : null;
+    type != 'image'
+        ? initializeVideoPlayerFuture = controller.initialize()
+        : null;
+    type != 'image' ? controller.setLooping(true) : null;
+    return type == 'image'
+        ? CachedNetworkImage(
+            imageUrl: link,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Container(
+              height: 400,
+              width: double.infinity,
+              color: Colors.black,
+              child: Center(
+                child: CircularProgressIndicator(
+                  value: downloadProgress.progress,
+                  color: Colors.white,
+                  strokeWidth: 3,
+                ),
+              ),
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          )
+        : Container(
+            width: MediaQuery.of(context).size.width,
+            height: 500,
+            child: VideoPlayer(controller));
+  }
+
   TextEditingController search = TextEditingController();
   @override
   void initState() {
     super.initState();
     getValidationData();
-    fecth_data();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -320,23 +373,25 @@ class _AllState extends State<All> {
                             color: HexColor('#000000'),
                             width: 1.0), // Make rounded corner of border
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl:
-                            '${murl}choices/image/${data[index]['image']}',
-                        progressIndicatorBuilder:
-                            (context, url, downloadProgress) => Container(
-                          height: 400,
-                          width: double.infinity,
-                          color: Colors.black,
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: downloadProgress.progress,
-                              color: Colors.white,
-                              strokeWidth: 3,
-                            ),
-                          ),
+                      child: FutureBuilder<Widget>(
+                        future: checkvp(
+                          '${murl}choices/image/${data[index]['image']}',
                         ),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                        builder: (BuildContext _, snapshot) {
+                          if (snapshot.hasError) {
+                            // Error
+                            return Text('', textScaleFactor: 1);
+                          } else if (!(snapshot.hasData)) {
+                            return Container(
+                              width: 100,
+                              height: 100,
+                              child: Center(
+                                child: Icon(Icons.error),
+                              ),
+                            );
+                          }
+                          return Center(child: snapshot.data);
+                        },
                       ),
                     ),
                     Row(children: [
@@ -394,7 +449,7 @@ class _AllState extends State<All> {
                                   // Error
                                   return Text('', textScaleFactor: 1);
                                 } else if (!(snapshot.hasData)) {
-                                  return Text('Loading...');
+                                  return Text('');
                                 }
                                 return Center(child: snapshot.data);
                               },

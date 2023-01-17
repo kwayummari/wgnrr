@@ -17,15 +17,26 @@ class Categories extends StatefulWidget {
 class _CategoriesState extends State<Categories> {
   List data = [];
   Future get_datas() async {
-    http.Response response;
-    const API_URL = '${murl}categories/categories.php';
-    response = await http.get(Uri.parse(API_URL));
+    var l;
+    if (language == 'Kiswahili') {
+      setState(() {
+        l = 2;
+      });
+    } else {
+      setState(() {
+        l = 1;
+      });
+    }
+    const url = '${murl}categories/categories.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "language": l.toString(),
+    });
     if (response.statusCode == 200) {
       if (mounted)
         setState(() {
           data = json.decode(response.body);
         });
-    } //
+    }
   }
 
   var username;
@@ -42,13 +53,13 @@ class _CategoriesState extends State<Categories> {
       username = u;
       status = s;
       language = l;
+      get_datas();
     });
   }
 
   @override
   void initState() {
     super.initState();
-    get_datas();
     get_username();
   }
 

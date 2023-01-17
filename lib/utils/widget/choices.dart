@@ -17,9 +17,20 @@ class Choices extends StatefulWidget {
 class _ChoicesState extends State<Choices> {
   List data = [];
   Future get_datas() async {
-    http.Response response;
-    const API_URL = '${murl}choices/choices.php';
-    response = await http.get(Uri.parse(API_URL));
+    var l;
+    if (language == 'Kiswahili') {
+      setState(() {
+        l = 2;
+      });
+    } else {
+      setState(() {
+        l = 1;
+      });
+    }
+    const url = '${murl}choices/choices.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "language": l.toString(),
+    });
     if (response.statusCode == 200) {
       if (mounted)
         setState(() {
@@ -42,13 +53,13 @@ class _ChoicesState extends State<Choices> {
       username = u;
       status = s;
       language = l;
+      get_datas();
     });
   }
 
   @override
   void initState() {
     super.initState();
-    get_datas();
     get_username();
   }
 

@@ -24,9 +24,20 @@ class _TopcircularState extends State<Topcircular> {
   List photos = [];
   List rows = [];
   Future get_datas() async {
-    http.Response response;
-    const API_URL = '${murl}feeds/feeds.php';
-    response = await http.get(Uri.parse(API_URL));
+    var l;
+    if (language == 'Kiswahili') {
+      setState(() {
+        l = 2;
+      });
+    } else {
+      setState(() {
+        l = 1;
+      });
+    }
+    const url = '${murl}feeds/feeds.php';
+    var response = await http.post(Uri.parse(url), body: {
+      "language": l.toString(),
+    });
     if (response.statusCode == 200) {
       if (mounted)
         setState(() {
@@ -72,15 +83,19 @@ class _TopcircularState extends State<Topcircular> {
 
   var username;
   var status;
+  var language;
 
   Future get_username() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var u = sharedPreferences.get('username');
     var s = sharedPreferences.get('status');
+    var l = sharedPreferences.get('language');
     setState(() {
       username = u;
       status = s;
+      language = l;
+      checkConnection();
     });
   }
 
@@ -89,10 +104,8 @@ class _TopcircularState extends State<Topcircular> {
     connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.mobile) {
       get_datas();
-      get_username();
     } else if (connectivityResult == ConnectivityResult.wifi) {
       get_datas();
-      get_username();
     } else {
       getData();
     }
@@ -101,7 +114,7 @@ class _TopcircularState extends State<Topcircular> {
   @override
   void initState() {
     super.initState();
-    checkConnection();
+    get_username();
   }
 
   @override
@@ -119,7 +132,6 @@ class _TopcircularState extends State<Topcircular> {
         autoPlayAnimationDuration: Duration(milliseconds: 2000),
         autoPlayCurve: Curves.linear,
         enlargeCenterPage: true,
-        // onPageChanged: callbackFunction,
         scrollDirection: Axis.horizontal,
       ),
       items: <Widget>[
@@ -145,11 +157,9 @@ class _TopcircularState extends State<Topcircular> {
                 border: Border.all(color: Colors.black),
                 image: DecorationImage(
                   image: (connectivityResult == ConnectivityResult.wifi)
-                      ? NetworkImage(
-                          '${murl}feeds/image/${photo[i]}')
+                      ? NetworkImage('${murl}feeds/image/${photo[i]}')
                       : (connectivityResult == ConnectivityResult.mobile)
-                          ? NetworkImage(
-                              '${murl}feeds/image/${photo[i]}')
+                          ? NetworkImage('${murl}feeds/image/${photo[i]}')
                           : MemoryImage(photos[i]) as ImageProvider,
                   fit: BoxFit.fill,
                 ),
