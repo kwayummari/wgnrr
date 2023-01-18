@@ -63,8 +63,6 @@ class _SplashState extends State<Splash> {
       username = u;
       status = s;
     });
-    print(username);
-    print(status);
   }
 
   @override

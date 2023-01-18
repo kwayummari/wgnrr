@@ -9,7 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/widgets/individual_chat.dart';
+import 'package:wgnrr/utils/widget/individual_chat.dart';
 
 class Chats extends StatefulWidget {
   var doctor;
@@ -22,8 +22,6 @@ class Chats extends StatefulWidget {
 }
 
 class _ChatsState extends State<Chats> {
-  
-
   var comment;
   List _comments = [];
 
@@ -42,7 +40,6 @@ class _ChatsState extends State<Chats> {
     }
   }
 
-  
   bool isLoading = false;
   done() async {
     await Future.delayed(Duration(seconds: 5), () {
@@ -75,7 +72,6 @@ class _ChatsState extends State<Chats> {
     getValidationData();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,76 +115,132 @@ class _ChatsState extends State<Chats> {
                     SizedBox(
                       height: 5,
                     ),
-                    ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        // bool isplaying = false;
-                        return Column(
-                          children: [
-                            Align(
-                              alignment: _comments[index]['part'] == '1'
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Text(
-                                  _comments[index]['part'] == '1'
-                                      ? username.toString()
-                                      : _comments[index]['doctor'],
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            Align(
-                              alignment: _comments[index]['part'] == '1'
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Align(
+                    StreamBuilder(
+                      stream: Stream.periodic(Duration(seconds: 2)).asyncMap((i) =>
+                          getValidationData()), // i is null here (check periodic docs)
+                      builder: (context, snapshot) => ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          // bool isplaying = false;
+                          return Column(
+                            children: [
+                              Align(
                                 alignment: _comments[index]['part'] == '1'
                                     ? Alignment.centerRight
                                     : Alignment.centerLeft,
-                                child: Padding(
-                                    padding: _comments[index]['part'] == '1'
-                                        ? const EdgeInsets.only(left: 150)
-                                        : const EdgeInsets.only(right: 150),
-                                    child: Bubble(
-                                      color: _comments[index]['part'] == '1'
-                                          ? HexColor('#742B90')
-                                          : HexColor('#772255'),
-                                      margin: BubbleEdges.only(top: 10),
-                                      alignment: _comments[index]['part'] == '1'
-                                          ? Alignment.topRight
-                                          : Alignment.topLeft,
-                                      nip: _comments[index]['part'] == '1'
-                                          ? BubbleNip.rightTop
-                                          : BubbleNip.leftTop,
-                                      child: Text(
-                                        _comments[index]['comment'],
-                                        style: GoogleFonts.poppins(
-                                          color: _comments[index]['part'] == '1'
-                                              ? Colors.white
-                                              : Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                      ),
+                                child: Text(
+                                    _comments[index]['part'] == '1'
+                                        ? username.toString()
+                                        : _comments[index]['doctor'],
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
                                     )),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                          ],
-                        );
-                        // <!-- android:usesCleartextTraffic="true" -->
-                      },
-                      itemCount: _comments == null ? 0 : _comments.length,
+                              _comments[index]['type'] == '1'
+                                  ? Align(
+                                      alignment: _comments[index]['part'] == '1'
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Align(
+                                        alignment:
+                                            _comments[index]['part'] == '1'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
+                                        child: Padding(
+                                            padding:
+                                                _comments[index]['part'] == '1'
+                                                    ? const EdgeInsets.only(
+                                                        left: 150)
+                                                    : const EdgeInsets.only(
+                                                        right: 150),
+                                            child: Bubble(
+                                              color: _comments[index]['part'] ==
+                                                      '1'
+                                                  ? HexColor('#742B90')
+                                                  : HexColor('#772255'),
+                                              margin: BubbleEdges.only(top: 10),
+                                              alignment: _comments[index]
+                                                          ['part'] ==
+                                                      '1'
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                              nip: _comments[index]['part'] ==
+                                                      '1'
+                                                  ? BubbleNip.rightTop
+                                                  : BubbleNip.leftTop,
+                                              child: Text(
+                                                _comments[index]['comment'],
+                                                style: GoogleFonts.poppins(
+                                                  color: _comments[index]
+                                                              ['part'] ==
+                                                          '1'
+                                                      ? Colors.white
+                                                      : Colors.white,
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            )),
+                                      ),
+                                    )
+                                  : Align(
+                                      alignment: _comments[index]['part'] == '1'
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Align(
+                                        alignment:
+                                            _comments[index]['part'] == '1'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
+                                        child: Padding(
+                                            padding:
+                                                _comments[index]['part'] == '1'
+                                                    ? const EdgeInsets.only(
+                                                        left: 150)
+                                                    : const EdgeInsets.only(
+                                                        right: 150),
+                                            child: Bubble(
+                                                color: _comments[index]
+                                                            ['part'] ==
+                                                        '1'
+                                                    ? HexColor('#742B90')
+                                                    : HexColor('#772255'),
+                                                margin:
+                                                    BubbleEdges.only(top: 10),
+                                                alignment: _comments[index]
+                                                            ['part'] ==
+                                                        '1'
+                                                    ? Alignment.topRight
+                                                    : Alignment.topLeft,
+                                                nip: _comments[index]['part'] ==
+                                                        '1'
+                                                    ? BubbleNip.rightTop
+                                                    : BubbleNip.leftTop,
+                                                child: Image.network(
+                                                  '${murl}message/image/${_comments[index]['image']}',
+                                                  height: 50,
+                                                  width: 50,
+                                                ))),
+                                      ),
+                                    ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          );
+                          // <!-- android:usesCleartextTraffic="true" -->
+                        },
+                        itemCount: _comments == null ? 0 : _comments.length,
+                      ),
                     )
                   ],
                 ),
               ),
-              Individualchats(client: widget.client, doctor: widget.doctor, username: username)
+        Individualchats(
+            client: widget.client, doctor: widget.doctor, username: username)
       ]),
     );
   }

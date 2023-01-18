@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
+import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
-import 'package:video_player/video_player.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,20 +32,22 @@ class _DisplayImagesState extends State<DisplayImages> {
   TextEditingController comments = TextEditingController();
   Future send_comments() async {
     if (widget.selectedBytes.length == 1) {
-      const url = '${murl}message/message_write.php';
+      SelectedByte selectedByte = widget.selectedBytes[0];
+      const url = '${murl}message/message_image_write.php';
       var request = http.MultipartRequest('POST', Uri.parse(url));
       request.fields['username'] = widget.username.toString();
       request.fields['doctor'] = widget.doctor.toString();
       request.fields['part'] = '1'.toString();
       request.fields['type'] = '2'.toString();
       request.fields['comments'] = comments.text;
-      // var file = await http.MultipartFile.fromBytes("img", widget.selectedBytes., filename: '');
-      //   request.files.add(file);
+      var pic = await http.MultipartFile.fromPath(
+          "image", selectedByte.selectedFile.path);
+      request.files.add(pic);
       var response = await request.send();
       if (response.statusCode == 200) {
+        Navigator.pop(context);
         setState(() {
           get_comments();
-          comments.clear();
         });
       }
     }
@@ -69,6 +70,16 @@ class _DisplayImagesState extends State<DisplayImages> {
     }
   }
 
+  Future<Widget> view(link) async {
+    SelectedByte selectedByte = link;
+    return !selectedByte.isThatImage
+        ? BetterPlayer.file(selectedByte.selectedFile.path)
+        : SizedBox(
+            width: double.infinity,
+            child: Image.file(selectedByte.selectedFile),
+          );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +99,9 @@ class _DisplayImagesState extends State<DisplayImages> {
         ),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                send_comments();
+              },
               icon: Icon(
                 Icons.send_and_archive,
                 color: Colors.white,
@@ -98,21 +111,25 @@ class _DisplayImagesState extends State<DisplayImages> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ListView.builder(
-              physics: BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                SelectedByte selectedByte = widget.selectedBytes[index];
-                if (!selectedByte.isThatImage) {
-                  return _DisplayVideo(selectedByte: selectedByte);
-                } else {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: Image.file(selectedByte.selectedFile),
+            FutureBuilder<Widget>(
+              future: view(
+                widget.selectedBytes[0],
+              ),
+              builder: (BuildContext _, snapshot) {
+                if (snapshot.hasError) {
+                  // Error
+                  return Text('', textScaleFactor: 1);
+                } else if (!(snapshot.hasData)) {
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    child: Center(
+                      child: Icon(Icons.error),
+                    ),
                   );
                 }
+                return Center(child: snapshot.data);
               },
-              itemCount: widget.selectedBytes.length,
             ),
           ],
         ),
@@ -130,64 +147,13 @@ class _DisplayVideo extends StatefulWidget {
 }
 
 class _DisplayVideoState extends State<_DisplayVideo> {
-  late VideoPlayerController controller;
-  late Future<void> initializeVideoPlayerFuture;
-
   @override
   void initState() {
     super.initState();
-    File file = widget.selectedByte.selectedFile;
-    controller = VideoPlayerController.file(file);
-    initializeVideoPlayerFuture = controller.initialize();
-    controller.setLooping(true);
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: initializeVideoPlayerFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return Stack(
-            alignment: Alignment.center,
-            children: [
-              AspectRatio(
-                aspectRatio: controller.value.aspectRatio,
-                child: VideoPlayer(controller),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      if (controller.value.isPlaying) {
-                        controller.pause();
-                      } else {
-                        controller.play();
-                      }
-                    });
-                  },
-                  child: Icon(
-                    controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-                    color: Colors.white,
-                    size: 45,
-                  ),
-                ),
-              )
-            ],
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(strokeWidth: 1),
-          );
-        }
-      },
-    );
+    return BetterPlayer.file(widget.selectedByte.selectedFile.path);
   }
 }

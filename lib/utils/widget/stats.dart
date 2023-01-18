@@ -63,6 +63,10 @@ class _StatsState extends State<Stats> {
     });
   }
 
+  Future<void> _refresh() async {
+    await get_username();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -90,12 +94,12 @@ class _StatsState extends State<Stats> {
           ),
           Expanded(
             child: RefreshWidget(
-              onRefresh: load_list,
+              onRefresh: () => _refresh(),
               child: ListView.builder(
                 physics: BouncingScrollPhysics(),
                 primary: true,
                 shrinkWrap: true,
-                scrollDirection: Axis.vertical,
+                scrollDirection: Axis.horizontal,
                 itemCount: data.length,
                 itemBuilder: (context, index) {
                   return Padding(
@@ -113,57 +117,55 @@ class _StatsState extends State<Stats> {
                                   image: data[index]['image'],
                                 )));
                       },
-                      child: Container(
-                        margin: const EdgeInsets.all(15.0),
-                        padding: const EdgeInsets.all(3.0),
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            border: Border.all(color: Colors.black)),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          // crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Container(
+                              height: 140.0,
                               width: MediaQuery.of(context).size.width / 2.4,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image.network(
-                                '${murl}stats/image/${data[index]['image']}',
-                                height: 100,
-                                width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(color: Colors.black),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      '${murl}stats/image/${data[index]['image']}'),
+                                  fit: BoxFit.fill,
+                                ),
+                                shape: BoxShape.rectangle,
                               ),
                             ),
-                            Text(
-                              data[index]['title'].toString().length > 10
-                                  ? data[index]['title']
-                                          .toString()
-                                          .substring(0, 10) +
-                                      '...'
-                                  : data[index]['title'].toString(),
-                              style: TextStyle(overflow: TextOverflow.ellipsis),
+                          ),
+                          Text(
+                            data[index]['title'].toString().length > 20
+                                ? data[index]['title']
+                                        .toString()
+                                        .substring(0, 20) +
+                                    '...'
+                                : data[index]['title'].toString(),
+                            style: TextStyle(overflow: TextOverflow.ellipsis),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  language == 'Kiswahili'
+                                      ? 'Soma zaidi'
+                                      : 'Read More',
+                                  style: TextStyle(color: HexColor('#800B24')),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: HexColor('#800B24'),
+                                )
+                              ],
                             ),
-                            Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    language == 'Kiswahili'
-                                        ? 'Soma zaidi'
-                                        : 'Read More',
-                                    style:
-                                        TextStyle(color: HexColor('#800B24')),
-                                  ),
-                                  Icon(
-                                    Icons.arrow_forward,
-                                    color: HexColor('#800B24'),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );

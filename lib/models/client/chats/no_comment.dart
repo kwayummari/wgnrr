@@ -27,9 +27,6 @@ class _No_commentState extends State<No_comment> {
     if (response.statusCode == 200) {
       setState(() {
         comments.clear();
-        // get_comments();
-        // if (comment.text != null)
-        // comment.clear();
       });
     }
   }

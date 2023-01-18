@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +122,7 @@ class _TopcircularState extends State<Topcircular> {
   Widget build(BuildContext context) {
     return CarouselSlider(
       options: CarouselOptions(
-        height: 200,
+        height: Platform.isIOS ? 200 : 150,
         aspectRatio: 16 / 9,
         viewportFraction: 0.9,
         initialPage: 0,

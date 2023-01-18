@@ -133,71 +133,77 @@ class _ChatsState extends State<Chats> {
                     SizedBox(
                       height: 5,
                     ),
-                    ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        // bool isplaying = false;
-                        return Column(
-                          children: [
-                            Align(
-                              alignment: _comments[index]['part'] == '2'
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Text(
-                                  _comments[index]['part'] == '2'
-                                      ? username.toString()
-                                      : _comments[index]['username'],
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15,
-                                  )),
-                            ),
-                            Align(
-                              alignment: _comments[index]['part'] == '2'
-                                  ? Alignment.centerRight
-                                  : Alignment.centerLeft,
-                              child: Align(
+                    StreamBuilder(
+                      stream: Stream.periodic(Duration(seconds: 2)).asyncMap((i) =>
+                          getValidationData()), // i is null here (check periodic docs)
+                      builder: (context, snapshot) => ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          // bool isplaying = false;
+                          return Column(
+                            children: [
+                              Align(
                                 alignment: _comments[index]['part'] == '2'
                                     ? Alignment.centerRight
                                     : Alignment.centerLeft,
-                                child: Padding(
-                                    padding: _comments[index]['part'] == '2'
-                                        ? const EdgeInsets.only(left: 150)
-                                        : const EdgeInsets.only(right: 150),
-                                    child: Bubble(
-                                      color: _comments[index]['part'] == '2'
-                                          ? HexColor('#742B90')
-                                          : HexColor('#772255'),
-                                      margin: BubbleEdges.only(top: 10),
-                                      alignment: _comments[index]['part'] == '2'
-                                          ? Alignment.topRight
-                                          : Alignment.topLeft,
-                                      nip: _comments[index]['part'] == '2'
-                                          ? BubbleNip.rightTop
-                                          : BubbleNip.leftTop,
-                                      child: Text(
-                                        _comments[index]['comment'],
-                                        style: GoogleFonts.poppins(
-                                          color: _comments[index]['part'] == '2'
-                                              ? Colors.white
-                                              : Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
-                                      ),
+                                child: Text(
+                                    _comments[index]['part'] == '2'
+                                        ? username.toString()
+                                        : _comments[index]['username'],
+                                    style: GoogleFonts.poppins(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
                                     )),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                          ],
-                        );
-                        // <!-- android:usesCleartextTraffic="true" -->
-                      },
-                      itemCount: _comments == null ? 0 : _comments.length,
+                              Align(
+                                alignment: _comments[index]['part'] == '2'
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                child: Align(
+                                  alignment: _comments[index]['part'] == '2'
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Padding(
+                                      padding: _comments[index]['part'] == '2'
+                                          ? const EdgeInsets.only(left: 150)
+                                          : const EdgeInsets.only(right: 150),
+                                      child: Bubble(
+                                        color: _comments[index]['part'] == '2'
+                                            ? HexColor('#742B90')
+                                            : HexColor('#772255'),
+                                        margin: BubbleEdges.only(top: 10),
+                                        alignment:
+                                            _comments[index]['part'] == '2'
+                                                ? Alignment.topRight
+                                                : Alignment.topLeft,
+                                        nip: _comments[index]['part'] == '2'
+                                            ? BubbleNip.rightTop
+                                            : BubbleNip.leftTop,
+                                        child: Text(
+                                          _comments[index]['comment'],
+                                          style: GoogleFonts.poppins(
+                                            color:
+                                                _comments[index]['part'] == '2'
+                                                    ? Colors.white
+                                                    : Colors.white,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                      )),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                            ],
+                          );
+                          // <!-- android:usesCleartextTraffic="true" -->
+                        },
+                        itemCount: _comments == null ? 0 : _comments.length,
+                      ),
                     )
                   ],
                 ),

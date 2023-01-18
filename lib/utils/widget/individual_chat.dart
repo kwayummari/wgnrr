@@ -141,7 +141,7 @@ class _IndividualchatsState extends State<Individualchats> {
                           SelectedImagesDetails? details =
                               await picker.pickBoth(
                             source: ImageSource.both,
-                            multiSelection: true,
+                            multiSelection: false,
                             galleryDisplaySettings: GalleryDisplaySettings(
                               tabsTexts: _tabsTexts(),
                               appTheme: AppTheme(

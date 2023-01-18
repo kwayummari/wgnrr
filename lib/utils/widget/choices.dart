@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/widget/allchoices.dart';
+import 'package:wgnrr/utils/widget/animation/refresh_widget.dart';
 
 class Choices extends StatefulWidget {
   const Choices({super.key});
@@ -37,6 +38,10 @@ class _ChoicesState extends State<Choices> {
           data = json.decode(response.body);
         });
     } //
+  }
+
+  Future<void> _refresh() async {
+    await get_username();
   }
 
   var username;
@@ -83,42 +88,50 @@ class _ChoicesState extends State<Choices> {
                     ))),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: data.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => All(
-                                id: data[index]['id'],
-                                title: data[index]['name'],
-                              )));
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.all(15.0),
-                      padding: const EdgeInsets.all(3.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          border: Border.all(color: Colors.black)),
+            child: RefreshWidget(
+              onRefresh: () => _refresh(),
+              child: ListView.builder(
+                itemCount: data.length,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => All(
+                                  id: data[index]['id'],
+                                  title: data[index]['name'],
+                                )));
+                      },
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2.4,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Image.network(
-                              '${murl}choices/image/${data[index]['image']}',
-                              height: 100,
-                              width: 100,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Container(
+                              height: 140.0,
+                              width: MediaQuery.of(context).size.width / 2.4,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10.0)),
+                                border: Border.all(color: Colors.black),
+                                image: DecorationImage(
+                                  image: NetworkImage(
+                                      '${murl}choices/image/${data[index]['image']}'),
+                                  fit: BoxFit.fill,
+                                ),
+                                shape: BoxShape.rectangle,
+                              ),
                             ),
                           ),
                           Text(
-                            data[index]['name'].toString(),
+                            data[index]['name'].toString().length > 20
+                                ? data[index]['name']
+                                        .toString()
+                                        .substring(0, 20) +
+                                    '...'
+                                : data[index]['name'].toString(),
                             style: TextStyle(overflow: TextOverflow.ellipsis),
                           ),
                           Align(
@@ -130,7 +143,7 @@ class _ChoicesState extends State<Choices> {
                                 Text(
                                   language == 'Kiswahili'
                                       ? 'Soma zaidi'
-                                      : 'View More',
+                                      : 'Read More',
                                   style: TextStyle(color: HexColor('#800B24')),
                                 ),
                                 Icon(
@@ -143,9 +156,9 @@ class _ChoicesState extends State<Choices> {
                         ],
                       ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -14,8 +14,8 @@
   </intent>
 </queries>
    <application
-        android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         android:label="wgnrr"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">

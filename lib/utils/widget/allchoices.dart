@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:badges/badges.dart';
+import 'package:better_player/better_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:ionicons/ionicons.dart';
@@ -106,17 +107,10 @@ class _AllState extends State<All> {
     );
   }
 
-  late VideoPlayerController controller;
-  late Future<void> initializeVideoPlayerFuture;
   Future<Widget> checkvp(link) async {
     var file_type = lookupMimeType(link);
     final names = file_type.toString().split("/");
     final type = names[0];
-    type != 'image' ? controller = VideoPlayerController.network(link) : null;
-    type != 'image'
-        ? initializeVideoPlayerFuture = controller.initialize()
-        : null;
-    type != 'image' ? controller.setLooping(true) : null;
     return type == 'image'
         ? CachedNetworkImage(
             imageUrl: link,
@@ -138,7 +132,8 @@ class _AllState extends State<All> {
         : Container(
             width: MediaQuery.of(context).size.width,
             height: 500,
-            child: VideoPlayer(controller));
+            child: BetterPlayer.network('${link}.mp4',
+            ));
   }
 
   TextEditingController search = TextEditingController();
@@ -150,7 +145,6 @@ class _AllState extends State<All> {
 
   @override
   void dispose() {
-    controller.dispose();
     super.dispose();
   }
 
