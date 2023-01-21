@@ -265,7 +265,7 @@ class _QuizState extends State<Quiz> {
               children: [
                 Text(
                   'SUGGESTION SECTION',
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.vesperLibre(
                     color: Colors.black,
                     fontWeight: FontWeight.w700,
                     fontSize: 20,
@@ -277,7 +277,7 @@ class _QuizState extends State<Quiz> {
                   child: Center(
                     child: Text(
                       'Your Ideas, Questions and Feedback are Greatly Appreciated',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.vesperLibre(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -292,7 +292,7 @@ class _QuizState extends State<Quiz> {
                     shadowColor: Colors.grey,
                     elevation: 3,
                     child: TextFormField(
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.vesperLibre(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
                         fontSize: 20,
@@ -311,7 +311,7 @@ class _QuizState extends State<Quiz> {
                         hoverColor: HexColor('#742B90'),
                         focusColor: HexColor('#742B90'),
                         hintText: 'Message',
-                        hintStyle: GoogleFonts.poppins(
+                        hintStyle: GoogleFonts.vesperLibre(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 15,
@@ -342,7 +342,7 @@ class _QuizState extends State<Quiz> {
                               elevation: 5,
                               foregroundColor: HexColor('#F5841F'),
                               backgroundColor: HexColor('#F5841F'),
-                              textStyle: TextStyle(color: Colors.white),
+                              textStyle: GoogleFonts.vesperLibre(color: Colors.white),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
                                   side: BorderSide(color: Colors.black)),
@@ -358,7 +358,7 @@ class _QuizState extends State<Quiz> {
                             },
                             child: Text(
                               language == 'Kiswahili' ? 'Ingia' : 'Sign In',
-                              style: TextStyle(
+                              style: GoogleFonts.vesperLibre(
                                 color: Colors.white,
                                 fontSize: 25,
                               ),

@@ -99,7 +99,7 @@ class _ChatsState extends State<Chats> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title: Text('Chat Room',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.vesperLibre(
               color: Colors.white,
               fontSize: 15,
             )),
@@ -116,7 +116,7 @@ class _ChatsState extends State<Chats> {
                     Center(
                       child: Text(
                         'No comments available at the moment',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -151,7 +151,7 @@ class _ChatsState extends State<Chats> {
                                     _comments[index]['part'] == '2'
                                         ? username.toString()
                                         : _comments[index]['username'],
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.vesperLibre(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,
@@ -183,7 +183,7 @@ class _ChatsState extends State<Chats> {
                                             : BubbleNip.leftTop,
                                         child: Text(
                                           _comments[index]['comment'],
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.vesperLibre(
                                             color:
                                                 _comments[index]['part'] == '2'
                                                     ? Colors.white
@@ -229,7 +229,7 @@ class _ChatsState extends State<Chats> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -259,7 +259,7 @@ class _ChatsState extends State<Chats> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
-                          hintStyle: GoogleFonts.poppins(
+                          hintStyle: GoogleFonts.vesperLibre(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                             fontSize: 15,

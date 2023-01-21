@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -30,7 +31,7 @@ class _LoginState extends State<Login> {
       "password": password.text,
     });
     var data = jsonDecode(response.body);
-
+    print(data);
     if (data == "Client" ||
         data == 'admin' ||
         data == 'Community Based Mobilizers') {
@@ -138,12 +139,12 @@ class _LoginState extends State<Login> {
                 height: 55,
                 width: 340,
                 child: TextFormField(
-                  style: TextStyle(color: Colors.black),
+                  style: GoogleFonts.vesperLibre(color: Colors.black),
                   controller: username,
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: language == 'Kiswahili' ? 'Jina' : 'Username',
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -176,13 +177,13 @@ class _LoginState extends State<Login> {
                 height: 55,
                 width: 340,
                 child: TextFormField(
-                  style: TextStyle(color: Colors.black),
+                  style: GoogleFonts.vesperLibre(color: Colors.black),
                   controller: password,
                   obscureText: dont_show_password,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
                     hintText: language == 'Kiswahili' ? 'Nywila' : 'Password',
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -224,7 +225,7 @@ class _LoginState extends State<Login> {
                         language == 'Kiswahili'
                             ? 'Umesahau Nywila'
                             : 'Forgot Password?',
-                        style: TextStyle(color: HexColor('#F5841F')),
+                        style: GoogleFonts.vesperLibre(color: HexColor('#F5841F')),
                       ),
                       onTap: () {
                         //               Navigator.of(context).push(
@@ -254,12 +255,12 @@ class _LoginState extends State<Login> {
                             elevation: 5,
                             foregroundColor: HexColor('#F5841F'),
                             backgroundColor: HexColor('#F5841F'),
-                            textStyle: TextStyle(color: Colors.white),
+                            textStyle: GoogleFonts.vesperLibre(color: Colors.white),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                                 side: BorderSide(color: Colors.black)),
                           ),
-                          onPressed: () async{
+                          onPressed: () async {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             }
@@ -270,7 +271,7 @@ class _LoginState extends State<Login> {
                           },
                           child: Text(
                             language == 'Kiswahili' ? 'Ingia' : 'Sign In',
-                            style: TextStyle(
+                            style: GoogleFonts.vesperLibre(
                               color: Colors.white,
                               fontSize: 25,
                             ),
@@ -286,7 +287,7 @@ class _LoginState extends State<Login> {
                       language == 'Kiswahili'
                           ? 'Mwanachama Mpya ? Jisajili'
                           : 'New user ? Signup now',
-                      style: TextStyle(color: Colors.white)),
+                      style: GoogleFonts.vesperLibre(color: Colors.white)),
                   onTap: () {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => Register('')));

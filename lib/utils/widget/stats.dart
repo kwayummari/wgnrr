@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -88,8 +89,8 @@ class _StatsState extends State<Stats> {
                     color: HexColor('#F5841F'),
                     child: Text(
                       language == 'Kiswahili' ? 'Takwimu' : 'Stats',
-                      style:
-                          TextStyle(color: HexColor('#F5841F'), fontSize: 15),
+                      style: GoogleFonts.vesperLibre(
+                          color: HexColor('#F5841F'), fontSize: 15),
                     ))),
           ),
           Expanded(
@@ -122,7 +123,7 @@ class _StatsState extends State<Stats> {
                           Padding(
                             padding: const EdgeInsets.only(left: 8, right: 8),
                             child: Container(
-                              height: 140.0,
+                              height: 125.0,
                               width: MediaQuery.of(context).size.width / 2.4,
                               decoration: BoxDecoration(
                                 borderRadius:
@@ -156,7 +157,8 @@ class _StatsState extends State<Stats> {
                                   language == 'Kiswahili'
                                       ? 'Soma zaidi'
                                       : 'Read More',
-                                  style: TextStyle(color: HexColor('#800B24')),
+                                  style: GoogleFonts.vesperLibre(
+                                      color: HexColor('#800B24')),
                                 ),
                                 Icon(
                                   Icons.arrow_forward,

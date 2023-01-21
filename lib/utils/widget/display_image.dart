@@ -40,9 +40,9 @@ class _DisplayImagesState extends State<DisplayImages> {
       request.fields['part'] = '1'.toString();
       request.fields['type'] = '2'.toString();
       request.fields['comments'] = comments.text;
-      var pic = await http.MultipartFile.fromPath(
+      var image = await http.MultipartFile.fromPath(
           "image", selectedByte.selectedFile.path);
-      request.files.add(pic);
+      request.files.add(image);
       var response = await request.send();
       if (response.statusCode == 200) {
         Navigator.pop(context);

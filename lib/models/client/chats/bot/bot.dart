@@ -115,7 +115,7 @@ class _BotState extends State<Bot> {
                     language == 'Kiswahili'
                         ? 'Anza kwa hi'
                         : 'Initialize with hi',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.vesperLibre(
                       color: Colors.white,
                       fontSize: 15,
                     )),
@@ -192,7 +192,7 @@ class _BotState extends State<Bot> {
                                     hintText: language == 'Kiswahili'
                                         ? 'Ujumbe'
                                         : 'Message',
-                                    hintStyle: TextStyle(
+                                    hintStyle: GoogleFonts.vesperLibre(
                                         fontSize: 15.0,
                                         color: HexColor('#742B90')),
                                     contentPadding: EdgeInsets.only(
@@ -235,7 +235,7 @@ class _BotState extends State<Bot> {
                     language == 'Kiswahili'
                         ? 'Anza kwa hi'
                         : 'Initialize with hi',
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.vesperLibre(
                       color: Colors.white,
                       fontSize: 15,
                     )),
@@ -262,7 +262,7 @@ class _BotState extends State<Bot> {
                                     _comments[index]['part'] == '1'
                                         ? _comments[index]['username']
                                         : 'Kwayu',
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.vesperLibre(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,
@@ -296,7 +296,7 @@ class _BotState extends State<Bot> {
                                           _comments[index]['part'] == '1'
                                               ? _comments[index]['comment']
                                               : _comments[index]['reply'],
-                                          style: GoogleFonts.poppins(
+                                          style: GoogleFonts.vesperLibre(
                                               color: _comments[index]['part'] ==
                                                       '1'
                                                   ? Colors.white
@@ -340,7 +340,7 @@ class _BotState extends State<Bot> {
                             ),
                             child: Scrollbar(
                               child: TextFormField(
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.vesperLibre(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 20,
@@ -374,7 +374,7 @@ class _BotState extends State<Bot> {
                                   hintText: language == 'Kiswahili'
                                       ? 'Ujumbe'
                                       : 'Message',
-                                  hintStyle: GoogleFonts.poppins(
+                                  hintStyle: GoogleFonts.vesperLibre(
                                       fontSize: 15.0,
                                       color: HexColor('#ffffff')),
                                   contentPadding: EdgeInsets.only(

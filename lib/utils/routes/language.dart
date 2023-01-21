@@ -33,11 +33,11 @@ class _LanguageState extends State<Language> {
                 )),
             Text(
               'Please select Language',
-              style: TextStyle(color: Colors.white),
+              style: GoogleFonts.vesperLibre(color: Colors.white),
             ),
             Text(
               'Chagua Lugha',
-              style: TextStyle(color: Colors.white),
+              style: GoogleFonts.vesperLibre(color: Colors.white),
             ),
             SizedBox(
               height: 30,
@@ -55,7 +55,7 @@ class _LanguageState extends State<Language> {
                   menuMaxHeight: 300,
                   isExpanded: true,
                   focusColor: Colors.white,
-                  style: TextStyle(color: Colors.black, fontSize: 22),
+                  style: GoogleFonts.vesperLibre(color: Colors.black, fontSize: 22),
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.language,
@@ -69,7 +69,7 @@ class _LanguageState extends State<Language> {
                   hint: Text(
                     'User Language',
                     style:
-                        GoogleFonts.poppins(fontSize: 15, color: Colors.black),
+                        GoogleFonts.vesperLibre(fontSize: 15, color: Colors.black),
                   ),
                   validator: (value) {
                     if (value == null) {
@@ -94,7 +94,7 @@ class _LanguageState extends State<Language> {
                       value: valueItem1,
                       child: Text(
                         valueItem1 != null ? valueItem1 : 'default value',
-                        style: TextStyle(color: Colors.black),
+                        style: GoogleFonts.vesperLibre(color: Colors.black),
                       ),
                     );
                   }).toList(),

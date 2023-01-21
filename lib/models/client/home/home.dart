@@ -92,12 +92,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Platform.isAndroid
-              ? IconButton(
+          // Platform.isAndroid 
+              // ?
+               IconButton(
                   onPressed: (() => Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Splash()))),
                   icon: Icon(Icons.refresh, color: Colors.white))
-              : Container()
+              // : Container()
         ],
         automaticallyImplyLeading: false,
         shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
@@ -283,7 +284,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: Platform.isIOS ? 50 : 100,
             ),
             Stack(
               clipBehavior: Clip.none,

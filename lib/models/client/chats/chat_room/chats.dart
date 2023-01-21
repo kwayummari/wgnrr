@@ -82,7 +82,7 @@ class _ChatsState extends State<Chats> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title: Text('Chat Room',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.vesperLibre(
               color: Colors.white,
               fontSize: 15,
             )),
@@ -99,7 +99,7 @@ class _ChatsState extends State<Chats> {
                     Center(
                       child: Text(
                         'No comments available at the moment',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                             color: Colors.black,
                             fontWeight: FontWeight.w400,
                             fontSize: 16),
@@ -133,7 +133,7 @@ class _ChatsState extends State<Chats> {
                                     _comments[index]['part'] == '1'
                                         ? username.toString()
                                         : _comments[index]['doctor'],
-                                    style: GoogleFonts.poppins(
+                                    style: GoogleFonts.vesperLibre(
                                       color: Colors.black,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,
@@ -173,7 +173,7 @@ class _ChatsState extends State<Chats> {
                                                   : BubbleNip.leftTop,
                                               child: Text(
                                                 _comments[index]['comment'],
-                                                style: GoogleFonts.poppins(
+                                                style: GoogleFonts.vesperLibre(
                                                   color: _comments[index]
                                                               ['part'] ==
                                                           '1'

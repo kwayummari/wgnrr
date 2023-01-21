@@ -89,7 +89,7 @@ class _No_commentState extends State<No_comment> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title: Text('widget.caption',
-            style: GoogleFonts.poppins(
+            style: GoogleFonts.vesperLibre(
               color: Colors.white,
               fontSize: 20,
             )),
@@ -105,7 +105,7 @@ class _No_commentState extends State<No_comment> {
             Center(
               child: Text(
                 'No Text available at the moment',
-                style: GoogleFonts.poppins(
+                style: GoogleFonts.vesperLibre(
                   color: Colors.black,
                   fontWeight: FontWeight.w900,
                   fontSize: 20,
@@ -155,7 +155,7 @@ class _No_commentState extends State<No_comment> {
                         hoverColor: Theme.of(context).iconTheme.color,
                         focusColor: Theme.of(context).iconTheme.color,
                         hintText: 'Message',
-                        hintStyle: TextStyle(
+                        hintStyle: GoogleFonts.vesperLibre(
                             fontSize: 15.0,
                             color: Theme.of(context).iconTheme.color),
                         contentPadding: EdgeInsets.only(

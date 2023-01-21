@@ -32,6 +32,7 @@ class _RegisterState extends State<Register> {
         "gender": gender.toString(),
         "phone": phone.text,
         "password": password.text,
+        "fullname": fullname.text,
       });
       var data = jsonDecode(response.body);
 
@@ -119,6 +120,7 @@ class _RegisterState extends State<Register> {
   TextEditingController password = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController control_password = TextEditingController();
+  TextEditingController fullname = TextEditingController();
   bool isLoading = false;
   done() async {
     await Future.delayed(Duration(seconds: 5), () {
@@ -174,7 +176,7 @@ class _RegisterState extends State<Register> {
                     padding: const EdgeInsets.only(right: 130, left: 15),
                     child: Text(
                       language == 'Kiswahili' ? 'JISAJILI' : 'REGISTER',
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.vesperLibre(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
                         fontSize: 20,
@@ -188,7 +190,7 @@ class _RegisterState extends State<Register> {
                         language == 'Kiswahili'
                             ? 'Teali mtumiaji ? Ingia'
                             : 'Already a user ? Sign In',
-                        style: TextStyle(
+                        style: GoogleFonts.vesperLibre(
                           color: HexColor('#F5841F'),
                           fontSize: 13,
                         ),
@@ -207,24 +209,68 @@ class _RegisterState extends State<Register> {
               Center(
                   child: Text(
                 language == 'Kiswahili' ? 'Karibu' : 'Welcome!',
-                style: TextStyle(color: Colors.white),
+                style: GoogleFonts.vesperLibre(color: Colors.white),
               )),
               Center(
                   child: Text(
                       language == 'Kiswahili'
                           ? 'Tafadhali jaza fomu ujisajili'
                           : 'Please fill this form to create an account',
-                      style: TextStyle(color: Colors.white))),
+                      style: GoogleFonts.vesperLibre(color: Colors.white))),
               Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40, top: 30),
                 child: TextFormField(
-                  style: TextStyle(color: Theme.of(context).iconTheme.color),
+                  style: GoogleFonts.vesperLibre(
+                      color: Theme.of(context).iconTheme.color),
+                  controller: fullname,
+                  cursorColor: Theme.of(context).iconTheme.color,
+                  decoration: InputDecoration(
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
+                    hintText:
+                        language == 'Kiswahili' ? 'Jina Kamili' : 'Fullname',
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
+                    filled: true,
+                    fillColor: Colors.white,
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(0.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    prefixIcon: Icon(
+                      Icons.person_pin,
+                      color: Colors.black,
+                    ),
+                    prefixIconColor: Colors.black,
+                  ),
+                  validator: (value) {
+                    if (value!.isNotEmpty) {
+                      return null;
+                    } else if (value.isEmpty) {
+                      return language == 'Kiswahili'
+                          ? 'Jaza jina'
+                          : 'Username is Empty';
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 40, right: 40),
+                child: TextFormField(
+                  style: GoogleFonts.vesperLibre(
+                      color: Theme.of(context).iconTheme.color),
                   controller: username,
                   cursorColor: Theme.of(context).iconTheme.color,
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(color: Colors.white),
-                    hintText: language == 'Kiswahili' ? 'Jina' : 'Username',
-                    hintStyle: TextStyle(color: Colors.black),
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
+                    hintText:
+                        language == 'Kiswahili' ? 'Jina la Utani' : 'Nickname',
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -260,18 +306,18 @@ class _RegisterState extends State<Register> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 40, right: 40),
                   child: TextFormField(
-                    style: TextStyle(color: HexColor('#742B90')),
+                    style: GoogleFonts.vesperLibre(color: HexColor('#742B90')),
                     enabled: false,
                     cursorColor: Theme.of(context).iconTheme.color,
                     decoration: InputDecoration(
-                      errorStyle: TextStyle(color: Colors.white),
+                      errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                       border: InputBorder.none,
                       hintText: newdate == null
                           ? language == 'Kiswahili'
                               ? 'Chagua mwaka wa kuzaliwa'
                               : 'Select date of birth'
                           : newdate,
-                      hintStyle: TextStyle(color: Colors.black),
+                      hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                       filled: true,
                       fillColor: Colors.white,
                       disabledBorder: OutlineInputBorder(
@@ -310,11 +356,12 @@ class _RegisterState extends State<Register> {
                   menuMaxHeight: 330,
                   isExpanded: true,
                   focusColor: Colors.white,
-                  style: TextStyle(color: Colors.black, fontSize: 22),
+                  style: GoogleFonts.vesperLibre(
+                      color: Colors.black, fontSize: 22),
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(color: Colors.white),
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                     border: InputBorder.none,
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -333,8 +380,8 @@ class _RegisterState extends State<Register> {
                   ),
                   hint: Text(
                     language == 'Kiswahili' ? 'Jinsia' : 'Gender',
-                    style:
-                        GoogleFonts.poppins(fontSize: 15, color: Colors.black),
+                    style: GoogleFonts.vesperLibre(
+                        fontSize: 15, color: Colors.black),
                   ),
                   validator: (value) {
                     if (value == null) {
@@ -356,7 +403,8 @@ class _RegisterState extends State<Register> {
                       value: valueItem,
                       child: Text(
                         valueItem != null ? valueItem : 'default value',
-                        style: TextStyle(color: Colors.black, fontSize: 15),
+                        style: GoogleFonts.vesperLibre(
+                            color: Colors.black, fontSize: 15),
                       ),
                     );
                   }).toList(),
@@ -369,15 +417,16 @@ class _RegisterState extends State<Register> {
                 padding: const EdgeInsets.only(left: 40, right: 40),
                 child: TextFormField(
                   keyboardType: TextInputType.phone,
-                  style: TextStyle(color: Theme.of(context).iconTheme.color),
+                  style: GoogleFonts.vesperLibre(
+                      color: Theme.of(context).iconTheme.color),
                   controller: phone,
                   cursorColor: Theme.of(context).iconTheme.color,
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(color: Colors.white),
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                     border: InputBorder.none,
                     hintText:
                         language == 'Kiswahili' ? 'Namba ya simu' : 'Phone',
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -417,16 +466,17 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40),
                 child: TextFormField(
-                  style: TextStyle(color: Theme.of(context).iconTheme.color),
+                  style: GoogleFonts.vesperLibre(
+                      color: Theme.of(context).iconTheme.color),
                   controller: password,
                   cursorColor: Theme.of(context).iconTheme.color,
                   obscureText: dont_show_password,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(color: Colors.white),
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                     border: InputBorder.none,
                     hintText: language == 'Kiswahili' ? 'Nywila' : 'Password',
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -469,18 +519,19 @@ class _RegisterState extends State<Register> {
               Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40),
                 child: TextFormField(
-                  style: TextStyle(color: Theme.of(context).iconTheme.color),
+                  style: GoogleFonts.vesperLibre(
+                      color: Theme.of(context).iconTheme.color),
                   controller: control_password,
                   cursorColor: Theme.of(context).iconTheme.color,
                   obscureText: dont_show_password,
                   obscuringCharacter: '*',
                   decoration: InputDecoration(
-                    errorStyle: TextStyle(color: Colors.white),
+                    errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                     border: InputBorder.none,
                     hintText: language == 'Kiswahili'
                         ? 'Thibitisha nywila'
                         : 'Confirm Password',
-                    hintStyle: TextStyle(color: Colors.black),
+                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
@@ -536,7 +587,8 @@ class _RegisterState extends State<Register> {
                             elevation: 5,
                             foregroundColor: HexColor('#F5841F'),
                             backgroundColor: HexColor('#F5841F'),
-                            textStyle: TextStyle(color: Colors.white),
+                            textStyle:
+                                GoogleFonts.vesperLibre(color: Colors.white),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                                 side: BorderSide(color: Colors.black)),
@@ -552,7 +604,7 @@ class _RegisterState extends State<Register> {
                           },
                           child: Text(
                             language == 'Kiswahili' ? 'Jisajili' : 'Sign Up',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.vesperLibre(
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                               fontSize: 20,

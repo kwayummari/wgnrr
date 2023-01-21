@@ -129,7 +129,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                         Center(
                           child: Text(
                             '${widget.title}',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.vesperLibre(
                               color: HexColor('#F5841F'),
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
@@ -154,7 +154,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             ),
                             Text(
                               'Date -${data[1]['date']}',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.vesperLibre(
                                 color: HexColor('#F5841F'),
                                 // fontSize: 18,
                                 fontWeight: FontWeight.w700,
@@ -176,7 +176,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             ),
                             Text(
                               'Author -${data[1]['author']}',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.vesperLibre(
                                 color: HexColor('#F5841F'),
                                 // fontSize: 1,
                                 fontWeight: FontWeight.w700,
@@ -196,7 +196,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                       ),
                       Text(
                         'Caption',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                           color: HexColor('#981EE4'),
                           fontSize: 18,
                           height: 1.4,
@@ -212,7 +212,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             1.3,
                             Text(
                               '${data[1]['caption']}',
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.vesperLibre(
                                 color: HexColor('#F5841F'),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
@@ -226,7 +226,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                       ),
                       Text(
                         'Description',
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                           color: HexColor('#981EE4'),
                           fontSize: 18,
                           height: 1.4,
@@ -241,7 +241,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                           1.4,
                           Text(
                             '${data[1]['description']}',
-                            style: GoogleFonts.poppins(
+                            style: GoogleFonts.vesperLibre(
                               color: HexColor('#F5841F'),
                               fontWeight: FontWeight.w700,
                               fontSize: 15,

@@ -22,6 +22,7 @@ enum MenuItem {
   item2,
   item3,
   item4,
+  item5,
 }
 
 List datas = [];
@@ -150,11 +151,37 @@ class _HomeState extends State<Home> {
                                   width: 7,
                                 ),
                                 Text(
-                                    username == null
-                                        ? ''
-                                        : username.toString() +
-                                            ' - ' +
-                                            status.toString(),
+                                    username == null ? '' : username.toString(),
+                                    style: GoogleFonts.rajdhani(
+                                        fontSize: 15,
+                                        color: HexColor('#ffffff'),
+                                        fontWeight: FontWeight.w500)),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: MenuItem.item5,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.newspaper,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Text(username == null ? '' : status.toString(),
                                     style: GoogleFonts.rajdhani(
                                         fontSize: 15,
                                         color: HexColor('#ffffff'),
@@ -280,7 +307,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: Platform.isIOS ? 50 : 100,
             ),
             Stack(
               clipBehavior: Clip.none,

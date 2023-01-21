@@ -42,7 +42,6 @@ class _IndividualchatsState extends State<Individualchats> {
       setState(() {
         get_comments();
         comments.clear();
-        Navigator.pop(context);
       });
     }
   }
@@ -90,7 +89,7 @@ class _IndividualchatsState extends State<Individualchats> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
-                        style: GoogleFonts.poppins(
+                        style: GoogleFonts.vesperLibre(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -120,7 +119,7 @@ class _IndividualchatsState extends State<Individualchats> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
-                          hintStyle: GoogleFonts.poppins(
+                          hintStyle: GoogleFonts.vesperLibre(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                             fontSize: 15,
@@ -185,7 +184,8 @@ class _IndividualchatsState extends State<Individualchats> {
             details: details,
             aspectRatio: details.aspectRatio,
             doctor: widget.doctor,
-            username: widget.username, client: widget.client,
+            username: widget.username,
+            client: widget.client,
           );
         },
       ),

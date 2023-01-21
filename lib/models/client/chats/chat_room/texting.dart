@@ -134,7 +134,7 @@ class _TextsState extends State<Texts> {
                                 : BubbleNip.leftTop,
                             child: Text(
                               _comments[index]['comments'],
-                              style: GoogleFonts.poppins(
+                              style: GoogleFonts.vesperLibre(
                                 color: username == _comments[index]['username']
                                     ? Colors.black
                                     : Colors.black,
@@ -201,7 +201,7 @@ class _TextsState extends State<Texts> {
                           hoverColor: Theme.of(context).iconTheme.color,
                           focusColor: Theme.of(context).iconTheme.color,
                           hintText: 'Message',
-                          hintStyle: TextStyle(
+                          hintStyle: GoogleFonts.vesperLibre(
                               fontSize: 15.0,
                               color: Theme.of(context).iconTheme.color),
                           contentPadding: EdgeInsets.only(

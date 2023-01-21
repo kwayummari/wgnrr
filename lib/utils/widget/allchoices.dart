@@ -551,7 +551,7 @@ class MySearchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) => Center(
         child: Text(
           query,
-          style: TextStyle(color: Colors.black),
+          style: GoogleFonts.vesperLibre(color: Colors.black),
         ),
       );
   @override
