@@ -14,16 +14,10 @@ import 'package:wgnrr/utils/widget/stats.dart';
 import 'package:wgnrr/utils/widget/topcircular.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import '../quiz/quiz.dart';
 
-enum MenuItem {
-  item1,
-  item2,
-  item3,
-  item4,
-}
+enum MenuItem { item1, item2, item3, item4, item5, item6 }
 
 List datas = [];
 
@@ -92,13 +86,13 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          // Platform.isAndroid 
-              // ?
-               IconButton(
-                  onPressed: (() => Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => Splash()))),
-                  icon: Icon(Icons.refresh, color: Colors.white))
-              // : Container()
+          // Platform.isAndroid
+          // ?
+          IconButton(
+              onPressed: (() => Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => Splash()))),
+              icon: Icon(Icons.refresh, color: Colors.white))
+          // : Container()
         ],
         automaticallyImplyLeading: false,
         shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
@@ -131,6 +125,18 @@ class _HomeState extends State<Home> {
                   } else if (value == MenuItem.item2) {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) => Quiz()));
+                  } else if (value == MenuItem.item6) {
+                    final SharedPreferences sharedPreferences =
+                        await SharedPreferences.getInstance();
+                    setState(() {
+                      language == 'Kiswahili'
+                          ? sharedPreferences.setString(
+                              'language', 'English'.toString())
+                          : sharedPreferences.setString(
+                              'language', 'Kiswahili'.toString());
+                    });
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => Splash()));
                   }
                 },
                 position: PopupMenuPosition.under,
@@ -154,11 +160,37 @@ class _HomeState extends State<Home> {
                                   width: 7,
                                 ),
                                 Text(
-                                    username == null
-                                        ? ''
-                                        : username.toString() +
-                                            ' - ' +
-                                            status.toString(),
+                                    username == null ? '' : username.toString(),
+                                    style: GoogleFonts.rajdhani(
+                                        fontSize: 15,
+                                        color: HexColor('#ffffff'),
+                                        fontWeight: FontWeight.w500)),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: MenuItem.item5,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.newspaper,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Text(username == null ? '' : status.toString(),
                                     style: GoogleFonts.rajdhani(
                                         fontSize: 15,
                                         color: HexColor('#ffffff'),
@@ -188,7 +220,10 @@ class _HomeState extends State<Home> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text('Suggestion Box',
+                                Text(
+                                    language == 'Kiswahili'
+                                        ? 'Marejesho'
+                                        : 'Feedback',
                                     style: GoogleFonts.rajdhani(
                                         fontSize: 15,
                                         color: HexColor('#ffffff'),
@@ -218,7 +253,43 @@ class _HomeState extends State<Home> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text('Contact us',
+                                Text(
+                                    language == 'Kiswahili'
+                                        ? 'Wasiliana nasi'
+                                        : 'Contact us',
+                                    style: GoogleFonts.rajdhani(
+                                        fontSize: 15,
+                                        color: HexColor('#ffffff'),
+                                        fontWeight: FontWeight.w500)),
+                                SizedBox(
+                                  width: 30,
+                                ),
+                              ],
+                            ),
+                            Divider(
+                              color: Colors.white,
+                            )
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        value: MenuItem.item6,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.language,
+                                  color: Colors.white,
+                                  size: 15,
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Text(
+                                    language == 'Kiswahili'
+                                        ? 'Kiswahili'
+                                        : 'English',
                                     style: GoogleFonts.rajdhani(
                                         fontSize: 15,
                                         color: HexColor('#ffffff'),
@@ -269,7 +340,10 @@ class _HomeState extends State<Home> {
                       ),
                     ]),
             Spacer(),
-            Text('Welcome ${username}',
+            Text(
+                language == 'Kiswahili'
+                    ? 'Karibu ${username}'
+                    : 'Welcome ${username}',
                 style: GoogleFonts.vesperLibre(
                     fontSize: 15,
                     color: HexColor('#ffffff'),

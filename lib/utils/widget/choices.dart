@@ -83,7 +83,7 @@ class _ChoicesState extends State<Choices> {
                 child: Title(
                     color: HexColor('#F5841F'),
                     child: Text(
-                      language == 'Kiswahili' ? 'Kategoria' : 'Categories',
+                      language == 'Kiswahili' ? 'Mada' : 'Topics',
                       style: GoogleFonts.vesperLibre(
                           color: HexColor('#F5841F'), fontSize: 15),
                     ))),

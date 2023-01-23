@@ -31,8 +31,20 @@ class _LoginState extends State<Login> {
       "password": password.text,
     });
     var data = jsonDecode(response.body);
-    print(data);
-    if (data == "Client" ||
+    if (data == "inactive") {
+      await done();
+      Fluttertoast.showToast(
+        msg: language == 'Kiswahili'
+            ? 'Akaunti yako haijathibitishwa'
+            : 'Your account needs activation',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 15.0,
+      );
+    } else if (data == "Client" ||
         data == 'admin' ||
         data == 'Community Based Mobilizers') {
       final SharedPreferences sharedPreferences =
@@ -225,7 +237,8 @@ class _LoginState extends State<Login> {
                         language == 'Kiswahili'
                             ? 'Umesahau Nywila'
                             : 'Forgot Password?',
-                        style: GoogleFonts.vesperLibre(color: HexColor('#F5841F')),
+                        style:
+                            GoogleFonts.vesperLibre(color: HexColor('#F5841F')),
                       ),
                       onTap: () {
                         //               Navigator.of(context).push(
@@ -255,7 +268,8 @@ class _LoginState extends State<Login> {
                             elevation: 5,
                             foregroundColor: HexColor('#F5841F'),
                             backgroundColor: HexColor('#F5841F'),
-                            textStyle: GoogleFonts.vesperLibre(color: Colors.white),
+                            textStyle:
+                                GoogleFonts.vesperLibre(color: Colors.white),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(0),
                                 side: BorderSide(color: Colors.black)),
