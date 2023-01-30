@@ -35,7 +35,7 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                   canvasColor: HexColor('#742B90'),
                   primaryColor: HexColor('#742B90'),
                   textTheme: Theme.of(context).textTheme.copyWith(
-                      caption: GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
+                      bodySmall: GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
               child: BottomNavigationBar(
                 selectedItemColor: HexColor('#F5841F'),
                 unselectedItemColor: HexColor('#ffffff'),

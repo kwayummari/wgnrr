@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -54,9 +52,7 @@ class _DisplayImagesState extends State<DisplayImages> {
   }
 
   var comment;
-  List _comments = [];
   Future get_comments() async {
-    http.Response response;
     const url = '${murl}message/message.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "client": widget.client.toString(),
@@ -65,7 +61,6 @@ class _DisplayImagesState extends State<DisplayImages> {
     if (response1.statusCode == 200) {
       if (mounted)
         setState(() {
-          _comments = json.decode(response1.body);
         });
     }
   }

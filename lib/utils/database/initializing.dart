@@ -1,7 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:wgnrr/utils/database/models/categories.dart';
 import 'package:wgnrr/utils/database/models/feeds.dart';
-import 'package:wgnrr/utils/database/models/stats.dart';
 
 class wgnrr {
   static final wgnrr instance = wgnrr._init();

@@ -1,16 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_if_null_operators, prefer_typing_uninitialized_variables, must_be_immutable, unused_local_variable, unused_element, prefer_const_constructors_in_immutables, body_might_complete_normally_nullable, depend_on_referenced_packages, library_private_types_in_public_api, use_build_context_synchronously
-
-import 'dart:convert';
-
+// ignore_for_file: prefer_const_constructors, prefer_if_null_operators, prefer_typing_uninitialized_variables, must_be_immutable, unused_local_variable, unused_element, prefer_const_constructors_in_immutables, body_might_complete_normally_nullable, depend_on_referenced_packages, library_private_types_in_public_api, use_build_context_synchronously, unnecessary_null_comparison
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wgnrr/api/const.dart';
+import 'package:provider/provider.dart';
+import 'package:wgnrr/api/auth/login.dart';
+import 'package:wgnrr/api/auth/registration.dart';
 import 'package:wgnrr/authentication/login.dart';
-import 'package:http/http.dart' as http;
+import 'package:wgnrr/provider/date_picker_provider.dart';
+import 'package:wgnrr/provider/shared_data.dart';
 
 class Register extends StatefulWidget {
   Register(
@@ -23,112 +21,12 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
-  Future Registering() async {
-    if (password.text == control_password.text) {
-      const url = '${murl}authentication/registration.php';
-      var response = await http.post(Uri.parse(url), body: {
-        "username": username.text,
-        "age": newdate.toString(),
-        "gender": gender.toString(),
-        "phone": phone.text,
-        "password": password.text,
-        "fullname": fullname.text,
-      });
-      var data = jsonDecode(response.body);
-
-      if (data == "success") {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
-        Fluttertoast.showToast(
-          msg: language == 'Kiswahili'
-              ? 'Umefanikiwa kujisajili'
-              : 'Registered Successfully',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
-          textColor: Colors.white,
-          fontSize: 15.0,
-        );
-      } else if (data == "username") {
-        setState(() {
-          isLoading = false;
-        });
-        Fluttertoast.showToast(
-          msg: language == 'Kiswahili'
-              ? 'Jina limeshachukuliwa'
-              : 'Username already exists',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 15.0,
-        );
-      } else if (data == "phone") {
-        setState(() {
-          isLoading = false;
-        });
-        Fluttertoast.showToast(
-          msg: language == 'Kiswahili'
-              ? 'Namba ya simu imeshachukuliwa'
-              : 'Phone number already exists',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 15.0,
-        );
-      }
-    } else {
-      setState(() {
-        isLoading = false;
-      });
-      Fluttertoast.showToast(
-        msg: language == 'Kiswahili'
-            ? 'Nywila hazianani'
-            : 'Passwords do not match',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 15.0,
-      );
-    }
-  }
-
-  var newdate;
-  DateTime currentDate = DateTime.now();
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime(2007, 12, 31),
-        firstDate: DateTime(1980),
-        lastDate: DateTime(2007, 12, 31));
-    if (pickedDate != null && pickedDate != currentDate) {
-      setState(() {
-        var day = pickedDate.toString();
-        var separated = day.split(" ");
-        newdate = separated[0];
-      });
-    }
-  }
-
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController control_password = TextEditingController();
   TextEditingController fullname = TextEditingController();
   bool isLoading = false;
-  done() async {
-    await Future.delayed(Duration(seconds: 5), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
-  }
 
   var gender;
   List genders = [
@@ -137,19 +35,11 @@ class _RegisterState extends State<Register> {
   ];
 
   var language;
-  Future getValidationData() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var l = sharedPreferences.get('language');
-    setState(() {
-      language = l;
-    });
-  }
 
   @override
   void initState() {
     super.initState();
-    getValidationData();
+    language = loginAuth().getValidationData();
   }
 
   bool dont_show_password = true;
@@ -157,6 +47,8 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final isloading = Provider.of<SharedData>(context);
+    final newdate = Provider.of<SharedDate>(context);
     return Scaffold(
       backgroundColor: HexColor('#742B90'),
       body: SingleChildScrollView(
@@ -302,7 +194,7 @@ class _RegisterState extends State<Register> {
                 height: 15,
               ),
               InkWell(
-                onTap: () => _selectDate(context),
+                onTap: () => SharedDate().selectDate(context),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 40, right: 40),
                   child: TextFormField(
@@ -312,11 +204,11 @@ class _RegisterState extends State<Register> {
                     decoration: InputDecoration(
                       errorStyle: GoogleFonts.vesperLibre(color: Colors.white),
                       border: InputBorder.none,
-                      hintText: newdate == null
+                      hintText: newdate.date == null
                           ? language == 'Kiswahili'
                               ? 'Chagua mwaka wa kuzaliwa'
                               : 'Select date of birth'
-                          : newdate,
+                          : newdate.date,
                       hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
                       filled: true,
                       fillColor: Colors.white,
@@ -569,7 +461,7 @@ class _RegisterState extends State<Register> {
               SizedBox(
                 height: 15,
               ),
-              isLoading
+              isloading.isLoading
                   ? SpinKitCircle(
                       // duration: const Duration(seconds: 3),
                       // size: 100,
@@ -597,10 +489,18 @@ class _RegisterState extends State<Register> {
                             if (!_formKey.currentState!.validate()) {
                               return;
                             }
-                            setState(() {
-                              isLoading = true;
-                            });
-                            Registering();
+                            isloading.isLoading = true;
+                            print(language.toString());
+                            registeringAuth().Registering(
+                                context,
+                                username.text.toString(),
+                                password.text.toString(),
+                                control_password.text.toString(),
+                                newdate.date.toString(),
+                                gender.toString(),
+                                phone.text.toString(),
+                                fullname.text.toString(),
+                                language.toString());
                           },
                           child: Text(
                             language == 'Kiswahili' ? 'Jisajili' : 'Sign Up',

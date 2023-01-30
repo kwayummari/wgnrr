@@ -1,7 +1,4 @@
 // ignore_for_file: must_be_immutable
-
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,9 +44,7 @@ class _IndividualchatsState extends State<Individualchats> {
   }
 
   var comment;
-  List _comments = [];
   Future get_comments() async {
-    http.Response response;
     const url = '${murl}message/message.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "client": widget.client.toString(),
@@ -58,7 +53,6 @@ class _IndividualchatsState extends State<Individualchats> {
     if (response1.statusCode == 200) {
       if (mounted)
         setState(() {
-          _comments = json.decode(response1.body);
         });
     }
   }

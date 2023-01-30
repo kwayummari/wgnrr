@@ -58,6 +58,9 @@ dependencies:
   badges: ^2.0.3
   mime: ^1.0.4
   better_player: ^0.0.83
+  google_maps_flutter: ^2.2.3
+  geolocator: ^9.0.2
+  provider: ^6.0.5
 
 flutter_icons:
   android: "launcher_icon"

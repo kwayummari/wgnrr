@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wgnrr/models/client/chats/bot/bot.dart';
+import 'package:wgnrr/models/client/chats/table/doctors_maping.dart';
 import 'package:wgnrr/models/client/chats/table/list_chats.dart';
 import 'package:wgnrr/models/client/home.dart';
 
@@ -237,7 +237,9 @@ class _Chat_tableState extends State<Chat_table> {
                     icon: Icon(Icons.add),
                     onPressed: () {
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) => Bot()));
+                          .push(MaterialPageRoute(builder: (context) => MapSample()));
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => Bot()));
                     },
                   )),
               SizedBox(

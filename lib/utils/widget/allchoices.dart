@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:badges/badges.dart';
 import 'package:better_player/better_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,7 +13,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
-import 'package:video_player/video_player.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/widget/comment/comment.dart';
@@ -432,8 +430,8 @@ class _AllState extends State<All> {
                                     ))));
                           },
                           child: Badge(
-                            badgeColor: HexColor('#f5841f'),
-                            badgeContent: FutureBuilder<Widget>(
+                             backgroundColor: HexColor('#f5841f'),
+                            label: FutureBuilder<Widget>(
                               future: Count(
                                 widget.id,
                                 data[index]['id'],

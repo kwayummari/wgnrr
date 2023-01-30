@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:wgnrr/provider/provider.dart';
 import 'package:wgnrr/splash/splash.dart';
 
 Future main() async {
@@ -13,16 +15,17 @@ Future main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: appProviders,
+    child: const MyApp(),)
+    );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => MaterialApp(
-      // HexColor('#742B90')
+  Widget build(BuildContext context) =>  MaterialApp(
       builder: (context, widget) => ResponsiveWrapper.builder(
             ClampingScrollWrapper.builder(context, widget!),
             breakpoints: const [
@@ -38,11 +41,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           // timePickerTheme: Theme.of(context).primaryColor,
           cardColor: Colors.amber.shade900,
-          backgroundColor: Colors.amber.shade900,
           highlightColor: Colors.amber.shade900,
           splashColor: Colors.amber.shade900,
           primaryColor: Colors.purple.shade700,
-          primarySwatch: Colors.amber,
-          visualDensity: VisualDensity.adaptivePlatformDensity),
+          visualDensity: VisualDensity.adaptivePlatformDensity, colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.amber).copyWith(background: Colors.amber.shade900)),
       home: Splash());
 }

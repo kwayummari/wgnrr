@@ -107,7 +107,10 @@ class _TextsState extends State<Texts> {
                         ? Alignment.centerRight
                         : Alignment.centerLeft,
                     child: Text(_comments[index]['username'],
-                        style: Theme.of(context).textTheme.headline6),
+                        style: GoogleFonts.vesperLibre(
+                                color:  Colors.black,
+                                fontWeight: FontWeight.w900,
+                              ),),
                   ),
                   Align(
                     alignment: username == _comments[index]['username']
