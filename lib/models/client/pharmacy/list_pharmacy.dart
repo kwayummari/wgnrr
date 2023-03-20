@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_chats_pharmacy extends StatefulWidget {
   const list_chats_pharmacy({super.key});
@@ -109,7 +110,17 @@ class _list_chats_pharmacyState extends State<list_chats_pharmacy> {
               border: Border.all(color: HexColor('#742B90')),
             ),
             child: ListTile(
-                title: Text(chats[index]['doctor']),
+                leading: CircleAvatar(
+                    backgroundColor: Colors.grey.shade400,
+                    radius: 20.0,
+                    child: AppText(
+                        color: Colors.black,
+                        txt: chats[index]['doctor'].substring(0, 2),
+                        size: 15)),
+                title: AppText(
+                  txt: chats[index]['doctor'],
+                  size: 15,
+                ),
                 trailing: double.parse(chats[index]['rate']) > 0
                     ? Text(chats[index]['rate'].toString())
                     : InkWell(

@@ -7,7 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:wgnrr/api/auth/login.dart';
 import 'package:wgnrr/authentication/registration.dart';
 import 'package:wgnrr/provider/shared_data.dart';
+import 'package:wgnrr/utils/widget/bottombar/bottombar.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:wgnrr/utils/widget/textformfield/textformfield.dart';
 
 class Login extends StatefulWidget {
@@ -39,6 +41,7 @@ class _LoginState extends State<Login> {
     final isloading = Provider.of<SharedData>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      bottomNavigationBar: AppBottombar(),
       backgroundColor: HexColor('#742B90'),
       body: SingleChildScrollView(
         child: Form(
@@ -51,6 +54,32 @@ class _LoginState extends State<Login> {
                     'assets/login.png',
                     // height: 200,
                   )),
+              SizedBox(
+                height: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    radius: 20,
+                    child: Image.asset(
+                      'assets/logo3.png',
+                      height: 30,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  AppText(txt: 'WGNRR ', color: HexColor('#ffffff'), size: 16),
+                  AppText(
+                    txt: 'AFRICA',
+                    size: 16,
+                    color: HexColor('#ffffff'),
+                    weight: FontWeight.w700,
+                  )
+                ],
+              ),
               SizedBox(
                 height: 50,
               ),

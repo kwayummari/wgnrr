@@ -62,8 +62,6 @@ class _Chat_tableState extends State<Chat_table> {
                   onPressed: () {
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => MapSample()));
-                    // Navigator.of(context)
-                    //     .push(MaterialPageRoute(builder: (context) => Bot()));
                   },
                 )),
           ],
