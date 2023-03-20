@@ -9,9 +9,20 @@ import 'package:http/http.dart' as http;
 import 'package:wgnrr/provider/shared_data.dart';
 
 class registeringAuth {
-  Future Registering(BuildContext context, String username, String password,
-      String control_password, String newdate, String gender, String phone, String fullname,language) async {
+  Future Registering(
+      BuildContext context,
+      String username,
+      String password,
+      String control_password,
+      String newdate,
+      String gender,
+      String phone,
+      String fullname,
+      String language) async {
     if (password.toString() == control_password.toString()) {
+      // print(password);
+      // print(control_password);
+      print(language);
       const url = '${murl}authentication/registration.php';
       var response = await http.post(Uri.parse(url), body: {
         "username": username.toString(),
@@ -66,7 +77,7 @@ class registeringAuth {
         );
       }
     } else {
-     await done(context);
+      await done(context);
       Fluttertoast.showToast(
         msg: language == 'Kiswahili'
             ? 'Nywila hazianani'
@@ -84,8 +95,7 @@ class registeringAuth {
   done(BuildContext context) async {
     await Future.delayed(Duration(seconds: 5), () {
       final isloading = Provider.of<SharedData>(context, listen: false);
-                isloading.isLoading = false;
+      isloading.isLoading = false;
     });
   }
-  
 }

@@ -34,22 +34,7 @@ class _No_commentState extends State<No_comment> {
     }
   }
 
-  var comment;
-  List _comments = [];
-
-  Future get_bot_comments() async {
-    http.Response response;
-    const url = '${murl}bot/bot.php';
-    var response1 = await http.post(Uri.parse(url), body: {
-      "username": username.toString(),
-    });
-    if (response1.statusCode == 200) {
-      if (mounted)
-        setState(() {
-          _comments = json.decode(response1.body);
-        });
-    }
-  }
+  
 
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;

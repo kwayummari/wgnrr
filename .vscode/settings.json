@@ -1,4 +1,21 @@
 {
     "cmake.configureOnOpen": false,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.words": [
+        "datas",
+        "hexcolor",
+        "Karibu",
+        "Kiswahili",
+        "Kuingia",
+        "murl",
+        "navigatortohome",
+        "RGBO",
+        "Succefully",
+        "textfieldcontroller",
+        "topcircular",
+        "Umefanikiwa",
+        "viewtopcircular",
+        "Viewtopcircularcategory",
+        "wgnrr"
+    ]
 }

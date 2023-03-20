@@ -48,14 +48,12 @@ dependencies:
   simple_animations: ^4.2.0
   cached_network_image: ^3.2.2
   share_plus: ^6.3.0
-  ionicons: ^0.2.1
   flutter_rating_bar: ^4.0.1
   flutter_launcher_icons: ^0.11.0
   url_launcher: ^6.1.7
   sqflite: ^2.2.2
   connectivity: ^3.0.6
   image_picker_plus: ^0.5.5+2
-  badges: ^2.0.3
   mime: ^1.0.4
   better_player: ^0.0.83
   google_maps_flutter: ^2.2.3

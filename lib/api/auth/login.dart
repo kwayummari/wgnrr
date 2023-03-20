@@ -10,14 +10,14 @@ import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/home.dart';
 import 'package:wgnrr/provider/shared_data.dart';
 
-class loginAuth  {
-
+class loginAuth {
   var language;
   getValidationData() {
     return language = SharedData().language.toString();
   }
 
-  Future login(BuildContext context,String username,String password, language) async {
+  Future login(
+      BuildContext context, String username, String password, language) async {
     const url = '${murl}authentication/login.php';
     var response = await http.post(Uri.parse(url), body: {
       "username": username.toString(),
@@ -37,27 +37,6 @@ class loginAuth  {
         textColor: Colors.white,
         fontSize: 15.0,
       );
-    } else if (data == "Client" ||
-        data == 'admin' ||
-        data == 'Community Based Mobilizers') {
-          await done(context);
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString('username', username.toString());
-      sharedPreferences.setString('status', 'Client');
-      Fluttertoast.showToast(
-        msg: language == 'Kiswahili'
-            ? 'Umefanikiwa Kuingia'
-            : 'Login Succefully',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 15.0,
-      );
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Homepage('')));
     } else if (data == "Health Care Providers") {
       await done(context);
       Navigator.of(context).pushReplacement(
@@ -90,14 +69,29 @@ class loginAuth  {
         textColor: Colors.white,
         fontSize: 15.0,
       );
-    }
-  }
+    } else {
+      await done(context);
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString('username', username.toString());
+    sharedPreferences.setString('status', '${data}');
+    Fluttertoast.showToast(
+      msg: language == 'Kiswahili' ? 'Umefanikiwa Kuingia' : 'Login Succefully',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 15.0,
+    );
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => Homepage('')));
+  } }
 
-   done(BuildContext context) async {
+  done(BuildContext context) async {
     await Future.delayed(Duration(seconds: 5), () {
       final isloading = Provider.of<SharedData>(context, listen: false);
-                isloading.isLoading = false;
+      isloading.isLoading = false;
     });
   }
-
 }

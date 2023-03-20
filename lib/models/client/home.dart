@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/client/chats/table/table.dart';
 import 'package:wgnrr/models/client/home/home.dart';
+import 'package:wgnrr/models/client/pharmacy/pharmacy_chats.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage(String text, {Key? key}) : super(key: key);
@@ -19,6 +20,7 @@ class _HomepageState extends State<Homepage> {
   final Screen = [
     Chat_table(),
     Home(),
+    Pharmarcy(),
   ];
 
   var language;
@@ -52,7 +54,8 @@ class _HomepageState extends State<Homepage> {
                   canvasColor: HexColor('#742B90'),
                   primaryColor: HexColor('#742B90'),
                   textTheme: Theme.of(context).textTheme.copyWith(
-                      bodySmall: GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
+                      bodySmall:
+                          GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
               child: BottomNavigationBar(
                 selectedItemColor: HexColor('#F5841F'),
                 unselectedItemColor: HexColor('#ffffff'),
@@ -64,6 +67,11 @@ class _HomepageState extends State<Homepage> {
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home),
                       label: language == 'Kiswahili' ? 'Nyumbani' : 'Home'),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.medication),
+                      label: language == 'Kiswahili'
+                          ? 'Duka la dawa'
+                          : 'Pharmacy'),
                 ],
                 currentIndex: index,
                 onTap: (index) {

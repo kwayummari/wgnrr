@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:better_player/better_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
@@ -15,9 +14,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/routes/language.dart';
-import 'package:wgnrr/utils/widget/comment/comment.dart';
-import 'package:wgnrr/utils/widget/view/viewchoice.dart';
-import 'package:wgnrr/utils/widget/view/viewsearch.dart';
+import 'package:wgnrr/utils/screens/comment/comment.dart';
+import 'package:wgnrr/utils/screens/viewchoice.dart';
+import 'package:wgnrr/utils/screens/viewsearch.dart';
 
 enum MenuItem {
   item1,
@@ -404,7 +403,7 @@ class _AllState extends State<All> {
                                     '${data[index]['name']} \n ${data[index]['caption']} \n wgnrr.org');
                           },
                           icon: Icon(
-                            Ionicons.share_social,
+                            Icons.share_rounded,
                             color: HexColor('#742B90'),
                           )),
                       IconButton(
@@ -447,7 +446,7 @@ class _AllState extends State<All> {
                               },
                             ),
                             child: Icon(
-                              Ionicons.chatbox,
+                              Icons.chat_bubble,
                               color: HexColor('#742B90'),
                             ),
                           ),

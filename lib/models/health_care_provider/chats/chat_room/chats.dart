@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Chats extends StatefulWidget {
   var doctor;
@@ -98,11 +99,11 @@ class _ChatsState extends State<Chats> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: Text('Chat Room',
-            style: GoogleFonts.vesperLibre(
-              color: Colors.white,
-              fontSize: 15,
-            )),
+        title: AppText(
+          txt: 'Chat Room',
+          size: 15,
+          color: Colors.white,
+        ),
         backgroundColor: HexColor('#742B90'),
       ),
       body: Stack(children: [
@@ -114,13 +115,9 @@ class _ChatsState extends State<Chats> {
                       height: 200,
                     ),
                     Center(
-                      child: Text(
-                        'No comments available at the moment',
-                        style: GoogleFonts.vesperLibre(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
+                      child: AppText(
+                        txt: 'No comments available at the moment',
+                        size: 20,
                       ),
                     )
                   ],
@@ -134,8 +131,9 @@ class _ChatsState extends State<Chats> {
                       height: 5,
                     ),
                     StreamBuilder(
-                      stream: Stream.periodic(Duration(seconds: 2)).asyncMap((i) =>
-                          getValidationData()), // i is null here (check periodic docs)
+                      stream: Stream.periodic(Duration(seconds: 5))
+                          .asyncMap((i) =>
+                              getValidationData()), // i is null here (check periodic docs)
                       builder: (context, snapshot) => ListView.builder(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
@@ -147,15 +145,11 @@ class _ChatsState extends State<Chats> {
                                 alignment: _comments[index]['part'] == '2'
                                     ? Alignment.centerRight
                                     : Alignment.centerLeft,
-                                child: Text(
-                                    _comments[index]['part'] == '2'
+                                child: AppText(
+                                    txt: _comments[index]['part'] == '2'
                                         ? username.toString()
                                         : _comments[index]['username'],
-                                    style: GoogleFonts.vesperLibre(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 15,
-                                    )),
+                                    size: 15),
                               ),
                               Align(
                                 alignment: _comments[index]['part'] == '2'
@@ -173,7 +167,7 @@ class _ChatsState extends State<Chats> {
                                         color: _comments[index]['part'] == '2'
                                             ? HexColor('#742B90')
                                             : HexColor('#772255'),
-                                        margin: BubbleEdges.only(top: 10),
+                                        margin: BubbleEdges.only(top: 0),
                                         alignment:
                                             _comments[index]['part'] == '2'
                                                 ? Alignment.topRight
@@ -181,22 +175,16 @@ class _ChatsState extends State<Chats> {
                                         nip: _comments[index]['part'] == '2'
                                             ? BubbleNip.rightTop
                                             : BubbleNip.leftTop,
-                                        child: Text(
-                                          _comments[index]['comment'],
-                                          style: GoogleFonts.vesperLibre(
-                                            color:
-                                                _comments[index]['part'] == '2'
-                                                    ? Colors.white
-                                                    : Colors.white,
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 15,
-                                          ),
+                                        child: AppText(
+                                          txt: _comments[index]['comment'],
+                                          size: 15,
+                                          color: Colors.white,
                                         ),
                                       )),
                                 ),
                               ),
                               SizedBox(
-                                height: 5,
+                                height: 3,
                               ),
                             ],
                           );
@@ -204,6 +192,9 @@ class _ChatsState extends State<Chats> {
                         },
                         itemCount: _comments == null ? 0 : _comments.length,
                       ),
+                    ),
+                    SizedBox(
+                      height: 80,
                     )
                   ],
                 ),

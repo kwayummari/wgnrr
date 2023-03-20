@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 import '../../../utils/routes/language.dart';
 
 enum MenuItem {
@@ -43,13 +44,22 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  var type;
+  List types = [
+    'FAQ\'s',
+    'COMPLAINTS',
+    'COMPLEMENTS',
+  ];
+
   Future send() async {
     const url = '${murl}question/question.php';
     var response = await http.post(Uri.parse(url), body: {
       "question": question.text,
       "username": username.toString(),
+      "type": type.toString()
     });
     if (response.statusCode == 200) {
+      print(type);
       Fluttertoast.showToast(
         msg: language == 'Kiswahili'
             ? 'Asante Kwa Maoni'
@@ -247,12 +257,13 @@ class _QuizState extends State<Quiz> {
                       ),
                     ]),
             Spacer(),
-            Text(username == null ? '' : username,
-                style: GoogleFonts.rajdhani(
-                    fontSize: 15,
-                    color: HexColor('#ffffff'),
-                    fontWeight: FontWeight.w500)),
-            Spacer(),
+            AppText(
+              txt: 'Feedback SECTION'.toUpperCase(),
+              weight: FontWeight.w700,
+              color: Colors.white,
+              size: 20,
+            ),
+            Spacer()
           ],
         ),
         centerTitle: true,
@@ -264,69 +275,135 @@ class _QuizState extends State<Quiz> {
             key: _formKey,
             child: Column(
               children: [
-                Text(
-                  'SUGGESTION SECTION',
-                  style: GoogleFonts.vesperLibre(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                  ),
-                ),
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 35, right: 35, top: 8, bottom: 8),
                   child: Center(
-                    child: Text(
-                      'Your Ideas, Questions and Feedback are Greatly Appreciated',
-                      style: GoogleFonts.vesperLibre(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 15,
-                      ),
+                    child: AppText(
+                      txt:
+                          'Your Ideas, Questions and Feedback are Greatly Appreciated',
+                      size: 15,
+                      color: Colors.black,
+                      weight: FontWeight.w400,
                     ),
                   ),
                 ),
                 SizedBox(height: 10),
-                Scrollbar(
-                  child: Card(
-                    color: Colors.white,
-                    shadowColor: Colors.grey,
-                    elevation: 3,
-                    child: TextFormField(
-                      style: GoogleFonts.vesperLibre(
-                        color: Colors.black,
+                Padding(
+                  padding: const EdgeInsets.only(left: 27, right: 27),
+                  child: DropdownButtonFormField(
+                    elevation: 10,
+                    menuMaxHeight: 350,
+                    isExpanded: true,
+                    focusColor: Colors.white,
+                    decoration: InputDecoration(
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hoverColor: HexColor('#742B90'),
+                      focusColor: HexColor('#742B90'),
+                      hintText: 'Message',
+                      hintStyle: GoogleFonts.vesperLibre(
+                        color: Colors.white,
                         fontWeight: FontWeight.w400,
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
-                      cursorColor: Colors.white,
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      controller: question,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: HexColor('#742B90')),
-                          borderRadius: BorderRadius.circular(0.0),
+                      contentPadding: EdgeInsets.only(
+                          top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
+                    ),
+                    hint: Text(
+                      language == 'Kiswahili'
+                          ? 'Aina ya Maoni'
+                          : 'Feedback type',
+                      style: GoogleFonts.vesperLibre(
+                          fontSize: 15, color: Colors.black),
+                    ),
+                    validator: (value) {
+                      if (value == null) {
+                        return language == 'Kiswahili'
+                            ? 'Chagua'
+                            : "Please select";
+                      } else {
+                        return null;
+                      }
+                    },
+                    value: type,
+                    onChanged: (newValue1) {
+                      setState(() {
+                        type = newValue1;
+                      });
+                    },
+                    items: types.map((valueItem) {
+                      return DropdownMenuItem(
+                        value: valueItem,
+                        child: Text(
+                          valueItem != null ? valueItem : 'default value',
+                          style: GoogleFonts.vesperLibre(
+                              color: Colors.black, fontSize: 15),
                         ),
-                        fillColor: Colors.white,
-                        hoverColor: HexColor('#742B90'),
-                        focusColor: HexColor('#742B90'),
-                        hintText: 'Message',
-                        hintStyle: GoogleFonts.vesperLibre(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
-                        ),
-                        contentPadding: EdgeInsets.only(
-                            top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: 50,
+                  width: 340,
+                  child: TextFormField(
+                    style: GoogleFonts.vesperLibre(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                    cursorColor: Colors.black,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: question,
+                    decoration: InputDecoration(
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
                       ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(0.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      filled: true,
+                      fillColor: Colors.white,
+                      hoverColor: HexColor('#742B90'),
+                      focusColor: HexColor('#742B90'),
+                      hintText: 'Message',
+                      hintStyle: GoogleFonts.vesperLibre(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                      ),
+                      contentPadding: EdgeInsets.only(
+                          top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
                     ),
                   ),
                 ),
                 SizedBox(height: 10),
                 isLoading
                     ? SpinKitCircle(
-                        color: HexColor('#F5841F'),
+                        color: HexColor('#742B90'),
                       )
                     : SizedBox(
                         child: Container(
@@ -338,10 +415,10 @@ class _QuizState extends State<Quiz> {
                           width: 340,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              elevation: 5,
-                              foregroundColor: HexColor('#F5841F'),
-                              backgroundColor: HexColor('#F5841F'),
-                              textStyle: GoogleFonts.vesperLibre(color: Colors.white),
+                              foregroundColor: HexColor('#742B90'),
+                              backgroundColor: HexColor('#742B90'),
+                              textStyle:
+                                  GoogleFonts.vesperLibre(color: Colors.white),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
                                   side: BorderSide(color: Colors.black)),
@@ -355,12 +432,10 @@ class _QuizState extends State<Quiz> {
                               });
                               send();
                             },
-                            child: Text(
-                              language == 'Kiswahili' ? 'Ingia' : 'Sign In',
-                              style: GoogleFonts.vesperLibre(
-                                color: Colors.white,
-                                fontSize: 25,
-                              ),
+                            child: AppText(
+                              txt: language == 'Kiswahili' ? 'Tuma' : 'Send',
+                              size: 20,
+                              color: Colors.white,
                             ),
                           ),
                         ),

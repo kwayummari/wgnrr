@@ -6,16 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/splash/splash.dart';
-import 'package:wgnrr/utils/routes/language.dart';
-import 'package:wgnrr/utils/widget/categories.dart';
-import 'package:wgnrr/utils/widget/choices.dart';
-import 'package:wgnrr/utils/widget/stats.dart';
-import 'package:wgnrr/utils/widget/topcircular.dart';
+import 'package:wgnrr/models/client/open_chat/table.dart';
+import 'package:wgnrr/utils/screens/categories.dart';
+import 'package:wgnrr/utils/screens/choices.dart';
+import 'package:wgnrr/utils/screens/stats.dart';
+import 'package:wgnrr/utils/screens/topcircular.dart';
 import 'package:http/http.dart' as http;
-import 'package:url_launcher/url_launcher.dart';
-
-import '../quiz/quiz.dart';
+import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 
 enum MenuItem { item1, item2, item3, item4, item5, item6 }
 
@@ -66,14 +63,6 @@ class _HomeState extends State<Home> {
     });
   }
 
-  Future<void> phonecall() async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: '0762996305',
-    );
-    await launchUrl(launchUri);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -84,14 +73,27 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
+      drawer: AppDrawer(
+        username: username,
+        language: language,
+        status: status,
+      ),
       appBar: AppBar(
+        leading: Builder(
+            builder: (context) => // Ensure Scaffold is in context
+                IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                )),
         actions: [
-          // Platform.isAndroid
-          // ?
           IconButton(
-              onPressed: (() => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Splash()))),
-              icon: Icon(Icons.refresh, color: Colors.white))
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Community())),
+              icon: Icon(Icons.textsms, color: Colors.white))
           // : Container()
         ],
         automaticallyImplyLeading: false,
@@ -99,258 +101,14 @@ class _HomeState extends State<Home> {
         elevation: 4,
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
-        title: Row(
-          children: [
-            SizedBox(
-              width: 15,
-            ),
-            PopupMenuButton(
-                color: HexColor('#742B90'),
-                onSelected: (value) async {
-                  if (value == MenuItem.item3) {
-                    final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    sharedPreferences.remove('username');
-                    sharedPreferences.remove('status');
-                    sharedPreferences.remove('bot');
-                    sharedPreferences.remove('language');
-                    Navigator.of(context).pushAndRemoveUntil(
-                        // the new route
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Language(),
-                        ),
-                        (Route route) => false);
-                  } else if (value == MenuItem.item4) {
-                    phonecall();
-                  } else if (value == MenuItem.item2) {
-                    Navigator.of(context)
-                        .push(MaterialPageRoute(builder: (context) => Quiz()));
-                  } else if (value == MenuItem.item6) {
-                    final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    setState(() {
-                      language == 'Kiswahili'
-                          ? sharedPreferences.setString(
-                              'language', 'English'.toString())
-                          : sharedPreferences.setString(
-                              'language', 'Kiswahili'.toString());
-                    });
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => Splash()));
-                  }
-                },
-                position: PopupMenuPosition.under,
-                child: Icon(
-                  Icons.menu,
-                  color: HexColor('#ffffff'),
-                ),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: MenuItem.item1,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    username == null ? '' : username.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item5,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.newspaper,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(username == null ? '' : status.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item2,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.account_box,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Marejesho'
-                                        : 'Feedback',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item4,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Wasiliana nasi'
-                                        : 'Contact us',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item6,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.language,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Kiswahili'
-                                        : 'English',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item3,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Toka'
-                                        : 'Sign Out!',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-            Spacer(),
-            Text(
-                language == 'Kiswahili'
-                    ? 'Karibu ${username}'
-                    : 'Welcome ${username}',
-                style: GoogleFonts.vesperLibre(
-                    fontSize: 15,
-                    color: HexColor('#ffffff'),
-                    fontWeight: FontWeight.w500)),
-            Spacer(),
-          ],
-        ),
+        title: Text(
+            language == 'Kiswahili'
+                ? 'Karibu ${username}'
+                : 'Welcome ${username}',
+            style: GoogleFonts.vesperLibre(
+                fontSize: 15,
+                color: HexColor('#ffffff'),
+                fontWeight: FontWeight.w500)),
         centerTitle: true,
       ),
       backgroundColor: HexColor('#742B90'),

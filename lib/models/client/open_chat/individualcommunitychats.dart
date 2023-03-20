@@ -6,54 +6,52 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/utils/screens/display_image.dart';
 
-import 'display_image.dart';
-
-class Individualchats extends StatefulWidget {
+class Individualcommunitychats extends StatefulWidget {
   var username;
-  var doctor;
+  var topic;
   var client;
-  Individualchats(
+  Individualcommunitychats(
       {super.key,
       required this.client,
-      required this.doctor,
+      required this.topic,
       required this.username});
 
   @override
-  State<Individualchats> createState() => _IndividualchatsState();
+  State<Individualcommunitychats> createState() =>
+      _IndividualcommunitychatsState();
 }
 
-class _IndividualchatsState extends State<Individualchats> {
+class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController comments = TextEditingController();
   Future send_comments() async {
-    const url = '${murl}message/message_write.php';
-    var response = await http.post(Uri.parse(url), body: {
-      "username": widget.username.toString(),
-      "doctor": widget.doctor.toString(),
-      "comments": comments.text,
-      "part": '1'.toString(),
-      "type": '1'.toString(),
-    });
-    if (response.statusCode == 200) {
-      setState(() {
-        get_comments();
-        comments.clear();
+    if (comments.text.isNotEmpty) {
+      const url = '${murl}community/create_community_text.php';
+      var response = await http.post(Uri.parse(url), body: {
+        "username": widget.username.toString(),
+        "topic": widget.topic.toString(),
+        "message": comments.text,
       });
+      comments.clear();
+      if (response.statusCode == 200) {
+        setState(() {
+          get_comments();
+        });
+      }
     }
   }
 
   var comment;
   Future get_comments() async {
-    const url = '${murl}message/message.php';
+    http.Response response;
+    const url = '${murl}community/community_text.php';
     var response1 = await http.post(Uri.parse(url), body: {
-      "client": widget.client.toString(),
-      "doctor": widget.doctor.toString()
+      "topic": widget.topic.toString(),
     });
     if (response1.statusCode == 200) {
-      if (mounted)
-        setState(() {
-        });
+      if (mounted) setState(() {});
     }
   }
 
@@ -126,31 +124,31 @@ class _IndividualchatsState extends State<Individualchats> {
                   ),
                 ),
                 Spacer(),
-                CircleAvatar(
-                    backgroundColor: HexColor('#742B90'),
-                    child: IconButton(
-                        onPressed: () async {
-                          ImagePickerPlus picker = ImagePickerPlus(context);
-                          SelectedImagesDetails? details =
-                              await picker.pickBoth(
-                            source: ImageSource.both,
-                            multiSelection: false,
-                            galleryDisplaySettings: GalleryDisplaySettings(
-                              tabsTexts: _tabsTexts(),
-                              appTheme: AppTheme(
-                                  focusColor: Colors.white,
-                                  primaryColor: Colors.black),
-                              cropImage: true,
-                              showImagePreview: true,
-                            ),
-                          );
-                          if (details != null) await displayDetails(details);
-                        },
-                        icon: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                        ))),
-                Spacer(),
+                // CircleAvatar(
+                //     backgroundColor: HexColor('#742B90'),
+                //     child: IconButton(
+                //         onPressed: () async {
+                //           ImagePickerPlus picker = ImagePickerPlus(context);
+                //           SelectedImagesDetails? details =
+                //               await picker.pickBoth(
+                //             source: ImageSource.both,
+                //             multiSelection: false,
+                //             galleryDisplaySettings: GalleryDisplaySettings(
+                //               tabsTexts: _tabsTexts(),
+                //               appTheme: AppTheme(
+                //                   focusColor: Colors.white,
+                //                   primaryColor: Colors.black),
+                //               cropImage: true,
+                //               showImagePreview: true,
+                //             ),
+                //           );
+                //           if (details != null) await displayDetails(details);
+                //         },
+                //         icon: Icon(
+                //           Icons.camera_alt,
+                //           color: Colors.white,
+                //         ))),
+                // Spacer(),
               ],
             ),
           ),
@@ -177,7 +175,7 @@ class _IndividualchatsState extends State<Individualchats> {
             selectedBytes: details.selectedFiles,
             details: details,
             aspectRatio: details.aspectRatio,
-            doctor: widget.doctor,
+            doctor: widget.client,
             username: widget.username,
             client: widget.client,
           );

@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/utils/widget/animation/fade_animation.dart';
+import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
+import 'package:wgnrr/utils/animation/fade_animation.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
-class ViewStats extends StatefulWidget {
+class Viewchoice extends StatefulWidget {
   var username;
   var author;
   var date;
@@ -16,7 +18,7 @@ class ViewStats extends StatefulWidget {
   var description;
   var image;
   // ignore: non_constant_identifier_names
-  ViewStats(
+  Viewchoice(
       {Key? key,
       required this.username,
       required this.author,
@@ -28,10 +30,10 @@ class ViewStats extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<ViewStats> createState() => _ViewStatsState();
+  State<Viewchoice> createState() => _ViewchoiceState();
 }
 
-class _ViewStatsState extends State<ViewStats> {
+class _ViewchoiceState extends State<Viewchoice> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -46,8 +48,7 @@ class _ViewStatsState extends State<ViewStats> {
             child: FadeAnimation(
                 1.2,
                 CachedNetworkImage(
-                  imageUrl:
-                      '${murl}stats/image/${widget.image}',
+                  imageUrl: '${murl}choices/image/${widget.image}',
                   progressIndicatorBuilder: (context, url, downloadProgress) =>
                       Container(
                     height: 400,
@@ -94,7 +95,7 @@ class _ViewStatsState extends State<ViewStats> {
                 padding: EdgeInsets.all(25),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: HexColor('#981EE4')),
+                  border: Border.all(color: HexColor('#000000')),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25),
@@ -233,6 +234,25 @@ class _ViewStatsState extends State<ViewStats> {
                               fontSize: 18,
                               height: 1.4,
                             ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => Quiz())),
+                        child: Container(
+                          margin: const EdgeInsets.all(15.0),
+                          padding: const EdgeInsets.all(3.0),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black)),
+                          child: Row(
+                            children: [
+                              Icon(Icons.feedback),
+                              AppText(
+                                txt: 'Provide feedback',
+                                size: 20,
+                              )
+                            ],
                           ),
                         ),
                       ),

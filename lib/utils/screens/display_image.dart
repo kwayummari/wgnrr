@@ -67,9 +67,8 @@ class _DisplayImagesState extends State<DisplayImages> {
 
   Future<Widget> view(link) async {
     SelectedByte selectedByte = link;
-    return !selectedByte.isThatImage
-        ? BetterPlayer.file(selectedByte.selectedFile.path)
-        : SizedBox(
+    return 
+        SizedBox(
             width: double.infinity,
             child: Image.file(selectedByte.selectedFile),
           );
@@ -89,7 +88,7 @@ class _DisplayImagesState extends State<DisplayImages> {
         centerTitle: true,
         automaticallyImplyLeading: true,
         title: const Text(
-          'Selected images/videos',
+          'Selected Images',
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -133,22 +132,22 @@ class _DisplayImagesState extends State<DisplayImages> {
   }
 }
 
-class _DisplayVideo extends StatefulWidget {
-  final SelectedByte selectedByte;
-  const _DisplayVideo({Key? key, required this.selectedByte}) : super(key: key);
+// class _DisplayVideo extends StatefulWidget {
+//   final SelectedByte selectedByte;
+//   const _DisplayVideo({Key? key, required this.selectedByte}) : super(key: key);
 
-  @override
-  State<_DisplayVideo> createState() => _DisplayVideoState();
-}
+//   @override
+//   State<_DisplayVideo> createState() => _DisplayVideoState();
+// }
 
-class _DisplayVideoState extends State<_DisplayVideo> {
-  @override
-  void initState() {
-    super.initState();
-  }
+// class _DisplayVideoState extends State<_DisplayVideo> {
+//   @override
+//   void initState() {
+//     super.initState();
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return BetterPlayer.file(widget.selectedByte.selectedFile.path);
-  }
-}
+  // @override
+  // Widget build(BuildContext context) {
+  //   return BetterPlayer.file(widget.selectedByte.selectedFile.path);
+  // }
+// }

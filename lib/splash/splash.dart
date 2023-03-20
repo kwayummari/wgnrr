@@ -29,25 +29,20 @@ class _SplashState extends State<Splash> {
   _navigatortohome() async {
     await getValidationData().whenComplete(() async {
       await Future.delayed(Duration(seconds: 1), () {});
-      // Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(
-      //         builder: (context) => username == null ? Login() : Homepage('')));
       if (language == null && username == null && status == null) {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => Language()));
-      } else if (username == null && language == 'English' && status == null) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => Language()));
+      } else if (username == null && language != null && status == null) {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
-      } else if (username != null && status == 'Client' && language != null) {
+      } else if (username != null && (status == 'client' || status == 'Community Based Mobilizers' || status == 'admin' || status == 'super-admin') && language != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Homepage('')));
-      } else if (username != null && status == 'Health Care Providers' && language != null) {
+      } else if (username != null &&
+          status == 'Health Care Providers' &&
+          language != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Homepage_hcp('')));
-      } else if (username != null && status == 'admin') {
-        // Navigator.of(context).pushReplacement(
-        //     MaterialPageRoute(builder: (context) => Ownerhomepage('')));
       }
     });
   }

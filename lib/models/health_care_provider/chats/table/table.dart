@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/health_care_provider/chats/table/list_chats.dart';
+import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 
 class Chat_table extends StatefulWidget {
   const Chat_table({super.key});
@@ -13,32 +15,64 @@ class Chat_table extends StatefulWidget {
 }
 
 class _Chat_tableState extends State<Chat_table> {
+  var username;
+  var status;
+  var bot;
+  var language;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var u = sharedPreferences.get('username');
+    var s = sharedPreferences.get('status');
+    var b = sharedPreferences.get('bot');
+    var l = sharedPreferences.get('language');
+    setState(() {
+      username = u;
+      status = s;
+      bot = b;
+      language = l;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getValidationData();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+        drawerEnableOpenDragGesture: false,
+        drawer: AppDrawer(
+          username: username,
+          language: language,
+          status: status,
+        ),
         appBar: AppBar(
-          elevation: 0,
-          toolbarHeight: 90,
+          leading: Builder(
+              builder: (context) => // Ensure Scaffold is in context
+                  IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  )),
+          automaticallyImplyLeading: false,
+          shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
+          elevation: 4,
+          toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
-          title: Row(
-            children: [
-              Center(
-                child: Container(
-                    width: size.width / 1.4,
-                    child: Text(
-                      'Chats',
-                      style: GoogleFonts.vesperLibre(color: Colors.white),
-                    )),
-              ),
-              SizedBox(
-                width: 35,
-              ),
-              SizedBox(
-                width: 4,
-              ),
-            ],
-          ),
+          title: Text(
+              language == 'Kiswahili'
+                  ? 'Karibu ${username}'
+                  : 'Welcome ${username}',
+              style: GoogleFonts.vesperLibre(
+                  fontSize: 15,
+                  color: HexColor('#ffffff'),
+                  fontWeight: FontWeight.w500)),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

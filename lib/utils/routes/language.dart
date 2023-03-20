@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/authentication/login.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Language extends StatefulWidget {
   const Language({super.key});
@@ -12,11 +13,6 @@ class Language extends StatefulWidget {
 }
 
 class _LanguageState extends State<Language> {
-  var language;
-  List languages = [
-    'English',
-    'Kiswahili',
-  ];
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -31,73 +27,97 @@ class _LanguageState extends State<Language> {
                   'assets/language.png',
                   // height: 200,
                 )),
-            Text(
-              'Please select Language',
-              style: GoogleFonts.vesperLibre(color: Colors.white),
+            AppText(
+              txt: 'Please select your Language',
+              color: Colors.white,
+              size: 20,
             ),
             Text(
-              'Chagua Lugha',
+              'Chagua Lugha yako',
               style: GoogleFonts.vesperLibre(color: Colors.white),
             ),
             SizedBox(
               height: 30,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40),
-              child: Container(
-                padding: EdgeInsets.only(left: 1, right: 16),
-                decoration: BoxDecoration(
-                    color: HexColor('#ffffff'),
-                    border: Border.all(color: HexColor("#000000"), width: 1),
-                    borderRadius: BorderRadius.circular(0)),
-                child: DropdownButtonFormField(
-                  elevation: 10,
-                  menuMaxHeight: 300,
-                  isExpanded: true,
-                  focusColor: Colors.white,
-                  style: GoogleFonts.vesperLibre(color: Colors.black, fontSize: 22),
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.language,
-                      color: Colors.black,
-                    ),
-                    hoverColor: null,
-                    enabledBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
+            InkWell(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.setString('language', 'Kiswahili'.toString());
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Login()));
+              },
+              child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                  // underline: SizedBox(),
-                  hint: Text(
-                    'User Language',
-                    style:
-                        GoogleFonts.vesperLibre(fontSize: 15, color: Colors.black),
+                  height: 50,
+                  width: 340,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/download.png',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        AppText(
+                          size: 15,
+                          txt: 'Kiswahili',
+                        ),
+                        Spacer(),
+                      ]),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.setString('language', 'English'.toString());
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Login()));
+              },
+              child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: HexColor('#F5841F'),
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                  validator: (value) {
-                    if (value == null) {
-                      return "This field cannot be empty";
-                    } else {
-                      return null;
-                    }
-                  },
-                  value: language,
-                  onChanged: (newValue1) async{
-                    final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString('language', newValue1.toString());
-      Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
-                    setState(() {
-                      language = newValue1;
-                    });
-                  },
-                  items: languages.map((valueItem1) {
-                    return DropdownMenuItem(
-                      value: valueItem1,
-                      child: Text(
-                        valueItem1 != null ? valueItem1 : 'default value',
-                        style: GoogleFonts.vesperLibre(color: Colors.black),
-                      ),
-                    );
-                  }).toList(),
+                  height: 50,
+                  width: 340,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/britain.png',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        AppText(
+                          size: 15,
+                          txt: 'English',
+                          color: Colors.white,
+                        ),
+                        Spacer(),
+                      ]),
                 ),
               ),
             ),

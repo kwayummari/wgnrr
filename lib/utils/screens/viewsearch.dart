@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/utils/widget/animation/fade_animation.dart';
+import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:http/http.dart' as http;
 
 class Viewchoicesearch extends StatefulWidget {

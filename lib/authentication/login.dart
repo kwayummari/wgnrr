@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:wgnrr/api/auth/login.dart';
 import 'package:wgnrr/authentication/registration.dart';
 import 'package:wgnrr/provider/shared_data.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
+import 'package:wgnrr/utils/widget/textformfield/textformfield.dart';
 
 class Login extends StatefulWidget {
   Login({
@@ -53,104 +55,39 @@ class _LoginState extends State<Login> {
                 height: 50,
               ),
               Container(
-                height: 55,
-                width: 340,
-                child: TextFormField(
-                  style: GoogleFonts.vesperLibre(color: Colors.black),
-                  controller: username,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: language == 'Kiswahili' ? 'Jina' : 'Username',
-                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
-                    filled: true,
-                    fillColor: Colors.white,
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: BorderSide(color: HexColor('#000000')),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: BorderSide(color: HexColor('#000000')),
-                    ),
-                    prefixIcon: Icon(
+                  height: 55,
+                  width: 340,
+                  child: AppTextformfield(
+                    obscure: false,
+                    label: language == 'Kiswahili' ? 'Jina' : 'Username',
+                    textfieldcontroller: username,
+                    icon: Icon(
                       Icons.person_pin,
                       color: Colors.black,
                     ),
-                    prefixIconColor: Colors.black,
-                  ),
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else if (value.isEmpty) {
-                      return 'Username is Empty';
-                    }
-                  },
-                ),
-              ),
+                  )),
               SizedBox(
                 height: 20,
               ),
               Container(
-                height: 55,
-                width: 340,
-                child: TextFormField(
-                  style: GoogleFonts.vesperLibre(color: Colors.black),
-                  controller: password,
-                  obscureText: dont_show_password,
-                  obscuringCharacter: '*',
-                  decoration: InputDecoration(
-                    hintText: language == 'Kiswahili' ? 'Nywila' : 'Password',
-                    hintStyle: GoogleFonts.vesperLibre(color: Colors.black),
-                    filled: true,
-                    fillColor: Colors.white,
-                    disabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: BorderSide(color: HexColor('#000000')),
+                  height: 55,
+                  width: 340,
+                  child: AppTextformfield(
+                    textfieldcontroller: password,
+                    icon: Icon(
+                      Icons.lock,
+                      color: Colors.black,
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(0.0),
-                      borderSide: BorderSide(color: HexColor('#000000')),
-                    ),
-                    suffixIcon: IconButton(
+                    label: language == 'Kiswahili' ? 'Nywila' : 'Password',
+                    obscure: dont_show_password,
+                    suffixicon: IconButton(
                         onPressed: (() {
                           setState(() {
                             dont_show_password = !dont_show_password;
                           });
                         }),
                         icon: Icon(Icons.remove_red_eye)),
-                    prefixIcon: Icon(
-                      Icons.lock,
-                      color: Colors.black,
-                    ),
-                    prefixIconColor: Colors.black,
-                  ),
-                  validator: (value) {
-                    if (value!.isNotEmpty) {
-                      return null;
-                    } else if (value.isEmpty) {
-                      return 'Password is Empty';
-                    }
-                  },
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 50, top: 20),
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: InkWell(
-                      child: Text(
-                        language == 'Kiswahili'
-                            ? 'Umesahau Nywila'
-                            : 'Forgot Password?',
-                        style:
-                            GoogleFonts.vesperLibre(color: HexColor('#F5841F')),
-                      ),
-                      onTap: () {
-                        //               Navigator.of(context).push(
-                        // MaterialPageRoute(builder: (context) => Change('')));
-                      }),
-                ),
-              ),
+                  )),
               SizedBox(
                 height: 15,
               ),
@@ -160,56 +97,71 @@ class _LoginState extends State<Login> {
                       // size: 100,
                       color: HexColor('#F5841F'),
                     )
-                  : SizedBox(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(25.0),
-                        ),
-                        height: 50,
-                        width: 340,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            elevation: 5,
-                            foregroundColor: HexColor('#F5841F'),
-                            backgroundColor: HexColor('#F5841F'),
-                            textStyle:
-                                GoogleFonts.vesperLibre(color: Colors.white),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(0),
-                                side: BorderSide(color: Colors.black)),
-                          ),
-                          onPressed: () async {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            isloading.isLoading = true;
-                            loginAuth().login(context, username.text.toString(),
-                                password.text.toString(), language.toString());
-                          },
-                          child: Text(
-                            language == 'Kiswahili' ? 'Ingia' : 'Sign In',
-                            style: GoogleFonts.vesperLibre(
-                              color: Colors.white,
-                              fontSize: 25,
-                            ),
-                          ),
-                        ),
+                  : Container(
+                      height: 50,
+                      width: 340,
+                      child: AppButton(
+                        label: language == 'Kiswahili' ? 'Ingia' : 'Sign In',
+                        onPress: () async {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          isloading.isLoading = true;
+                          loginAuth().login(context, username.text.toString(),
+                              password.text.toString(), language.toString());
+                        },
                       ),
                     ),
+              // SizedBox(
+              //     child: Container(
+              //       decoration: BoxDecoration(
+              //         color: Colors.black,
+              //         borderRadius: BorderRadius.circular(25.0),
+              //       ),
+              //       height: 50,
+              //       width: 340,
+              //       child: ElevatedButton(
+              //         style: ElevatedButton.styleFrom(
+              //           elevation: 5,
+              //           foregroundColor: HexColor('#F5841F'),
+              //           backgroundColor: HexColor('#F5841F'),
+              //           textStyle:
+              //               GoogleFonts.vesperLibre(color: Colors.white),
+              //           shape: RoundedRectangleBorder(
+              //               borderRadius: BorderRadius.circular(0),
+              //               side: BorderSide(color: Colors.black)),
+              //         ),
+              //         onPressed: () async {
+              //           if (!_formKey.currentState!.validate()) {
+              //             return;
+              //           }
+              //           isloading.isLoading = true;
+              //           loginAuth().login(context, username.text.toString(),
+              //               password.text.toString(), language.toString());
+              //         },
+              //         child: Text(
+              //           language == 'Kiswahili' ? 'Ingia' : 'Sign In',
+              //           style: GoogleFonts.vesperLibre(
+              //             color: Colors.white,
+              //             fontSize: 25,
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
               SizedBox(
                 height: 15,
               ),
-              InkWell(
-                  child: Text(
-                      language == 'Kiswahili'
-                          ? 'Mwanachama Mpya ? Jisajili'
-                          : 'New user ? Signup now',
-                      style: GoogleFonts.vesperLibre(color: Colors.white)),
-                  onTap: () {
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => Register('')));
-                  }),
+              // InkWell(
+              //     child: Text(
+              //         language == 'Kiswahili'
+              //             ? 'Mwanachama Mpya ? Jisajili'
+              //             : 'New user ? Signup now',
+              //         style: GoogleFonts.vesperLibre(color: Colors.white)),
+              //     onTap: () {
+              //       Navigator.of(context).pushReplacement(
+              //           MaterialPageRoute(builder: (context) => Register('')));
+              //     }),
             ],
           ),
         ),
