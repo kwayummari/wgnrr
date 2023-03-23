@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
+import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/routes/language.dart';
@@ -103,8 +104,14 @@ class _AppDrawerState extends State<AppDrawer> {
               color: Colors.black,
             ),
             ListTile(
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Appointment_table())),
+              onTap: () {
+                if (widget.status != 'Health Care Providers')
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Appointment_table()));
+                else
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Appointment_table_doctor()));
+              },
               leading: Icon(
                 Icons.meeting_room,
                 color: Colors.black,
