@@ -9,11 +9,13 @@ class AppTextformfield extends StatelessWidget {
   final IconButton? suffixicon;
   final bool obscure;
   final Function? validate;
+   String? language;
   AppTextformfield({
     Key? key,
     required this.textfieldcontroller,
     required this.icon,
     this.suffixicon,
+    required this.language,
     required this.label,
     required this.obscure,
     this.validate,
@@ -51,7 +53,7 @@ class AppTextformfield extends StatelessWidget {
         if (value!.isNotEmpty) {
           return null;
         } else if (value.isEmpty) {
-          return 'This field cannot be empty';
+          return language == 'Kiswahili' ? 'Inapaswa kujazwa' : "THis field cannot be empty";;
         }
       },
     );

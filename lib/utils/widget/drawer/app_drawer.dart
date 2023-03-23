@@ -137,7 +137,7 @@ class _AppDrawerState extends State<AppDrawer> {
               size: 15,
             ),
             title: AppText(
-              txt: widget.language == 'Kiswahili' ? 'Kiswahili' : 'English',
+              txt: widget.language == 'Kiswahili' ? 'English' : 'Kiswahili',
               size: 15,
               color: HexColor('#000000'),
               weight: FontWeight.w500,

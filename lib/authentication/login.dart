@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                     icon: Icon(
                       Icons.person_pin,
                       color: Colors.black,
-                    ),
+                    ), language: language,
                   )),
               SizedBox(
                 height: 20,
@@ -115,7 +115,7 @@ class _LoginState extends State<Login> {
                             dont_show_password = !dont_show_password;
                           });
                         }),
-                        icon: Icon(Icons.remove_red_eye)),
+                        icon: Icon(Icons.remove_red_eye)), language: language,
                   )),
               SizedBox(
                 height: 15,

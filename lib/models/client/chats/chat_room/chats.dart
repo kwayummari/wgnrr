@@ -9,6 +9,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/chats/chat_room/appointment.dart';
 import 'package:wgnrr/utils/screens/individual_chat.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
@@ -51,19 +52,24 @@ class _ChatsState extends State<Chats> {
     });
   }
 
+  
+
   var username;
   var status;
   var bot;
+  var language;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var u = sharedPreferences.get('username');
     var s = sharedPreferences.get('status');
     var b = sharedPreferences.get('bot');
+    var l = sharedPreferences.get('language');
     setState(() {
       username = u;
       status = s;
       bot = b;
+      language = l;
     });
     get_comments();
   }
@@ -73,6 +79,8 @@ class _ChatsState extends State<Chats> {
     super.initState();
     getValidationData();
   }
+
+  
 
   Future Deletechat(id) async {
     http.Response response;
@@ -87,22 +95,33 @@ class _ChatsState extends State<Chats> {
       _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   ScrollController _scrollController = ScrollController();
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => Appointment(client: widget.client, doctor: widget.doctor,)));
+              },
+              icon: Icon(Icons.notifications))
+        ],
         iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: Text('Chat Room',
-            style: GoogleFonts.vesperLibre(
-              color: Colors.white,
-              fontSize: 15,
-            )),
+        title: AppText(
+          txt: 'Chat Room',
+          color: Colors.white,
+          size: 15,
+        ),
         backgroundColor: HexColor('#742B90'),
       ),
       body: Stack(children: [
