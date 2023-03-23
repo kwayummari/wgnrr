@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wgnrr/models/client/appointment/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/routes/language.dart';
@@ -103,7 +104,7 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             ListTile(
               onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Quiz())),
+                  .push(MaterialPageRoute(builder: (context) => Appointment_table())),
               leading: Icon(
                 Icons.meeting_room,
                 color: Colors.black,
