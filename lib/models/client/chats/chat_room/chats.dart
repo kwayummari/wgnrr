@@ -52,8 +52,6 @@ class _ChatsState extends State<Chats> {
     });
   }
 
-  
-
   var username;
   var status;
   var bot;
@@ -80,8 +78,6 @@ class _ChatsState extends State<Chats> {
     getValidationData();
   }
 
-  
-
   Future Deletechat(id) async {
     http.Response response;
     const url = '${murl}message/delete.php';
@@ -99,7 +95,6 @@ class _ChatsState extends State<Chats> {
 
   ScrollController _scrollController = ScrollController();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,8 +102,11 @@ class _ChatsState extends State<Chats> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => Appointment(client: widget.client, doctor: widget.doctor,)));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Appointment(
+                          client: widget.client,
+                          doctor: widget.doctor,
+                        )));
               },
               icon: Icon(Icons.notifications))
         ],

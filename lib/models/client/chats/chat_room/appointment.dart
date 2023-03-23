@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
@@ -11,7 +12,7 @@ import 'package:http/http.dart' as http;
 class Appointment extends StatefulWidget {
   var doctor;
   var client;
-   Appointment({Key? key, required this.client, required this.doctor});
+  Appointment({Key? key, required this.client, required this.doctor});
 
   @override
   State<Appointment> createState() => _AppointmentState();
@@ -43,7 +44,7 @@ class _AppointmentState extends State<Appointment> {
     }
   }
 
-   var newdate;
+  var newdate;
   DateTime currentDate = DateTime.now();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -75,11 +76,25 @@ class _AppointmentState extends State<Appointment> {
       "client": username.toString(),
       "doctor": widget.doctor.toString(),
       "service": option.toString(),
+      "reason": abortion.toString(),
       "date": newdate.toString(),
     });
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(
+        msg: language == 'Kiswahili' ? 'Umetuma maombi' : 'Succefully',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 15.0,
+      );
+      Navigator.pop(context);
+    } else {
+      print(response.statusCode);
+    }
   }
 
-  
   var username;
   var status;
   var bot;
@@ -105,11 +120,12 @@ class _AppointmentState extends State<Appointment> {
     super.initState();
     getValidationData();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
-         iconTheme: IconThemeData(
+        iconTheme: IconThemeData(
           color: Colors.white, //change your color here
         ),
         centerTitle: true,
@@ -123,192 +139,198 @@ class _AppointmentState extends State<Appointment> {
       ),
       body: SingleChildScrollView(
         child: Form(
-                          child: Container(
-                            height: 250,
-                            child: Column(
-                              children: [
-                                DropdownButtonFormField(
-                                  menuMaxHeight: 300,
-                                  isExpanded: true,
-                                  focusColor: Colors.white,
-                                  dropdownColor: Colors.white,
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 22),
-                                  decoration: InputDecoration(
-                                    hoverColor: null,
-                                    disabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(
-                                          color: HexColor('#000000')),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                      borderSide: BorderSide(
-                                          color: HexColor('#000000')),
-                                    ),
-                                    errorBorder: InputBorder.none,
-                                  ),
-                                  hint: AppText(
-                                    txt: 'Select Service',
-                                    size: 10,
-                                  ),
-                                  value: option,
-                                  items: options.map((list22) {
-                                    return DropdownMenuItem(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: AppText(
-                                              txt: list22['name'],
-                                              size: 15,
-                                            ),
-                                          ),
-                                          Divider(
-                                            color: Colors.black,
-                                          )
-                                        ],
-                                      ),
-                                      value: list22['name'],
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      option = value;
-                                    });
-                                    if (option ==
-                                        'Abortion and Post Abortion Care') {
-                                      setState(() {
-                                        abortioni = true;
-                                      });
-                                    }
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                if (abortioni)
-                                  DropdownButtonFormField(
-                                    elevation: 10,
-                                    menuMaxHeight: 330,
-                                    isExpanded: true,
-                                    focusColor: Colors.white,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: HexColor('#000000')),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: HexColor('#000000')),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.male,
-                                        color: Colors.black,
-                                      ),
-                                      prefixIconColor: Colors.black,
-                                    ),
-                                    hint: AppText(
-                                      txt: language == 'English'
-                                          ? 'Abortion services'
-                                          : 'Huduma za utoaji mimba',
-                                          size: 15,
-                                          color: Colors.black,
-                                    ),
-                                    validator: (value) {
-                                      if (value == null) {
-                                        return language == 'Kiswahili'
-                                            ? 'Chagua'
-                                            : "Please select";
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                    value: abortion,
-                                    onChanged: (newValue1) {
-                                      setState(() {
-                                        abortion = newValue1;
-                                      });
-                                    },
-                                    items: abortions.map((valueItem) {
-                                      return DropdownMenuItem(
-                                        value: valueItem,
-                                        child: AppText(
-                                          txt: valueItem != null
-                                              ? valueItem
-                                              : 'default value',
-                                          color: Colors.black,
-                                          size: 15,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    _selectDate(context);
-                                  },
-                                  child: TextFormField(
-                                    enabled: false,
-                                    cursorColor:
-                                        Theme.of(context).iconTheme.color,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: newdate == null
-                                          ? language == 'Kiswahili'
-                                              ? 'Chagua tarehe'
-                                              : 'Select date of appointment'
-                                          : newdate,
-                                      filled: true,
-                                      fillColor: Colors.white,
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: HexColor('#000000')),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0),
-                                        borderSide: BorderSide(
-                                            color: HexColor('#000000')),
-                                      ),
-                                      prefixIcon: Icon(
-                                        Icons.calendar_month,
-                                        color: Colors.black,
-                                      ),
-                                      prefixIconColor: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  height: 60,
-                                  width: 270,
-                                  child: AppButton(
-                                    label: language == 'Kiswahili'
-                                        ? 'Kusanya Chaguo'
-                                        : 'Submit',
-                                    onPress: () async {
-                                      submit_appointment(newdate);
-                                    },
-                                  ),
-                                ),
-                              ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 20,
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: 70,
+                  width: 330,
+                  child: DropdownButtonFormField(
+                    menuMaxHeight: 300,
+                    isExpanded: true,
+                    focusColor: Colors.white,
+                    dropdownColor: Colors.white,
+                    decoration: InputDecoration(
+                      hoverColor: null,
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      errorBorder: InputBorder.none,
+                    ),
+                    hint: AppText(
+                      txt: 'Select Service',
+                      size: 15,
+                    ),
+                    value: option,
+                    items: options.map((list22) {
+                      return DropdownMenuItem(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: AppText(
+                                txt: list22['name'],
+                                size: 15,
+                              ),
                             ),
-                          ),
+                            Divider(
+                              color: Colors.black,
+                            )
+                          ],
                         ),
+                        value: list22['name'],
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        option = value;
+                      });
+                      if (option == 'Abortion and Post Abortion Care') {
+                        setState(() {
+                          abortioni = true;
+                        });
+                      } else {
+                        setState(() {
+                          abortioni = false;
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              if (abortioni)
+                Container(
+                  height: 70,
+                  width: 330,
+                  child: DropdownButtonFormField(
+                    elevation: 10,
+                    menuMaxHeight: 330,
+                    isExpanded: true,
+                    focusColor: Colors.white,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      filled: true,
+                      fillColor: Colors.white,
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.male,
+                        color: Colors.black,
+                      ),
+                      prefixIconColor: Colors.black,
+                    ),
+                    hint: AppText(
+                      txt: language == 'English'
+                          ? 'Abortion services'
+                          : 'Huduma za utoaji mimba',
+                      size: 15,
+                      color: Colors.black,
+                    ),
+                    validator: (value) {
+                      if (value == null) {
+                        return language == 'Kiswahili'
+                            ? 'Chagua'
+                            : "Please select";
+                      } else {
+                        return null;
+                      }
+                    },
+                    value: abortion,
+                    onChanged: (newValue1) {
+                      setState(() {
+                        abortion = newValue1;
+                      });
+                    },
+                    items: abortions.map((valueItem) {
+                      return DropdownMenuItem(
+                        value: valueItem,
+                        child: AppText(
+                          txt: valueItem != null ? valueItem : 'default value',
+                          color: Colors.black,
+                          size: 15,
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              if (abortioni)
+                SizedBox(
+                  height: 20,
+                ),
+              Container(
+                height: 70,
+                width: 330,
+                child: InkWell(
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    cursorColor: Theme.of(context).iconTheme.color,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: newdate == null
+                          ? language == 'Kiswahili'
+                              ? 'Chagua tarehe'
+                              : 'Select date of appointment'
+                          : newdate,
+                      filled: true,
+                      fillColor: Colors.white,
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.calendar_month,
+                        color: Colors.black,
+                      ),
+                      prefixIconColor: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
+                height: 60,
+                width: 330,
+                child: AppButton(
+                  label: language == 'Kiswahili' ? 'Kusanya Chaguo' : 'Submit',
+                  onPress: () async {
+                    submit_appointment(newdate);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
