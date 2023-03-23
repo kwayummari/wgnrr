@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_appointment_doctor extends StatefulWidget {
@@ -28,6 +29,34 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
     const url = '${murl}appointment/appointment-doctor.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "doctor": username.toString(),
+    });
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          chats = json.decode(response1.body);
+        });
+    }
+  }
+
+  Future accept(id) async {
+    const url = '${murl}appointment/update.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "id": id.toString(),
+      "status": '1'.toString(),
+    });
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          chats = json.decode(response1.body);
+        });
+    }
+  }
+
+  Future reject(id) async {
+    const url = '${murl}appointment/update.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "id": id.toString(),
+      "status": '2'.toString(),
     });
     if (response1.statusCode == 200) {
       if (mounted)
@@ -89,10 +118,17 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                     )));
           },
           child: Badge(
-            backgroundColor:
-                chats[index]['status'] == '0' ? Colors.red : Colors.green,
+            backgroundColor: chats[index]['status'] == '0'
+                ? Colors.orange.shade800
+                : chats[index]['status'] == '1'
+                    ? Colors.green
+                    : Colors.red,
             label: AppText(
-                txt: chats[index]['status'] == '0' ? 'Pending' : 'Accepted',
+                txt: chats[index]['status'] == '0'
+                    ? 'Pending'
+                    : chats[index]['status'] == '1'
+                        ? 'Accepted'
+                        : 'Rejected',
                 size: 15),
             child: Container(
               margin: const EdgeInsets.all(15.0),
@@ -101,18 +137,52 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                 border: Border.all(color: HexColor('#742B90')),
               ),
               child: ListTile(
-                leading: CircleAvatar(
-                    backgroundColor: Colors.grey.shade400,
-                    radius: 20.0,
-                    child: AppText(
-                        color: Colors.black,
-                        txt: chats[index]['doctor'].substring(0, 5),
-                        size: 15)),
-                title: AppText(
-                  txt: chats[index]['service'],
-                  size: 15,
+                title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: [
+                      Align(
+                          alignment: Alignment.centerLeft,
+                          child: AppText(
+                            txt:
+                                chats[index]['client'].toString().toUpperCase(),
+                            size: 15,
+                            weight: FontWeight.w700,
+                          )),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: AppText(
+                          txt: chats[index]['service'],
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 subtitle: AppText(txt: chats[index]['reason'], size: 15),
+                trailing: Column(
+                  children: [
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => accept(chats[index]['id']),
+                        label: 'Accept',
+                        bcolor: Colors.green,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => reject(chats[index]['id']),
+                        label: 'Reject',
+                        bcolor: Colors.red,
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

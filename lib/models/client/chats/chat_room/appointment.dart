@@ -325,7 +325,7 @@ class _AppointmentState extends State<Appointment> {
                   label: language == 'Kiswahili' ? 'Kusanya Chaguo' : 'Submit',
                   onPress: () async {
                     submit_appointment(newdate);
-                  },
+                  }, bcolor: HexColor('#F5841F'),
                 ),
               ),
             ],

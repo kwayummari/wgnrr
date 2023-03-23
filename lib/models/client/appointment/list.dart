@@ -88,10 +88,17 @@ class _list_appointmentState extends State<list_appointment> {
                     )));
           },
           child: Badge(
-            backgroundColor:
-                chats[index]['status'] == '0' ? Colors.red : Colors.green,
+            backgroundColor: chats[index]['status'] == '0'
+                ? Colors.orange.shade800
+                : chats[index]['status'] == '1'
+                    ? Colors.green
+                    : Colors.red,
             label: AppText(
-                txt: chats[index]['status'] == '0' ? 'Pending' : 'Accepted',
+                txt: chats[index]['status'] == '0'
+                    ? 'Pending'
+                    : chats[index]['status'] == '1'
+                        ? 'Accepted'
+                        : 'Rejected',
                 size: 15),
             child: Container(
               margin: const EdgeInsets.all(15.0),
