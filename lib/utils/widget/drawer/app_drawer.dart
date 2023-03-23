@@ -40,143 +40,168 @@ class _AppDrawerState extends State<AppDrawer> {
     double width = MediaQuery.of(context).size.width / 3;
     return Drawer(
       backgroundColor: HexColor('#ffffff'),
-      child: Column(
-        children: [
-          Container(
-              color: Colors.white,
-              child: Image.asset(
-                'assets/full_logo.png',
-                height: 300,
-              )),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.person_2,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+                color: Colors.white,
+                child: Image.asset(
+                  'assets/full_logo.png',
+                  height: 300,
+                )),
+            Divider(
               color: Colors.black,
             ),
-            title: AppText(
-              txt: widget.username!,
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              leading: Icon(
+                Icons.person_2,
+                color: Colors.black,
+              ),
+              title: AppText(
+                txt: widget.username!,
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.newspaper,
+            Divider(
               color: Colors.black,
-              size: 15,
             ),
-            title: AppText(
-              txt: widget.status!,
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              leading: Icon(
+                Icons.newspaper,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.status!,
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            onTap: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => Quiz())),
-            leading: Icon(
-              Icons.account_box,
+            Divider(
               color: Colors.black,
-              size: 15,
             ),
-            title: AppText(
-              txt: widget.language == 'Kiswahili' ? 'Marejesho' : 'Feedback',
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Quiz())),
+              leading: Icon(
+                Icons.account_box,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'Marejesho' : 'Feedback',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            onTap: () => phonecall(),
-            leading: Icon(
-              Icons.phone,
+            Divider(
               color: Colors.black,
-              size: 15,
             ),
-            title: AppText(
-              txt: widget.language == 'Kiswahili'
-                  ? 'Wasiliana nasi'
-                  : 'Contact us',
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Quiz())),
+              leading: Icon(
+                Icons.meeting_room,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili'
+                    ? 'Apointimenti'
+                    : 'Appointment',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            onTap: () async {
-              final SharedPreferences sharedPreferences =
-                  await SharedPreferences.getInstance();
-              widget.language == 'Kiswahili'
-                  ? sharedPreferences.setString(
-                      'language', 'English'.toString())
-                  : sharedPreferences.setString(
-                      'language', 'Kiswahili'.toString());
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Splash()));
-            },
-            leading: Icon(
-              Icons.language,
+            Divider(
               color: Colors.black,
-              size: 15,
             ),
-            title: AppText(
-              txt: widget.language == 'Kiswahili' ? 'English' : 'Kiswahili',
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              onTap: () => phonecall(),
+              leading: Icon(
+                Icons.phone,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili'
+                    ? 'Wasiliana nasi'
+                    : 'Contact us',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-          ListTile(
-            onTap: () async {
-              final SharedPreferences sharedPreferences =
-                  await SharedPreferences.getInstance();
-              sharedPreferences.remove('username');
-              sharedPreferences.remove('status');
-              sharedPreferences.remove('bot');
-              sharedPreferences.remove('language');
-              Navigator.of(context).pushAndRemoveUntil(
-                  // the new route
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => Language(),
-                  ),
-                  (Route route) => false);
-            },
-            leading: Icon(
-              Icons.logout,
+            Divider(
               color: Colors.black,
-              size: 15,
             ),
-            title: AppText(
-              txt: widget.language == 'Kiswahili' ? 'Toka' : 'Sign Out!',
-              size: 15,
-              color: HexColor('#000000'),
-              weight: FontWeight.w500,
+            ListTile(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                widget.language == 'Kiswahili'
+                    ? sharedPreferences.setString(
+                        'language', 'English'.toString())
+                    : sharedPreferences.setString(
+                        'language', 'Kiswahili'.toString());
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Splash()));
+              },
+              leading: Icon(
+                Icons.language,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'English' : 'Kiswahili',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
             ),
-          ),
-          Divider(
-            color: Colors.black,
-          ),
-        ],
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove('username');
+                sharedPreferences.remove('status');
+                sharedPreferences.remove('bot');
+                sharedPreferences.remove('language');
+                Navigator.of(context).pushAndRemoveUntil(
+                    // the new route
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => Language(),
+                    ),
+                    (Route route) => false);
+              },
+              leading: Icon(
+                Icons.logout,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'Toka' : 'Sign Out!',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            SizedBox(
+              height: 40,
+            )
+          ],
+        ),
       ),
     );
   }
