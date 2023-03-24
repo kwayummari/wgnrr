@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/health_care_provider/appointment_doctor/list.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 enum MenuItem { item1, item2, item3, item4, item5 }
 
@@ -67,14 +68,13 @@ class _Appointment_table_doctorState extends State<Appointment_table_doctor> {
           elevation: 4,
           toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
-          title: Text(
-              language == 'Kiswahili'
+          title: AppText(
+              txt: language == 'Kiswahili'
                   ? 'Apointimenti Zako'
                   : 'Your Appointments',
-              style: GoogleFonts.vesperLibre(
-                  fontSize: 15,
-                  color: HexColor('#ffffff'),
-                  fontWeight: FontWeight.w500)),
+                  size: 15,
+                  weight: FontWeight.w500,
+                  color: HexColor('#ffffff'),),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

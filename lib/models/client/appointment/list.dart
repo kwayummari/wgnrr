@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_appointment extends StatefulWidget {
@@ -79,46 +80,112 @@ class _list_appointmentState extends State<list_appointment> {
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Chats(
-                      client: username,
-                      doctor: chats[index]['doctor'],
-                    )));
-          },
-          child: Badge(
-            backgroundColor: chats[index]['status'] == '0'
-                ? Colors.orange.shade800
-                : chats[index]['status'] == '1'
-                    ? Colors.green
-                    : Colors.red,
-            label: AppText(
-                txt: chats[index]['status'] == '0'
-                    ? 'Pending'
-                    : chats[index]['status'] == '1'
-                        ? 'Accepted'
-                        : 'Rejected',
-                size: 15),
-            child: Container(
-              margin: const EdgeInsets.all(15.0),
-              padding: const EdgeInsets.all(3.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: HexColor('#742B90')),
-              ),
-              child: ListTile(
-                leading: CircleAvatar(
-                    backgroundColor: Colors.grey.shade400,
-                    radius: 20.0,
-                    child: AppText(
-                        color: Colors.black,
-                        txt: chats[index]['doctor'].substring(0, 5),
-                        size: 15)),
-                title: AppText(
-                  txt: chats[index]['service'],
-                  size: 15,
+        return Badge(
+          backgroundColor: chats[index]['status'] == '0'
+              ? Colors.orange.shade800
+              : chats[index]['status'] == '2'
+                  ? Colors.red
+                  : chats[index]['status'] == '4'
+                      ? Colors.red
+                      : Colors.green,
+          label: AppText(
+              txt: chats[index]['status'] == '0'
+                  ? 'Pending'
+                  : chats[index]['status'] == '1'
+                      ? 'Accepted'
+                      : chats[index]['status'] == '2'
+                          ? 'Rejected'
+                          : chats[index]['status'] == '3'
+                              ? 'Attended'
+                              : chats[index]['status'] == '4'
+                                  ? 'Did not attend'
+                                  : chats[index]['status'] == '5'
+                                      ? 'In post procedure'
+                                      : 'Rejected',
+              size: 15),
+          child: Container(
+            margin: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(3.0),
+            decoration: BoxDecoration(
+              border: Border.all(color: HexColor('#742B90')),
+            ),
+            child: ListTile(
+              title: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: AppText(
+                          txt: chats[index]['doctor'].toString().toUpperCase(),
+                          size: 15,
+                          weight: FontWeight.w700,
+                        )),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: AppText(
+                          txt: chats[index]['date'].toString().toUpperCase(),
+                          size: 15,
+                          weight: FontWeight.w300,
+                        )),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: AppText(
+                        txt: chats[index]['service'],
+                        size: 15,
+                      ),
+                    ),
+                  ],
                 ),
-                subtitle: AppText(txt: chats[index]['reason'], size: 15),
+              ),
+              subtitle: AppText(txt: chats[index]['reason'], size: 15),
+              trailing: Column(
+                children: [
+                  if (chats[index]['status'] == '1')
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => null,
+                        label: 'Accepted',
+                        bcolor: Colors.green,
+                        borderCurve: 5,
+                      ),
+                    ),
+                  if (chats[index]['status'] == '3')
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => null,
+                        label: 'post procedures',
+                        bcolor: Colors.green,
+                        borderCurve: 5,
+                      ),
+                    ),
+                  if (chats[index]['status'] == '3')
+                    SizedBox(
+                      height: 10,
+                    ),
+                  if (chats[index]['status'] == '3')
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => null,
+                        label: 'Print Appointment',
+                        bcolor: Colors.green,
+                        borderCurve: 5,
+                      ),
+                    ),
+                  if (chats[index]['status'] == '4')
+                    Container(
+                      height: 20,
+                      child: AppButton(
+                        onPress: () => null,
+                        label: 'Missed',
+                        bcolor: Colors.red,
+                        borderCurve: 5,
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

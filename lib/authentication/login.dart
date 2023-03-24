@@ -138,7 +138,7 @@ class _LoginState extends State<Login> {
                           isloading.isLoading = true;
                           loginAuth().login(context, username.text.toString(),
                               password.text.toString(), language.toString());
-                        }, bcolor: HexColor('#F5841F'),
+                        }, bcolor: HexColor('#F5841F'), borderCurve: 20,
                       ),
                     ),
               // SizedBox(

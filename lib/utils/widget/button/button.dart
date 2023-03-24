@@ -6,8 +6,15 @@ class AppButton extends StatelessWidget {
   final Function onPress;
   final String label;
   final Color? bcolor;
+  final double? borderCurve;
 
-  const AppButton({Key? key, required this.onPress, required this.label, required this.bcolor})
+  const AppButton(
+      {Key? key,
+      required this.onPress,
+      required this.label,
+      required this.bcolor,
+      required this.borderCurve,
+      })
       : super(key: key);
 
   @override
@@ -18,7 +25,7 @@ class AppButton extends StatelessWidget {
           foregroundColor: HexColor('#F5841F'),
           backgroundColor: bcolor,
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(borderCurve!),
               side: BorderSide(color: Colors.black)),
         ),
         onPressed: () => onPress(),
