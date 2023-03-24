@@ -61,13 +61,7 @@ class _AppointmentState extends State<Appointment> {
     }
   }
 
-  // var abortion;
-  // List abortions = [
-  //   'Consultation and Investigation',
-  //   'Treatment',
-  //   'Procedure - Surgical',
-  //   'Procedure - Medical'
-  // ];
+ 
 
   Future submit_appointment(newdate) async {
     const url = '${murl}appointment/write.php';
@@ -203,71 +197,6 @@ class _AppointmentState extends State<Appointment> {
               SizedBox(
                 height: 20,
               ),
-              // if (abortioni)
-              //   Container(
-              //     height: 70,
-              //     width: 330,
-              //     child: DropdownButtonFormField(
-              //       elevation: 10,
-              //       menuMaxHeight: 330,
-              //       isExpanded: true,
-              //       focusColor: Colors.white,
-              //       decoration: InputDecoration(
-              //         border: InputBorder.none,
-              //         filled: true,
-              //         fillColor: Colors.white,
-              //         disabledBorder: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(20.0),
-              //           borderSide: BorderSide(color: HexColor('#000000')),
-              //         ),
-              //         enabledBorder: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(20.0),
-              //           borderSide: BorderSide(color: HexColor('#000000')),
-              //         ),
-              //         prefixIcon: Icon(
-              //           Icons.male,
-              //           color: Colors.black,
-              //         ),
-              //         prefixIconColor: Colors.black,
-              //       ),
-              //       hint: AppText(
-              //         txt: language == 'English'
-              //             ? 'Abortion services'
-              //             : 'Huduma za utoaji mimba',
-              //         size: 15,
-              //         color: Colors.black,
-              //       ),
-              //       validator: (value) {
-              //         if (value == null) {
-              //           return language == 'Kiswahili'
-              //               ? 'Chagua'
-              //               : "Please select";
-              //         } else {
-              //           return null;
-              //         }
-              //       },
-              //       value: abortion,
-              //       onChanged: (newValue1) {
-              //         setState(() {
-              //           abortion = newValue1;
-              //         });
-              //       },
-              //       items: abortions.map((valueItem) {
-              //         return DropdownMenuItem(
-              //           value: valueItem,
-              //           child: AppText(
-              //             txt: valueItem != null ? valueItem : 'default value',
-              //             color: Colors.black,
-              //             size: 15,
-              //           ),
-              //         );
-              //       }).toList(),
-              //     ),
-              //   ),
-              // if (abortioni)
-              //   SizedBox(
-              //     height: 20,
-              //   ),
               Container(
                 height: 70,
                 width: 330,

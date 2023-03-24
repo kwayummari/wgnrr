@@ -151,7 +151,7 @@ class _list_appointmentState extends State<list_appointment> {
                         borderCurve: 5,
                       ),
                     ),
-                  if (chats[index]['status'] == '3')
+                  if (chats[index]['status'] == '3' && chats[index]['Procedure - Medical'])
                     Container(
                       height: 20,
                       child: AppButton(
@@ -165,7 +165,7 @@ class _list_appointmentState extends State<list_appointment> {
                     SizedBox(
                       height: 10,
                     ),
-                  if (chats[index]['status'] == '3')
+                  if (chats[index]['status'] == '1')
                     Container(
                       height: 20,
                       child: AppButton(

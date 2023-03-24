@@ -67,10 +67,11 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
   }
 
   Future attended(id) async {
-    const url = '${murl}appointment/update.php';
+    const url = '${murl}appointment/update-reason.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "id": id.toString(),
       "status": '3'.toString(),
+      "reason": abortion.toString(),
     });
     if (response1.statusCode == 200) {
       if (mounted)
@@ -93,6 +94,14 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
         });
     }
   }
+
+  var abortion;
+  List abortions = [
+    'Consultation and Investigation',
+    'Treatment',
+    'Procedure - Surgical',
+    'Procedure - Medical'
+  ];
 
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
@@ -143,15 +152,25 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                 return Badge(
                   backgroundColor: chats[index]['status'] == '0'
                       ? Colors.orange.shade800
-                      : chats[index]['status'] == '1'
-                          ? Colors.green
-                          : Colors.red,
+                      : chats[index]['status'] == '2'
+                          ? Colors.red
+                          : chats[index]['status'] == '4'
+                              ? Colors.red
+                              : Colors.green,
                   label: AppText(
                       txt: chats[index]['status'] == '0'
                           ? 'Pending'
                           : chats[index]['status'] == '1'
                               ? 'Accepted'
-                              : 'Rejected',
+                              : chats[index]['status'] == '2'
+                                  ? 'Rejected'
+                                  : chats[index]['status'] == '3'
+                                      ? 'Attended'
+                                      : chats[index]['status'] == '4'
+                                          ? 'Did not attend'
+                                          : chats[index]['status'] == '5'
+                                              ? 'In post procedure'
+                                              : 'Rejected',
                       size: 15),
                   child: Container(
                     margin: const EdgeInsets.all(15.0),
@@ -235,7 +254,109 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                             Container(
                               height: 20,
                               child: AppButton(
-                                onPress: () => attended(chats[index]['id']),
+                                onPress: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: AppText(
+                                          txt: "Select Service Done",
+                                          size: 15,
+                                        ),
+                                        actions: [
+                                          Container(
+                                            height: 70,
+                                            width: 330,
+                                            child: DropdownButtonFormField(
+                                              elevation: 10,
+                                              menuMaxHeight: 330,
+                                              isExpanded: true,
+                                              focusColor: Colors.white,
+                                              decoration: InputDecoration(
+                                                border: InputBorder.none,
+                                                filled: true,
+                                                fillColor: Colors.white,
+                                                disabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                  borderSide: BorderSide(
+                                                      color:
+                                                          HexColor('#000000')),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.0),
+                                                  borderSide: BorderSide(
+                                                      color:
+                                                          HexColor('#000000')),
+                                                ),
+                                                prefixIcon: Icon(
+                                                  Icons.male,
+                                                  color: Colors.black,
+                                                ),
+                                                prefixIconColor: Colors.black,
+                                              ),
+                                              hint: AppText(
+                                                txt: language == 'English'
+                                                    ? 'Abortion services'
+                                                    : 'Huduma za utoaji mimba',
+                                                size: 15,
+                                                color: Colors.black,
+                                              ),
+                                              validator: (value) {
+                                                if (value == null) {
+                                                  return language == 'Kiswahili'
+                                                      ? 'Chagua'
+                                                      : "Please select";
+                                                } else {
+                                                  return null;
+                                                }
+                                              },
+                                              value: abortion,
+                                              onChanged: (newValue1) {
+                                                setState(() {
+                                                  abortion = newValue1;
+                                                });
+                                              },
+                                              items: abortions.map((valueItem) {
+                                                return DropdownMenuItem(
+                                                  value: valueItem,
+                                                  child: AppText(
+                                                    txt: valueItem != null
+                                                        ? valueItem
+                                                        : 'default value',
+                                                    color: Colors.black,
+                                                    size: 15,
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ),
+                                          ),
+                                          Container(
+                                            height: 50,
+                                            width: 330,
+                                            child: AppButton(
+                                                onPress: () => attended(
+                                                    chats[index]['id']),
+                                                label: 'Submit',
+                                                bcolor: HexColor('#F5841F'),
+                                                borderCurve: 20),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text("Close"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
                                 label: 'Attended',
                                 bcolor: Colors.green,
                                 borderCurve: 5,
