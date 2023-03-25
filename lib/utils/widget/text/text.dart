@@ -6,7 +6,14 @@ class AppText extends StatelessWidget {
   var color;
   var weight;
   double size;
-  AppText({Key? key, required this.txt, this.color, this.weight, required this.size})
+  TextDecoration? textdecoration;
+  AppText(
+      {Key? key,
+      required this.txt,
+      this.color,
+      this.weight,
+      this.textdecoration,
+      required this.size})
       : super(key: key);
 
   @override
@@ -14,6 +21,7 @@ class AppText extends StatelessWidget {
     return Text(
       txt.toString(),
       style: TextStyle(
+        decoration: textdecoration,
         color: color,
         fontSize: size,
         fontFamily: 'OpenSans',

@@ -1,13 +1,12 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/client/appointment/list.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
-enum MenuItem { item1, item2, item3, item4, item5 }
 
 class Appointment_table extends StatefulWidget {
   const Appointment_table({super.key});
@@ -67,14 +66,13 @@ class _Appointment_tableState extends State<Appointment_table> {
           elevation: 4,
           toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
-          title: Text(
-              language == 'Kiswahili'
+          title: AppText(
+              txt: language == 'Kiswahili'
                   ? 'Apointimenti Zako'
                   : 'Your Appointments',
-              style: GoogleFonts.vesperLibre(
-                  fontSize: 15,
+                  size: 15,
                   color: HexColor('#ffffff'),
-                  fontWeight: FontWeight.w500)),
+                  weight: FontWeight.w500,),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

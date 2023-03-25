@@ -1,15 +1,12 @@
 // ignore_for_file: unused_field, unnecessary_null_comparison
 
 import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
+import 'package:wgnrr/models/client/appointment/post_procedures.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
@@ -151,11 +148,21 @@ class _list_appointmentState extends State<list_appointment> {
                         borderCurve: 5,
                       ),
                     ),
-                  if (chats[index]['status'] == '3' && chats[index]['Procedure - Medical'])
+                  if (chats[index]['status'] == '3' &&
+                          chats[index]['reason'] == 'Procedure - Medical' ||
+                      chats[index]['reason'] == 'Procedure - Surgical')
                     Container(
                       height: 20,
                       child: AppButton(
-                        onPress: () => null,
+                        onPress: () =>
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => postProcedures(
+                                      client: chats[index]['client'],
+                                      doctor: chats[index]['doctor'],
+                                      reason: chats[index]['reason'],
+                                      date_attended: chats[index]
+                                          ['date_attended'],
+                                    ))),
                         label: 'post procedures',
                         bcolor: Colors.green,
                         borderCurve: 5,
