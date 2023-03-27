@@ -3,6 +3,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
+import 'package:wgnrr/models/client/appointment/results.dart';
+import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/splash/splash.dart';
@@ -130,6 +132,32 @@ class _AppDrawerState extends State<AppDrawer> {
               color: Colors.black,
             ),
             ListTile(
+              onTap: () {
+                if (widget.status != 'Health Care Providers')
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Results()));
+                else
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Results()));
+              },
+              leading: Icon(
+                Icons.meeting_room,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili'
+                    ? 'Post Procedures Results'
+                    : 'Post Procedures Results',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
               onTap: () => phonecall(),
               leading: Icon(
                 Icons.phone,
@@ -167,6 +195,26 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               title: AppText(
                 txt: widget.language == 'Kiswahili' ? 'English' : 'Kiswahili',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              onTap: () async {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Homepage('')));
+              },
+              leading: Icon(
+                Icons.home,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'Nyumbani' : 'Home',
                 size: 15,
                 color: HexColor('#000000'),
                 weight: FontWeight.w500,
