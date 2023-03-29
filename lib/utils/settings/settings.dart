@@ -97,31 +97,6 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 15,
             ),
-            ListTile(
-              onTap: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove('username');
-                sharedPreferences.remove('status');
-                sharedPreferences.remove('bot');
-                sharedPreferences.remove('language');
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Language(),
-                    ),
-                    (Route route) => false);
-              },
-              leading: Icon(Icons.logout),
-              title: AppText(
-                txt: 'Sign Out',
-                size: 15,
-                weight: FontWeight.bold,
-              ),
-              subtitle: AppText(
-                  txt:
-                      'See information about your account,download an archive of your data, or learn about your account deactivation options.',
-                  size: 14),
-            ),
             // GestureDetector(
             //   onTap: () {
             //     setState(() {
