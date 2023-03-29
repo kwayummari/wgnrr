@@ -54,8 +54,11 @@ class _usernameChangeState extends State<usernameChange> {
 
   Future changeUsername() async {
     const url = '${murl}user/update_username.php';
-    var response1 = await http.post(Uri.parse(url),
-        body: {"username": newusername.text, "id": users[0]['id'].toString()});
+    var response1 = await http.post(Uri.parse(url), body: {
+      "username": newusername.text,
+      "id": users[0]['id'].toString(),
+      "oldusername": username.toString()
+    });
     if (response1.statusCode == 200) {
       Navigator.pop(context);
       final SharedPreferences sharedPreferences =
