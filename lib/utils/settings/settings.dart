@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/splash/splash.dart';
+import 'package:wgnrr/utils/settings/account.dart';
+import 'package:wgnrr/utils/settings/language.dart';
+import 'package:wgnrr/utils/widget/IconButton/IconButton.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
@@ -10,14 +13,7 @@ class SettingsPage extends StatefulWidget {
   _SettingsPageState createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage>
-    with TickerProviderStateMixin {
-  bool? _notificationsEnabled;
-  bool _darkModeEnabled = false;
-  late AnimationController _controller;
-  late Animation<double> _opacityAnimation =
-      Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-
+class _SettingsPageState extends State<SettingsPage> {
   var username;
   var status;
   var bot;
@@ -30,9 +26,6 @@ class _SettingsPageState extends State<SettingsPage>
     var b = sharedPreferences.get('bot');
     var l = sharedPreferences.get('language');
     setState(() {
-      language == 'Kiswahili'
-          ? _notificationsEnabled = false
-          : _notificationsEnabled = true;
       username = u;
       status = s;
       bot = b;
@@ -44,10 +37,6 @@ class _SettingsPageState extends State<SettingsPage>
   void initState() {
     super.initState();
     getValidationData();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 500),
-      vsync: this,
-    );
   }
 
   @override
@@ -75,7 +64,9 @@ class _SettingsPageState extends State<SettingsPage>
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
         title: AppText(
-          txt: language == 'Kiswahili' ? 'Mpangilio' : 'Settings',
+          txt: language == 'Kiswahili'
+              ? 'Mpangilio \n@${username}'
+              : 'Settings \n@${username}',
           size: 15,
           color: HexColor('#ffffff'),
           weight: FontWeight.w500,
@@ -87,103 +78,113 @@ class _SettingsPageState extends State<SettingsPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                if (_controller.isCompleted) {
-                  _controller.reverse();
-                } else {
-                  _controller.forward();
-                }
+            ListTile(
+              leading: Icon(Icons.person),
+              trailing: AppIconButton(
+                  onPress: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => Account())),
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                  )),
+              title: AppText(
+                txt: 'Your Account',
+                size: 15,
+                weight: FontWeight.bold,
+              ),
+              subtitle: AppText(
+                  txt:
+                      'See information about your account,download an archive of your data, or learn about your account deactivation options.',
+                  size: 14),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              leading: Icon(Icons.language),
+              trailing: AppIconButton(
+                  onPress: () => null,
+                  icon: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 15,
+                  )),
+              title: AppText(
+                txt: 'Language',
+                size: 15,
+                weight: FontWeight.bold,
+              ),
+              subtitle: AppText(
+                  txt:
+                      'See information about your account,download an archive of your data, or learn about your account deactivation options.',
+                  size: 14),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.remove('username');
+                sharedPreferences.remove('status');
+                sharedPreferences.remove('bot');
+                sharedPreferences.remove('language');
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => Language(),
+                    ),
+                    (Route route) => false);
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Language',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  Icon(
-                    _controller.isCompleted
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                  ),
-                ],
+              leading: Icon(Icons.logout),
+              title: AppText(
+                txt: 'Sign Out',
+                size: 15,
+                weight: FontWeight.bold,
               ),
+              subtitle: AppText(
+                  txt: 'See information about your account,download an archive of your data, or learn about your account deactivation options.',
+                  size: 14),
             ),
-            SizedBox(height: 8.0),
-            FadeTransition(
-              opacity: _opacityAnimation,
-              child: SwitchListTile(
-                title: Text(language),
-                value: _notificationsEnabled!,
-                onChanged: (value) async {
-                  final SharedPreferences sharedPreferences =
-                      await SharedPreferences.getInstance();
-                  language == 'Kiswahili'
-                      ? sharedPreferences.setString(
-                          'language', 'English'.toString())
-                      : sharedPreferences.setString(
-                          'language', 'Kiswahili'.toString());
-                  setState(() {
-                    language == 'Kiswahili'
-                        ? _notificationsEnabled = false
-                        : _notificationsEnabled = true;
-                        Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Splash()));
-                  });
-                },
-              ),
-            ),
-            SizedBox(height: 0.0),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _darkModeEnabled = !_darkModeEnabled;
-                });
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Appearance',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
-                    transitionBuilder: (child, animation) => ScaleTransition(
-                      scale: animation,
-                      child: child,
-                    ),
-                    child: _darkModeEnabled
-                        ? Icon(
-                            Icons.nightlight_round,
-                            key: ValueKey('dark_mode'),
-                            color: Colors.grey[600],
-                          )
-                        : Icon(
-                            Icons.light_mode_rounded,
-                            key: ValueKey('light_mode'),
-                          ),
-                  ),
-                ],
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () {
+            //     setState(() {
+            //       _darkModeEnabled = !_darkModeEnabled;
+            //     });
+            //   },
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //     children: [
+            //       Text(
+            //         'Appearance',
+            //         style: TextStyle(
+            //           fontWeight: FontWeight.bold,
+            //           fontSize: 16.0,
+            //         ),
+            //       ),
+            //       AnimatedSwitcher(
+            //         duration: Duration(milliseconds: 500),
+            //         transitionBuilder: (child, animation) => ScaleTransition(
+            //           scale: animation,
+            //           child: child,
+            //         ),
+            //         child: _darkModeEnabled
+            //             ? Icon(
+            //                 Icons.nightlight_round,
+            //                 key: ValueKey('dark_mode'),
+            //                 color: Colors.grey[600],
+            //               )
+            //             : Icon(
+            //                 Icons.light_mode_rounded,
+            //                 key: ValueKey('light_mode'),
+            //               ),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: 32.0),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

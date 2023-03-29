@@ -217,36 +217,6 @@ class _AppDrawerState extends State<AppDrawer> {
             Divider(
               color: Colors.black,
             ),
-            ListTile(
-              onTap: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove('username');
-                sharedPreferences.remove('status');
-                sharedPreferences.remove('bot');
-                sharedPreferences.remove('language');
-                Navigator.of(context).pushAndRemoveUntil(
-                    // the new route
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Language(),
-                    ),
-                    (Route route) => false);
-              },
-              leading: Icon(
-                Icons.logout,
-                color: Colors.black,
-                size: 15,
-              ),
-              title: AppText(
-                txt: widget.language == 'Kiswahili' ? 'Toka' : 'Sign Out!',
-                size: 15,
-                color: HexColor('#000000'),
-                weight: FontWeight.w500,
-              ),
-            ),
-            Divider(
-              color: Colors.black,
-            ),
             SizedBox(
               height: 40,
             )
