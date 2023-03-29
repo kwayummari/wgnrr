@@ -9,6 +9,7 @@ import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/routes/language.dart';
+import 'package:wgnrr/utils/settings/settings.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -178,33 +179,6 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             ListTile(
               onTap: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                widget.language == 'Kiswahili'
-                    ? sharedPreferences.setString(
-                        'language', 'English'.toString())
-                    : sharedPreferences.setString(
-                        'language', 'Kiswahili'.toString());
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Splash()));
-              },
-              leading: Icon(
-                Icons.language,
-                color: Colors.black,
-                size: 15,
-              ),
-              title: AppText(
-                txt: widget.language == 'Kiswahili' ? 'English' : 'Kiswahili',
-                size: 15,
-                color: HexColor('#000000'),
-                weight: FontWeight.w500,
-              ),
-            ),
-            Divider(
-              color: Colors.black,
-            ),
-            ListTile(
-              onTap: () async {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => Homepage('')));
               },
@@ -215,6 +189,26 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               title: AppText(
                 txt: widget.language == 'Kiswahili' ? 'Nyumbani' : 'Home',
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              onTap: () async {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => SettingsPage()));
+              },
+              leading: Icon(
+                Icons.settings,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'Mpangilio' : 'Settings',
                 size: 15,
                 color: HexColor('#000000'),
                 weight: FontWeight.w500,

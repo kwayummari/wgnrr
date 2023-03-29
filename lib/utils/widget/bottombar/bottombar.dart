@@ -8,7 +8,7 @@ class AppBottombar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: 50,
       color: HexColor('#F5841F'),
       child: Center(
           child: Row(
