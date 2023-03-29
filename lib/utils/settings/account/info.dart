@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/utils/settings/account/usernamechange.dart';
 import 'package:wgnrr/utils/settings/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
@@ -33,8 +33,8 @@ class _accountInfoState extends State<accountInfo> {
       status = s;
       bot = b;
       language = l;
-      get_userdata();
     });
+    await get_userdata();
   }
 
   var user;
@@ -95,8 +95,8 @@ class _accountInfoState extends State<accountInfo> {
         child: Column(
           children: [
             GestureDetector(
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => accountInfo())),
+              onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => usernameChange())),
               child: Padding(
                 padding: const EdgeInsets.only(
                     left: 15, right: 15, bottom: 20, top: 20),

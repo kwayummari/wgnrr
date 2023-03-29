@@ -1,11 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_if_null_operators, prefer_typing_uninitialized_variables, must_be_immutable, unused_local_variable, unused_element, prefer_const_constructors_in_immutables, body_might_complete_normally_nullable, use_function_type_syntax_for_parameters, non_constant_identifier_names, empty_constructor_bodies, prefer_equal_for_default_values, unnecessary_this, unnecessary_string_interpolations, depend_on_referenced_packages, library_private_types_in_public_api, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:wgnrr/api/auth/login.dart';
-import 'package:wgnrr/authentication/registration.dart';
 import 'package:wgnrr/provider/shared_data.dart';
 import 'package:wgnrr/utils/widget/bottombar/bottombar.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';

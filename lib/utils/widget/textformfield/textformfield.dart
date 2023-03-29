@@ -13,7 +13,7 @@ class AppTextformfield extends StatelessWidget {
   AppTextformfield({
     Key? key,
     required this.textfieldcontroller,
-    required this.icon,
+    this.icon,
     this.suffixicon,
     required this.language,
     required this.label,
