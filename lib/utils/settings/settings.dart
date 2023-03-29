@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/splash/splash.dart';
-import 'package:wgnrr/utils/settings/account.dart';
+import 'package:wgnrr/utils/settings/account/account.dart';
 import 'package:wgnrr/utils/settings/language.dart';
 import 'package:wgnrr/utils/widget/IconButton/IconButton.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
@@ -43,21 +43,8 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: AppDrawer(
-        username: username,
-        language: language,
-        status: status,
-      ),
       appBar: AppBar(
-        leading: Builder(
-            builder: (context) => // Ensure Scaffold is in context
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                )),
+        iconTheme: IconThemeData(color: Colors.white),
         automaticallyImplyLeading: true,
         shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
         elevation: 4,
@@ -79,14 +66,9 @@ class _SettingsPageState extends State<SettingsPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Account())),
               leading: Icon(Icons.person),
-              trailing: AppIconButton(
-                  onPress: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => Account())),
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
-                  )),
               title: AppText(
                 txt: 'Your Account',
                 size: 15,
@@ -102,12 +84,6 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             ListTile(
               leading: Icon(Icons.language),
-              trailing: AppIconButton(
-                  onPress: () => null,
-                  icon: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
-                  )),
               title: AppText(
                 txt: 'Language',
                 size: 15,
@@ -142,7 +118,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 weight: FontWeight.bold,
               ),
               subtitle: AppText(
-                  txt: 'See information about your account,download an archive of your data, or learn about your account deactivation options.',
+                  txt:
+                      'See information about your account,download an archive of your data, or learn about your account deactivation options.',
                   size: 14),
             ),
             // GestureDetector(
