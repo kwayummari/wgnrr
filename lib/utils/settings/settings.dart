@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/settings/account/account.dart';
 import 'package:wgnrr/utils/settings/language.dart';
@@ -31,6 +32,14 @@ class _SettingsPageState extends State<SettingsPage> {
       bot = b;
       language = l;
     });
+  }
+
+  Future<void> phonecall() async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: '0762996305',
+    );
+    await launchUrl(launchUri);
   }
 
   @override
@@ -91,7 +100,23 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               subtitle: AppText(
                   txt:
-                      'See information about your account,download an archive of your data, or learn about your account deactivation options.',
+                      'Choose the language you prefer to use in the application. The language chosen will affect all content of the app.',
+                  size: 14),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ListTile(
+              onTap: () => phonecall(),
+              leading: Icon(Icons.phone),
+              title: AppText(
+                txt: 'Contact us',
+                size: 15,
+                weight: FontWeight.bold,
+              ),
+              subtitle: AppText(
+                  txt:
+                      'Communicate through our office phone number incase of any emergency.',
                   size: 14),
             ),
             SizedBox(

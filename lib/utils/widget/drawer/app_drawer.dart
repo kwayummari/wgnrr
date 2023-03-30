@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
 import 'package:wgnrr/models/client/appointment/results.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
-import 'package:wgnrr/splash/splash.dart';
-import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/settings/settings.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
@@ -27,14 +23,6 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
-  Future<void> phonecall() async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: '0762996305',
-    );
-    await launchUrl(launchUri);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -150,25 +138,6 @@ class _AppDrawerState extends State<AppDrawer> {
                 txt: widget.language == 'Kiswahili'
                     ? 'Post Procedures Results'
                     : 'Post Procedures Results',
-                size: 15,
-                color: HexColor('#000000'),
-                weight: FontWeight.w500,
-              ),
-            ),
-            Divider(
-              color: Colors.black,
-            ),
-            ListTile(
-              onTap: () => phonecall(),
-              leading: Icon(
-                Icons.phone,
-                color: Colors.black,
-                size: 15,
-              ),
-              title: AppText(
-                txt: widget.language == 'Kiswahili'
-                    ? 'Wasiliana nasi'
-                    : 'Contact us',
                 size: 15,
                 color: HexColor('#000000'),
                 weight: FontWeight.w500,

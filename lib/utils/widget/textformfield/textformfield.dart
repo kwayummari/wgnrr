@@ -9,7 +9,7 @@ class AppTextformfield extends StatelessWidget {
   final IconButton? suffixicon;
   final bool obscure;
   final Function? validate;
-   String? language;
+  String? language;
   AppTextformfield({
     Key? key,
     required this.textfieldcontroller,
@@ -31,10 +31,13 @@ class AppTextformfield extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        label: AppText(
-          txt: label,
-          size: 15,
-          color: Colors.black,
+        label: Container(
+          color: Colors.white,
+          child: AppText(
+            txt: label,
+            size: 15,
+            color: Colors.black,
+          ),
         ),
         filled: true,
         fillColor: Colors.white,
@@ -53,7 +56,10 @@ class AppTextformfield extends StatelessWidget {
         if (value!.isNotEmpty) {
           return null;
         } else if (value.isEmpty) {
-          return language == 'Kiswahili' ? 'Inapaswa kujazwa' : "THis field cannot be empty";;
+          return language == 'Kiswahili'
+              ? 'Inapaswa kujazwa'
+              : "THis field cannot be empty";
+          ;
         }
       },
     );

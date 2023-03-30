@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/utils/settings/language.dart';
+import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:wgnrr/utils/widget/textformfield/textformfield.dart';
 
@@ -64,16 +64,16 @@ class _changePasswordState extends State<changePassword> {
     });
     if (response1.statusCode == 200) {
       final SharedPreferences sharedPreferences =
-                          await SharedPreferences.getInstance();
-                      sharedPreferences.remove('username');
-                      sharedPreferences.remove('status');
-                      sharedPreferences.remove('bot');
-                      sharedPreferences.remove('language');
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) => Language(),
-                          ),
-                          (Route route) => false);
+          await SharedPreferences.getInstance();
+      sharedPreferences.remove('username');
+      sharedPreferences.remove('status');
+      sharedPreferences.remove('bot');
+      sharedPreferences.remove('language');
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (BuildContext context) => Language(),
+          ),
+          (Route route) => false);
     }
   }
 
