@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/settings/account/info.dart';
+import 'package:wgnrr/utils/settings/account/update_password.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:http/http.dart' as http;
 
@@ -121,7 +122,7 @@ class _AccountState extends State<Account> {
             ),
             ListTile(
               onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Account())),
+                  .push(MaterialPageRoute(builder: (context) => changePassword())),
               leading: Icon(Icons.key),
               title: AppText(
                 txt: 'Change your password',
