@@ -20,6 +20,7 @@ class _usernameChangeState extends State<usernameChange> {
   var status;
   var bot;
   var language;
+  var oldusername;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -32,6 +33,7 @@ class _usernameChangeState extends State<usernameChange> {
       status = s;
       bot = b;
       language = l;
+      oldusername = u;
       get_userdata();
     });
   }
@@ -57,13 +59,16 @@ class _usernameChangeState extends State<usernameChange> {
     var response1 = await http.post(Uri.parse(url), body: {
       "username": newusername.text,
       "id": users[0]['id'].toString(),
-      "oldusername": username.toString()
+      "oldusername": oldusername.toString()
     });
     if (response1.statusCode == 200) {
-      Navigator.pop(context);
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString('username', newusername.text.toString());
+      print(oldusername);
+      print(newusername.text.toString());
+      print(response1.statusCode);
+      // Navigator.pop(context);
+      // final SharedPreferences sharedPreferences =
+      //     await SharedPreferences.getInstance();
+      // sharedPreferences.setString('username', newusername.text.toString());
     }
   }
 

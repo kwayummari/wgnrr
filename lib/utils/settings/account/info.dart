@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/utils/animation/shimmer.dart';
 import 'package:wgnrr/utils/settings/account/usernamechange.dart';
 import 'package:wgnrr/utils/settings/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
@@ -91,220 +92,227 @@ class _accountInfoState extends State<accountInfo> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GestureDetector(
-              onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => usernameChange())),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 15, right: 15, bottom: 20, top: 20),
-                child: Row(
-                  children: [
-                    AppText(
-                      txt: 'Username',
-                      size: 15,
-                      weight: FontWeight.bold,
-                    ),
-                    Spacer(),
-                    AppText(
-                      txt: '@${username}',
-                      size: 15,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                      size: 15,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => accountInfo())),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 20,
-                ),
-                child: Row(
-                  children: [
-                    AppText(
-                      txt: 'Phone',
-                      size: 15,
-                      weight: FontWeight.bold,
-                    ),
-                    Spacer(),
-                    AppText(
-                      txt: users[0]['phone'],
-                      size: 15,
-                      color: Colors.grey,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                      size: 15,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                bottom: 20,
-              ),
-              child: Row(
+      body: users.isEmpty
+          ? ShimmerLoading(
+              width: 200.0,
+              height: 50.0,
+              borderRadius: 10.0,
+            )
+          : SingleChildScrollView(
+              child: Column(
                 children: [
-                  AppText(
-                    txt: 'Role',
-                    size: 15,
-                    weight: FontWeight.bold,
-                  ),
-                  Spacer(),
-                  AppText(
-                    txt: users[0]['role'],
-                    size: 15,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                bottom: 20,
-              ),
-              child: Row(
-                children: [
-                  AppText(
-                    txt: 'Date of Birth',
-                    size: 15,
-                    weight: FontWeight.bold,
-                  ),
-                  Spacer(),
-                  AppText(
-                    txt: users[0]['age'],
-                    size: 15,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-                right: 15,
-                bottom: 10,
-              ),
-              child: Row(
-                children: [
-                  AppText(
-                    txt: 'Country',
-                    size: 15,
-                    weight: FontWeight.bold,
-                  ),
-                  Spacer(),
-                  AppText(
-                    txt: 'Tanzania',
-                    size: 15,
-                    color: Colors.grey,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                    size: 15,
-                  )
-                ],
-              ),
-            ),
-            GestureDetector(
-              onTap: () => Uri.parse('https://flutter.dev'),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 15,
-                  bottom: 20,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: RichText(
-                    textAlign: TextAlign.left,
-                    text: TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: 'Select the country you live in. ',
-                          style: TextStyle(fontSize: 12, color: Colors.black),
-                        ),
-                        TextSpan(
-                          text: 'Learn more',
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.normal,
-                            fontSize: 12,
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => usernameChange())),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, bottom: 20, top: 20),
+                      child: Row(
+                        children: [
+                          AppText(
+                            txt: 'Username',
+                            size: 15,
+                            weight: FontWeight.bold,
                           ),
+                          Spacer(),
+                          AppText(
+                            txt: '@${username}',
+                            size: 15,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => accountInfo())),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        bottom: 20,
+                      ),
+                      child: Row(
+                        children: [
+                          AppText(
+                            txt: 'Phone',
+                            size: 15,
+                            weight: FontWeight.bold,
+                          ),
+                          Spacer(),
+                          AppText(
+                            txt: users[0]['phone'],
+                            size: 15,
+                            color: Colors.grey,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                      bottom: 20,
+                    ),
+                    child: Row(
+                      children: [
+                        AppText(
+                          txt: 'Role',
+                          size: 15,
+                          weight: FontWeight.bold,
                         ),
+                        Spacer(),
+                        AppText(
+                          txt: users[0]['role'],
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: 15,
+                        )
                       ],
                     ),
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                      bottom: 20,
+                    ),
+                    child: Row(
+                      children: [
+                        AppText(
+                          txt: 'Date of Birth',
+                          size: 15,
+                          weight: FontWeight.bold,
+                        ),
+                        Spacer(),
+                        AppText(
+                          txt: users[0]['age'],
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: 15,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                      right: 15,
+                      bottom: 10,
+                    ),
+                    child: Row(
+                      children: [
+                        AppText(
+                          txt: 'Country',
+                          size: 15,
+                          weight: FontWeight.bold,
+                        ),
+                        Spacer(),
+                        AppText(
+                          txt: 'Tanzania',
+                          size: 15,
+                          color: Colors.grey,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey,
+                          size: 15,
+                        )
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Uri.parse('https://flutter.dev'),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 15,
+                        right: 15,
+                        bottom: 20,
+                      ),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'Select the country you live in. ',
+                                style: TextStyle(
+                                    fontSize: 12, color: Colors.black),
+                              ),
+                              TextSpan(
+                                text: 'Learn more',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      final SharedPreferences sharedPreferences =
+                          await SharedPreferences.getInstance();
+                      sharedPreferences.remove('username');
+                      sharedPreferences.remove('status');
+                      sharedPreferences.remove('bot');
+                      sharedPreferences.remove('language');
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => Language(),
+                          ),
+                          (Route route) => false);
+                    },
+                    child: AppText(
+                      txt: 'Log out',
+                      size: 15,
+                      color: Colors.red,
+                      weight: FontWeight.bold,
+                    ),
+                  )
+                ],
               ),
             ),
-            GestureDetector(
-              onTap: () async {
-                final SharedPreferences sharedPreferences =
-                    await SharedPreferences.getInstance();
-                sharedPreferences.remove('username');
-                sharedPreferences.remove('status');
-                sharedPreferences.remove('bot');
-                sharedPreferences.remove('language');
-                Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => Language(),
-                    ),
-                    (Route route) => false);
-              },
-              child: AppText(
-                txt: 'Log out',
-                size: 15,
-                color: Colors.red,
-                weight: FontWeight.bold,
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }
