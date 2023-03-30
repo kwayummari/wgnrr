@@ -5,6 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:wgnrr/utils/widget/textformfield/textformfield.dart';
 
@@ -62,10 +63,11 @@ class _usernameChangeState extends State<usernameChange> {
       "oldusername": oldusername.toString()
     });
     if (response1.statusCode == 200) {
-      Navigator.pop(context);
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.setString('username', newusername.text.toString());
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Splash()));
     }
   }
 

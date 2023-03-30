@@ -56,7 +56,7 @@ class _deactivateAccountState extends State<deactivateAccount> {
   }
 
   Future deactivate() async {
-    const url = '${murl}user/deactivate.php';
+    const url = '${murl}user/deactivation.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "id": users[0]['id'].toString(),
     });

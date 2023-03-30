@@ -6,9 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/utils/animation/shimmer.dart';
+import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/settings/account/changephonenumber.dart';
 import 'package:wgnrr/utils/settings/account/usernamechange.dart';
-import 'package:wgnrr/utils/settings/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class accountInfo extends StatefulWidget {

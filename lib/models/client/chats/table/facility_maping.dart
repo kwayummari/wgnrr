@@ -23,11 +23,23 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+      LatLng _initialCameraPosition;
 
-  static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(-6.82349, 39.26951),
-    zoom: 14.4746,
-  );
+      Future<void> _getCurrentLocation() async {
+    final LocationData locationData = await Location().getLocation();
+    setState(() {
+      _initialCameraPosition = LatLng(
+        locationData.latitude,
+        locationData.longitude,
+      );
+    });
+  }
+
+  // static const CameraPosition _kGooglePlex = CameraPosition(
+  //   target: LatLng(-6.82349, 39.26951),
+  //   zoom: 14.4746,
+  // );
+
   List data = [];
   List<LatLng> locations = [];
   Set<Marker>? _markers = <Marker>{};
@@ -132,6 +144,7 @@ class MapSampleState extends State<MapSample> {
     Maps().getLocation();
     _determinePosition();
     getValidationData();
+    _getCurrentLocation();
   }
 
   @override

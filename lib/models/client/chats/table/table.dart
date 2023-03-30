@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/client/chats/table/facility_maping.dart';
 import 'package:wgnrr/models/client/chats/table/list_chats.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+
 enum MenuItem { item1, item2, item3, item4, item5 }
 
 class Chat_table extends StatefulWidget {
@@ -54,16 +55,19 @@ class _Chat_tableState extends State<Chat_table> {
         ),
         appBar: AppBar(
           actions: [
-            CircleAvatar(
-                backgroundColor: Colors.white,
-                child: IconButton(
-                  color: HexColor('#F5841F'),
-                  icon: Icon(Icons.add),
-                  onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MapSample()));
-                  },
-                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  child: IconButton(
+                    color: HexColor('#F5841F'),
+                    icon: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => MapSample()));
+                    },
+                  )),
+            ),
           ],
           leading: Builder(
               builder: (context) => // Ensure Scaffold is in context

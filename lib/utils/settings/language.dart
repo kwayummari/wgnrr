@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wgnrr/authentication/login.dart';
+import 'package:wgnrr/splash/splash.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Language extends StatefulWidget {
@@ -44,7 +44,8 @@ class _LanguageState extends State<Language> {
                 final SharedPreferences sharedPreferences =
                     await SharedPreferences.getInstance();
                 sharedPreferences.setString('language', 'Kiswahili'.toString());
-                Navigator.pop(context);
+                Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Splash()));
               },
               child: SizedBox(
                 child: Container(
@@ -85,7 +86,8 @@ class _LanguageState extends State<Language> {
                 final SharedPreferences sharedPreferences =
                     await SharedPreferences.getInstance();
                 sharedPreferences.setString('language', 'English'.toString());
-                Navigator.pop(context);
+                Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Splash()));
               },
               child: SizedBox(
                 child: Container(

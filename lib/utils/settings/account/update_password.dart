@@ -87,74 +87,171 @@ class _changePasswordState extends State<changePassword> {
     getValidationData();
   }
 
+  bool check = true;
+  bool checknew = true;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      drawerEnableOpenDragGesture: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 25, left: 9),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: AppText(
-              txt: 'Cancel',
-              size: 15,
-              color: Colors.white,
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(top: 25, right: 9),
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        drawerEnableOpenDragGesture: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          leading: Padding(
+            padding: const EdgeInsets.only(top: 25, left: 9),
             child: GestureDetector(
-              onTap: () => changeUsername(),
+              onTap: () {
+                Navigator.pop(context);
+              },
               child: AppText(
-                txt: 'Done',
+                txt: 'Cancel',
                 size: 15,
                 color: Colors.white,
               ),
             ),
           ),
-        ],
-        iconTheme: IconThemeData(color: Colors.white),
-        shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
-        elevation: 4,
-        toolbarHeight: 70,
-        backgroundColor: HexColor('#742B90'),
-        title: AppText(
-          txt: 'Update password',
-          size: 15,
-          weight: FontWeight.bold,
-          color: Colors.white,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(top: 25, right: 9),
+              child: GestureDetector(
+                onTap: () {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  } else {
+                    changeUsername();
+                  }
+                },
+                child: AppText(
+                  txt: 'Done',
+                  size: 15,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+          iconTheme: IconThemeData(color: Colors.white),
+          shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
+          elevation: 4,
+          toolbarHeight: 70,
+          backgroundColor: HexColor('#742B90'),
+          title: AppText(
+            txt: 'Update password',
+            size: 15,
+            weight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
-          child: Form(
-            key: _formKey,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Column(
               children: [
                 SizedBox(
                   height: 15,
                 ),
-                AppTextformfield(
-                    textfieldcontroller: oldpassword,
-                    language: language,
-                    label: 'Old Password',
-                    obscure: false),
+                TextFormField(
+                  controller: oldpassword,
+                  cursorColor: Theme.of(context).iconTheme.color,
+                  obscureText: check,
+                  obscuringCharacter: '*',
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    label: Container(
+                      color: Colors.white,
+                      child: AppText(
+                        txt:
+                            language == 'Kiswahili' ? 'Nywila' : 'Old Password',
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    suffixIcon: IconButton(
+                        onPressed: (() {
+                          setState(() {
+                            check = !check;
+                          });
+                        }),
+                        icon: Icon(Icons.remove_red_eye)),
+                    prefixIconColor: Colors.black,
+                  ),
+                  validator: (value) {
+                    RegExp regex = RegExp(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~.]).{8,}$');
+                    if (value!.isNotEmpty) {
+                      return null;
+                    } else if (!regex.hasMatch(value)) {
+                      return language == 'Kiswahili'
+                          ? 'Nywila inatakiwa \n -iwe na herufi kubwa moja \n -iwe na herufi ndogo moja \n -iwe na namba moja \n -iwe na herufi maalumu \n -iwe na urefu wa herufi kuanzia 8'
+                          : 'Password should contain \n -at least one upper case \n -at least one lower case \n -at least one digit \n -at least one Special character \n -Must be at least 8 characters in length';
+                    }
+                  },
+                ),
                 SizedBox(
                   height: 15,
                 ),
-                AppTextformfield(
-                    textfieldcontroller: newpassword,
-                    language: language,
-                    label: 'New Password',
-                    obscure: false)
+                TextFormField(
+                  controller: newpassword,
+                  cursorColor: Theme.of(context).iconTheme.color,
+                  obscureText: checknew,
+                  obscuringCharacter: '*',
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    label: Container(
+                      color: Colors.white,
+                      child: AppText(
+                        txt:
+                            language == 'Kiswahili' ? 'Nywila' : 'New Password',
+                        size: 15,
+                        color: Colors.black,
+                      ),
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20.0),
+                      borderSide: BorderSide(color: HexColor('#000000')),
+                    ),
+                    suffixIcon: IconButton(
+                        onPressed: (() {
+                          setState(() {
+                            checknew = !checknew;
+                          });
+                        }),
+                        icon: Icon(Icons.remove_red_eye)),
+                    prefixIconColor: Colors.black,
+                  ),
+                  validator: (value) {
+                    RegExp regex = RegExp(
+                        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~.]).{8,}$');
+                    if (value!.isEmpty) {
+                      return null;
+                    } else if (!regex.hasMatch(value)) {
+                      return language == 'Kiswahili'
+                          ? 'Nywila inatakiwa \n -iwe na herufi kubwa moja \n -iwe na herufi ndogo moja \n -iwe na namba moja \n -iwe na herufi maalumu \n -iwe na urefu wa herufi kuanzia 8'
+                          : 'Password should contain \n -at least one upper case \n -at least one lower case \n -at least one digit \n -at least one Special character \n -Must be at least 8 characters in length';
+                    }
+                  },
+                ),
               ],
             ),
           ),
