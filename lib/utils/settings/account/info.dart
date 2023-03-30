@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/utils/animation/shimmer.dart';
+import 'package:wgnrr/utils/settings/account/changephonenumber.dart';
 import 'package:wgnrr/utils/settings/account/usernamechange.dart';
 import 'package:wgnrr/utils/settings/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
@@ -101,7 +102,7 @@ class _accountInfoState extends State<accountInfo> {
           : SingleChildScrollView(
               child: Column(
                 children: [
-                  GestureDetector(
+                  InkWell(
                     onTap: () => Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => usernameChange())),
                     child: Padding(
@@ -132,9 +133,11 @@ class _accountInfoState extends State<accountInfo> {
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => accountInfo())),
+                  InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => changePhonenumber(
+                              phone: users[0]['phone'],
+                            ))),
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 15,
