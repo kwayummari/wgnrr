@@ -92,6 +92,8 @@ class _SettingsPageState extends State<SettingsPage> {
               height: 15,
             ),
             ListTile(
+              onTap: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => Language())),
               leading: Icon(Icons.language),
               title: AppText(
                 txt: 'Language',

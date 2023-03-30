@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wgnrr/authentication/login.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Language extends StatefulWidget {
@@ -10,110 +12,116 @@ class Language extends StatefulWidget {
   State<Language> createState() => _LanguageState();
 }
 
-class _LanguageState extends State<Language> with TickerProviderStateMixin {
-  bool? _notificationsEnabled;
-  bool _darkModeEnabled = false;
-  late AnimationController _controller;
-  late Animation<double> _opacityAnimation =
-      Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-
-  var username;
-  var status;
-  var bot;
-  var language;
-  Future getValidationData() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var u = sharedPreferences.get('username');
-    var s = sharedPreferences.get('status');
-    var b = sharedPreferences.get('bot');
-    var l = sharedPreferences.get('language');
-    setState(() {
-      language == 'Kiswahili'
-          ? _notificationsEnabled = false
-          : _notificationsEnabled = true;
-      username = u;
-      status = s;
-      bot = b;
-      language = l;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getValidationData();
-    _controller = AnimationController(
-      duration: Duration(milliseconds: 500),
-      vsync: this,
-    );
-  }
-
+class _LanguageState extends State<Language> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        leading: Builder(
-            builder: (context) => // Ensure Scaffold is in context
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                )),
-        automaticallyImplyLeading: true,
-        shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
-        elevation: 4,
-        toolbarHeight: 70,
-        backgroundColor: HexColor('#742B90'),
-        title: AppText(
-          txt: language == 'Kiswahili' ? 'Mpangilio' : 'Settings',
-          size: 15,
-          color: HexColor('#ffffff'),
-          weight: FontWeight.w500,
-        ),
-        centerTitle: true,
-      ),
+      backgroundColor: HexColor('#742B90'),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            GestureDetector(
-              onTap: () {
-                if (_controller.isCompleted) {
-                  _controller.reverse();
-                } else {
-                  _controller.forward();
-                }
+            Container(
+                width: size.width,
+                child: Image.asset(
+                  'assets/language.png',
+                  // height: 200,
+                )),
+            AppText(
+              txt: 'Please select your Language',
+              color: Colors.white,
+              size: 20,
+            ),
+            Text(
+              'Chagua Lugha yako',
+              style: GoogleFonts.vesperLibre(color: Colors.white),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            InkWell(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.setString('language', 'Kiswahili'.toString());
+                Navigator.pop(context);
               },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Language',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
+              child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
                   ),
-                  Icon(
-                    _controller.isCompleted
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                  ),
-                ],
+                  height: 50,
+                  width: 340,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/download.png',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        AppText(
+                          size: 15,
+                          txt: 'Kiswahili',
+                        ),
+                        Spacer(),
+                      ]),
+                ),
               ),
             ),
-            SizedBox(height: 8.0),
+            SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () async {
+                final SharedPreferences sharedPreferences =
+                    await SharedPreferences.getInstance();
+                sharedPreferences.setString('language', 'English'.toString());
+                Navigator.pop(context);
+              },
+              child: SizedBox(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: HexColor('#F5841F'),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  height: 50,
+                  width: 340,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 20,
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage(
+                            'assets/britain.png',
+                          ),
+                        ),
+                        SizedBox(
+                          width: 60,
+                        ),
+                        AppText(
+                          size: 15,
+                          txt: 'English',
+                          color: Colors.white,
+                        ),
+                        Spacer(),
+                      ]),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

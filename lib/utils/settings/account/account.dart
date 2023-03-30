@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/settings/account/deactivate.dart';
 import 'package:wgnrr/utils/settings/account/info.dart';
 import 'package:wgnrr/utils/settings/account/update_password.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
@@ -154,7 +155,7 @@ class _AccountState extends State<Account> {
             ),
             ListTile(
               onTap: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Account())),
+                  .push(MaterialPageRoute(builder: (context) => deactivateAccount())),
               leading: Icon(Icons.heart_broken),
               title: AppText(
                 txt: 'Deactivate your account',
