@@ -62,13 +62,10 @@ class _usernameChangeState extends State<usernameChange> {
       "oldusername": oldusername.toString()
     });
     if (response1.statusCode == 200) {
-      print(oldusername);
-      print(newusername.text.toString());
-      print(response1.statusCode);
-      // Navigator.pop(context);
-      // final SharedPreferences sharedPreferences =
-      //     await SharedPreferences.getInstance();
-      // sharedPreferences.setString('username', newusername.text.toString());
+      Navigator.pop(context);
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setString('username', newusername.text.toString());
     }
   }
 
