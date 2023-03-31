@@ -23,6 +23,7 @@ class MapSample_pharmacy extends StatefulWidget {
 class MapSample_pharmacyState extends State<MapSample_pharmacy> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+      
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-6.82349, 39.26951),
@@ -33,6 +34,14 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
   Set<Marker>? _markers = <Marker>{};
   Position? position;
   Future getfacility() async {
+    final pharmacy = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(68, 68)),
+      'assets/hospital3.png',
+    );
+    final home = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(48, 48)),
+      'assets/home.png',
+    );
     const url = '${murl}facility_pharmacy/facility.php';
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -47,8 +56,7 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
         _markers!.add(Marker(
             markerId: MarkerId("Userlocation"),
             position: LatLng(position!.latitude, position!.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueRed),
+            icon: home,
             infoWindow: InfoWindow(
               title: 'Your Location',
               onTap: () => null,
@@ -58,15 +66,14 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
             _markers!.add(Marker(
                 markerId: MarkerId("$j"),
                 position: locations[j],
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueOrange),
+                icon: pharmacy,
                 infoWindow: InfoWindow(
                   title: 'Name: ' + data[j]['name'],
                   snippet: 'Facility: ' + data[j]['registration'],
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            servicesChoices_pharmacy(facility_name: data[j]['name'])));
+                        builder: (context) => servicesChoices_pharmacy(
+                            facility_name: data[j]['name'])));
                   },
                 )));
           });
@@ -104,7 +111,7 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
       getfacility();
     });
 
-    return await Geolocator.getCurrentPosition();
+    return position = await Geolocator.getCurrentPosition();
   }
 
   var username;
@@ -169,7 +176,10 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
         myLocationEnabled: true,
         markers: Set.of(_markers!),
         mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(position!.latitude, position!.longitude),
+          zoom: 13.4746,
+        ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

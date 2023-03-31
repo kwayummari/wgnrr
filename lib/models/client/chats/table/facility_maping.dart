@@ -23,28 +23,20 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-      LatLng _initialCameraPosition;
-
-      Future<void> _getCurrentLocation() async {
-    final LocationData locationData = await Location().getLocation();
-    setState(() {
-      _initialCameraPosition = LatLng(
-        locationData.latitude,
-        locationData.longitude,
-      );
-    });
-  }
-
-  // static const CameraPosition _kGooglePlex = CameraPosition(
-  //   target: LatLng(-6.82349, 39.26951),
-  //   zoom: 14.4746,
-  // );
 
   List data = [];
   List<LatLng> locations = [];
   Set<Marker>? _markers = <Marker>{};
   Position? position;
   Future getfacility() async {
+    final pharmacy = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(68, 68)),
+      'assets/hospital3.png',
+    );
+    final home = await BitmapDescriptor.fromAssetImage(
+      ImageConfiguration(size: Size(48, 48)),
+      'assets/home.png',
+    );
     const url = '${murl}facility/facility.php';
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -59,8 +51,7 @@ class MapSampleState extends State<MapSample> {
         _markers!.add(Marker(
             markerId: MarkerId("Userlocation"),
             position: LatLng(position!.latitude, position!.longitude),
-            icon: BitmapDescriptor.defaultMarkerWithHue(
-                BitmapDescriptor.hueRed),
+            icon: home,
             infoWindow: InfoWindow(
               title: 'Your Location',
               onTap: () => null,
@@ -70,8 +61,7 @@ class MapSampleState extends State<MapSample> {
             _markers!.add(Marker(
                 markerId: MarkerId("$j"),
                 position: locations[j],
-                icon: BitmapDescriptor.defaultMarkerWithHue(
-                    BitmapDescriptor.hueOrange),
+                icon: pharmacy,
                 infoWindow: InfoWindow(
                   title: 'Name: ' + data[j]['name'],
                   snippet: 'Facility: ' + data[j]['registration'],
@@ -86,6 +76,8 @@ class MapSampleState extends State<MapSample> {
       }
     } //
   }
+
+  
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -116,7 +108,7 @@ class MapSampleState extends State<MapSample> {
       getfacility();
     });
 
-    return await Geolocator.getCurrentPosition();
+    return position = await Geolocator.getCurrentPosition();
   }
 
   var username;
@@ -144,7 +136,6 @@ class MapSampleState extends State<MapSample> {
     Maps().getLocation();
     _determinePosition();
     getValidationData();
-    _getCurrentLocation();
   }
 
   @override
@@ -182,7 +173,10 @@ class MapSampleState extends State<MapSample> {
         myLocationEnabled: true,
         markers: Set.of(_markers!),
         mapType: MapType.hybrid,
-        initialCameraPosition: _kGooglePlex,
+        initialCameraPosition: CameraPosition(
+          target: LatLng(position!.latitude ?? 0.00, position!.longitude ?? 0.00),
+          zoom: 13.4746,
+        ),
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },

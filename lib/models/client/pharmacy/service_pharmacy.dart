@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -77,6 +78,9 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       if (data == "1") {
+        setState(() {
+          isloading = false;
+        });
         Fluttertoast.showToast(
           msg: language == 'Kiswahili'
               ? 'Imepatikana'
@@ -84,14 +88,15 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
           textColor: Colors.white,
           fontSize: 15.0,
         );
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Chat_table(),
-        ));
+        Navigator.pop(context);
       } else if (data == "2") {
+        setState(() {
+          isloading = false;
+        });
         Fluttertoast.showToast(
           msg: language == 'Kiswahili'
               ? 'Umefanikiwa'
@@ -99,14 +104,15 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
-          backgroundColor: Colors.yellow,
+          backgroundColor: Colors.green,
           textColor: Colors.white,
           fontSize: 15.0,
         );
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => Chat_table(),
-        ));
+        Navigator.pop(context);
       } else if (data == "3") {
+        setState(() {
+          isloading = false;
+        });
         Fluttertoast.showToast(
           msg: language == 'Kiswahili' ? 'Kuna tatizo' : 'There was a problem',
           toastLength: Toast.LENGTH_SHORT,
@@ -130,6 +136,7 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
     getValidationData();
   }
 
+  bool isloading = false;
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -229,30 +236,39 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
                   ),
                 ),
               ),
-              Container(
-                width: 360,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 5,
-                    foregroundColor: HexColor('#742B90'),
-                    backgroundColor: HexColor('#742B90'),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0),
-                        side: BorderSide(color: Colors.black)),
-                  ),
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
-                    create_chat();
-                  },
-                  child: AppText(
-                    txt: "Submit",
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-              ),
+              isloading == true
+                  ? SpinKitCircle(
+                      // duration: const Duration(seconds: 3),
+                      // size: 100,
+                      color: HexColor('#F5841F'),
+                    )
+                  : Container(
+                      width: 360,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 5,
+                          foregroundColor: HexColor('#742B90'),
+                          backgroundColor: HexColor('#742B90'),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                              side: BorderSide(color: Colors.black)),
+                        ),
+                        onPressed: () {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          setState(() {
+                            isloading = true;
+                          });
+                          create_chat();
+                        },
+                        child: AppText(
+                          txt: "Submit",
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
