@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ShimmerLoading extends StatefulWidget {
+class infoShimmerLoading extends StatefulWidget {
   final double width;
   final double height;
   final double borderRadius;
 
-  ShimmerLoading({required this.width, required this.height, required this.borderRadius});
+  infoShimmerLoading({required this.width, required this.height, required this.borderRadius});
 
   @override
-  _ShimmerLoadingState createState() => _ShimmerLoadingState();
+  _infoShimmerLoadingState createState() => _infoShimmerLoadingState();
 }
 
-class _ShimmerLoadingState extends State<ShimmerLoading>
+class _infoShimmerLoadingState extends State<infoShimmerLoading>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _gradientPosition;

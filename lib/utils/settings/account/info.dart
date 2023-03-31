@@ -5,7 +5,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
-import 'package:wgnrr/utils/animation/shimmer.dart';
+import 'package:wgnrr/utils/animation/shimmers/info-shimmer.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/settings/account/changephonenumber.dart';
 import 'package:wgnrr/utils/settings/account/usernamechange.dart';
@@ -63,6 +63,7 @@ class _accountInfoState extends State<accountInfo> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       drawerEnableOpenDragGesture: false,
       appBar: AppBar(
@@ -94,10 +95,13 @@ class _accountInfoState extends State<accountInfo> {
         centerTitle: true,
       ),
       body: users.isEmpty
-          ? ShimmerLoading(
-              width: 200.0,
-              height: 50.0,
-              borderRadius: 10.0,
+          ? Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: infoShimmerLoading(
+                width: size.width,
+                height: size.height / 3,
+                borderRadius: 10.0,
+              ),
             )
           : SingleChildScrollView(
               child: Column(

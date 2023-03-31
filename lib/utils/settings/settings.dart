@@ -124,42 +124,6 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(
               height: 15,
             ),
-            // GestureDetector(
-            //   onTap: () {
-            //     setState(() {
-            //       _darkModeEnabled = !_darkModeEnabled;
-            //     });
-            //   },
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //     children: [
-            //       Text(
-            //         'Appearance',
-            //         style: TextStyle(
-            //           fontWeight: FontWeight.bold,
-            //           fontSize: 16.0,
-            //         ),
-            //       ),
-            //       AnimatedSwitcher(
-            //         duration: Duration(milliseconds: 500),
-            //         transitionBuilder: (child, animation) => ScaleTransition(
-            //           scale: animation,
-            //           child: child,
-            //         ),
-            //         child: _darkModeEnabled
-            //             ? Icon(
-            //                 Icons.nightlight_round,
-            //                 key: ValueKey('dark_mode'),
-            //                 color: Colors.grey[600],
-            //               )
-            //             : Icon(
-            //                 Icons.light_mode_rounded,
-            //                 key: ValueKey('light_mode'),
-            //               ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
             SizedBox(height: 32.0),
           ],
         ),
