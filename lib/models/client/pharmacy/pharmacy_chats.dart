@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/client/pharmacy/list_pharmacy.dart';
 import 'package:wgnrr/models/client/pharmacy/pharmacy_map.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+
 enum MenuItem { item1, item2, item3, item4, item5 }
 
 class Pharmarcy extends StatefulWidget {
@@ -60,10 +61,13 @@ class _PharmarcyState extends State<Pharmarcy> {
                   color: HexColor('#F5841F'),
                   icon: Icon(Icons.add),
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => MapSample_pharmacy()));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => MapSample_pharmacy()));
                   },
                 )),
+            SizedBox(
+              width: 10,
+            )
           ],
           leading: Builder(
               builder: (context) => // Ensure Scaffold is in context

@@ -13,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/map/maps.dart';
 import 'package:wgnrr/models/client/pharmacy/service_pharmacy.dart';
 import 'package:wgnrr/utils/animation/shimmers/map-shimmer.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class MapSample_pharmacy extends StatefulWidget {
   const MapSample_pharmacy({Key? key}) : super(key: key);
@@ -155,15 +156,13 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
             Center(
               child: Container(
                   width: size.width / 1.4,
-                  child: Text(
-                    language == 'Kiswahili'
-                        ? 'Chagua Kategoria'
-                        : 'Choose Category',
-                    style: GoogleFonts.rajdhani(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
+                  child: AppText(
+                    txt: language == 'Kiswahili'
+                        ? 'Chagua Kituo'
+                        : 'Choose Facility',
+                        size: 15,
+                        weight: FontWeight.w500,
+                        color: Colors.white,
                   )),
             ),
             Spacer(),
