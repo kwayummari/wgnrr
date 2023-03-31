@@ -161,7 +161,7 @@ class _TopcircularState extends State<Topcircular> {
                                     description: datas[i]['description'],
                                     title: datas[i]['title'],
                                     username: username,
-                                    image: datas[i]['image'],
+                                    image: datas[i]['image'], language: language,
                                   )));
                         },
                         child: Container(

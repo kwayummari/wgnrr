@@ -105,31 +105,31 @@ class _list_communityState extends State<list_community> {
             ),
           )
         : ListView.builder(
-      physics: BouncingScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => chatsCommunity(
-                      client: username,
-                      topic_id: chats[index]['id'],
-                      topic_name: chats[index]['topic'],
-                    )));
-          },
-          child: Container(
-            margin: const EdgeInsets.all(15.0),
-            padding: const EdgeInsets.all(3.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: HexColor('#742B90')),
-            ),
-            child: ListTile(
-              title: Text(chats[index]['topic']),
-            ),
-          ),
-        );
-      },
-      itemCount: chats == null ? 0 : chats.length,
-    );
+            physics: BouncingScrollPhysics(),
+            shrinkWrap: true,
+            itemBuilder: (context, index) {
+              return InkWell(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => chatsCommunity(
+                            client: username,
+                            topic_id: chats[index]['id'],
+                            topic_name: chats[index]['topic'],
+                          )));
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.all(3.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: HexColor('#742B90')),
+                  ),
+                  child: ListTile(
+                    title: Text(chats[index]['topic']),
+                  ),
+                ),
+              );
+            },
+            itemCount: chats == null ? 0 : chats.length,
+          );
   }
 }
