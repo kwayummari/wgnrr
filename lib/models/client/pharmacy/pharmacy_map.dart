@@ -12,6 +12,7 @@ import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/map/maps.dart';
 import 'package:wgnrr/models/client/pharmacy/service_pharmacy.dart';
+import 'package:wgnrr/utils/animation/shimmers/map-shimmer.dart';
 
 class MapSample_pharmacy extends StatefulWidget {
   const MapSample_pharmacy({Key? key}) : super(key: key);
@@ -23,7 +24,6 @@ class MapSample_pharmacy extends StatefulWidget {
 class MapSample_pharmacyState extends State<MapSample_pharmacy> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
-      
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(-6.82349, 39.26951),
@@ -171,19 +171,24 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
         ),
         centerTitle: true,
       ),
-      body: GoogleMap(
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
-        markers: Set.of(_markers!),
-        mapType: MapType.hybrid,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(position!.latitude, position!.longitude),
-          zoom: 13.4746,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
+      body: data.isEmpty
+          ? mapShimmerLoading(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              borderRadius: 0)
+          : GoogleMap(
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              markers: Set.of(_markers!),
+              mapType: MapType.hybrid,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(position!.latitude, position!.longitude),
+                zoom: 13.4746,
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
     );
   }
 }
