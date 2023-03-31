@@ -170,7 +170,7 @@ class MapSampleState extends State<MapSample> {
       body: data.isEmpty
           ? mapShimmerLoading(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height, 
               borderRadius: 20)
           : GoogleMap(
               myLocationButtonEnabled: true,
