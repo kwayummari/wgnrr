@@ -110,6 +110,18 @@ class _list_chatsState extends State<list_chats> {
                   height: 20,
                 ),
                 infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
               ],
             ),
           )
