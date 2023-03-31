@@ -170,8 +170,8 @@ class MapSampleState extends State<MapSample> {
       body: data.isEmpty
           ? mapShimmerLoading(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height, 
-              borderRadius: 20)
+              height: MediaQuery.of(context).size.height,
+              borderRadius: 0)
           : GoogleMap(
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
@@ -179,7 +179,7 @@ class MapSampleState extends State<MapSample> {
               mapType: MapType.hybrid,
               initialCameraPosition: CameraPosition(
                 target: LatLng(
-                    position!.latitude ?? 0.00, position!.longitude ?? 0.00),
+                    position!.latitude, position!.longitude),
                 zoom: 13.4746,
               ),
               onMapCreated: (GoogleMapController controller) {
