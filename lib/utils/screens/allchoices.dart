@@ -13,6 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/animation/shimmers/allchoices-shimmer.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/screens/comment/comment.dart';
 import 'package:wgnrr/utils/screens/viewchoice.dart';
@@ -110,27 +111,32 @@ class _AllState extends State<All> {
     final names = file_type.toString().split("/");
     final type = names[0];
     return type == 'image'
-        ? CachedNetworkImage(
-            imageUrl: link,
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Container(
+        ? Padding(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            child: CachedNetworkImage(
               height: 400,
-              width: double.infinity,
-              color: Colors.black,
-              child: Center(
-                child: CircularProgressIndicator(
-                  value: downloadProgress.progress,
-                  color: Colors.white,
-                  strokeWidth: 3,
+              imageUrl: link,
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Container(
+                height: 400,
+                width: double.infinity,
+                color: Colors.black,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    value: downloadProgress.progress,
+                    color: Colors.white,
+                    strokeWidth: 3,
+                  ),
                 ),
               ),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
           )
         : Container(
             width: MediaQuery.of(context).size.width,
             height: 500,
-            child: BetterPlayer.network('${link}.mp4',
+            child: BetterPlayer.network(
+              '${link}.mp4',
             ));
   }
 
@@ -333,188 +339,197 @@ class _AllState extends State<All> {
           SizedBox(
             height: 10,
           ),
-          Expanded(
-            child: ListView.builder(
-              physics: BouncingScrollPhysics(),
-              primary: false,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                            backgroundColor: Colors.white,
-                            radius: 20,
-                            child: Image.asset('assets/icon.ico')),
-                        Text(
-                          'WGNRR',
-                          style: GoogleFonts.vesperLibre(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: HexColor('#000000'),
-                            width: 1.0), // Make rounded corner of border
-                      ),
-                      child: FutureBuilder<Widget>(
-                        future: checkvp(
-                          '${murl}choices/image/${data[index]['image']}',
-                        ),
-                        builder: (BuildContext _, snapshot) {
-                          if (snapshot.hasError) {
-                            // Error
-                            return Text('', textScaleFactor: 1);
-                          } else if (!(snapshot.hasData)) {
-                            return Container(
-                              width: 100,
-                              height: 100,
-                              child: Center(
-                                child: Icon(Icons.error),
+          data.isEmpty
+              ? allchoicesShimmerLoading(
+                  borderRadius: 20,
+                  commentheight: 50,
+                  commentwidth: MediaQuery.of(context).size.width,
+                  height: 400,
+                  width: MediaQuery.of(context).size.width,
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    primary: false,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Row(
+                            children: [
+                              SizedBox(
+                                width: 20,
                               ),
-                            );
-                          }
-                          return Center(child: snapshot.data);
-                        },
-                      ),
-                    ),
-                    Row(children: [
-                      IconButton(
-                          onPressed: () async {
-                            final urlImage =
-                                '${murl}choices/image/${data[index]['image']}';
-                            final url = Uri.parse(urlImage);
-                            final response = await http.get(url);
-                            final bytes = response.bodyBytes;
-
-                            final temp = await getTemporaryDirectory();
-                            final path = '${temp.path}/image.jpg';
-                            File(path).writeAsBytesSync(bytes);
-
-                            await Share.shareXFiles([XFile(path)],
-                                text:
-                                    '${data[index]['name']} \n ${data[index]['caption']} \n wgnrr.org');
-                          },
-                          icon: Icon(
-                            Icons.share_rounded,
-                            color: HexColor('#742B90'),
-                          )),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Viewchoice(
-                                    author: data[index]['author'],
-                                    caption: data[index]['caption'],
-                                    date: data[index]['date'],
-                                    description: data[index]['description'],
-                                    title: data[index]['name'],
-                                    username: username,
-                                    image: data[index]['image'],
-                                  )));
-                        },
-                        icon: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: ((context) => Comment(
-                                      choice_id: widget.id,
-                                      title: data[index]['name'],
-                                      choice_specific_id: data[index]['id'],
-                                    ))));
-                          },
-                          child: Badge(
-                             backgroundColor: HexColor('#f5841f'),
-                            label: FutureBuilder<Widget>(
-                              future: Count(
-                                widget.id,
-                                data[index]['id'],
-                              ),
-                              builder: (BuildContext _, snapshot) {
-                                if (snapshot.hasError) {
-                                  // Error
-                                  return Text('', textScaleFactor: 1);
-                                } else if (!(snapshot.hasData)) {
-                                  return Text('');
-                                }
-                                return Center(child: snapshot.data);
-                              },
+                              CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 20,
+                                  child: Image.asset('assets/icon.ico')),
+                              Text(
+                                'WGNRR',
+                                style: GoogleFonts.vesperLibre(
+                                    color: Colors.black,
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          FutureBuilder<Widget>(
+                            future: checkvp(
+                              '${murl}choices/image/${data[index]['image']}',
                             ),
-                            child: Icon(
-                              Icons.chat_bubble,
-                              color: HexColor('#742B90'),
+                            builder: (BuildContext _, snapshot) {
+                              if (snapshot.hasError) {
+                                // Error
+                                return Text('', textScaleFactor: 1);
+                              } else if (!(snapshot.hasData)) {
+                                return Container(
+                                  width: 100,
+                                  height: 100,
+                                  child: Center(
+                                    child: Icon(Icons.error),
+                                  ),
+                                );
+                              }
+                              return Center(child: snapshot.data);
+                            },
+                          ),
+                          Row(children: [
+                            IconButton(
+                                onPressed: () async {
+                                  final urlImage =
+                                      '${murl}choices/image/${data[index]['image']}';
+                                  final url = Uri.parse(urlImage);
+                                  final response = await http.get(url);
+                                  final bytes = response.bodyBytes;
+
+                                  final temp = await getTemporaryDirectory();
+                                  final path = '${temp.path}/image.jpg';
+                                  File(path).writeAsBytesSync(bytes);
+
+                                  await Share.shareXFiles([XFile(path)],
+                                      text:
+                                          '${data[index]['name']} \n ${data[index]['caption']} \n wgnrr.org');
+                                },
+                                icon: Icon(
+                                  Icons.share_rounded,
+                                  color: HexColor('#742B90'),
+                                )),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Viewchoice(
+                                          author: data[index]['author'],
+                                          caption: data[index]['caption'],
+                                          date: data[index]['date'],
+                                          description: data[index]
+                                              ['description'],
+                                          title: data[index]['name'],
+                                          username: username,
+                                          image: data[index]['image'],
+                                        )));
+                              },
+                              icon: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => Comment(
+                                            choice_id: widget.id,
+                                            title: data[index]['name'],
+                                            choice_specific_id: data[index]
+                                                ['id'],
+                                          ))));
+                                },
+                                child: Badge(
+                                  backgroundColor: HexColor('#f5841f'),
+                                  label: FutureBuilder<Widget>(
+                                    future: Count(
+                                      widget.id,
+                                      data[index]['id'],
+                                    ),
+                                    builder: (BuildContext _, snapshot) {
+                                      if (snapshot.hasError) {
+                                        // Error
+                                        return Text('', textScaleFactor: 1);
+                                      } else if (!(snapshot.hasData)) {
+                                        return Text('');
+                                      }
+                                      return Center(child: snapshot.data);
+                                    },
+                                  ),
+                                  child: Icon(
+                                    Icons.chat_bubble,
+                                    color: HexColor('#742B90'),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Spacer(),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: HexColor('#742B90'),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(5),
+                                      side: BorderSide(
+                                          color: Colors.grey.shade500))
+                                  // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                                  ),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Viewchoice(
+                                          author: data[index]['author'],
+                                          caption: data[index]['caption'],
+                                          date: data[index]['date'],
+                                          description: data[index]
+                                              ['description'],
+                                          title: data[index]['name'],
+                                          username: username,
+                                          image: data[index]['image'],
+                                        )));
+                              },
+                              child: AppText(
+                                txt: 'View',
+                                size: 15,
+                                color: Colors.white,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            )
+                          ]),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Viewchoice(
+                                          author: data[index]['author'],
+                                          caption: data[index]['caption'],
+                                          date: data[index]['date'],
+                                          description: data[index]
+                                              ['description'],
+                                          title: data[index]['name'],
+                                          username: username,
+                                          image: data[index]['image'],
+                                        )));
+                              },
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: AppText(
+                                    txt: data[index]['name'],
+                                    size: 15,
+                                    color: Colors.black,
+                                  )),
                             ),
                           ),
-                        ),
-                      ),
-                      Spacer(),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: HexColor('#742B90'),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                                side: BorderSide(color: Colors.grey.shade500))
-                            // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                            ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Viewchoice(
-                                    author: data[index]['author'],
-                                    caption: data[index]['caption'],
-                                    date: data[index]['date'],
-                                    description: data[index]['description'],
-                                    title: data[index]['name'],
-                                    username: username,
-                                    image: data[index]['image'],
-                                  )));
-                        },
-                        child: AppText(
-                          txt: 'View',
-                          size: 15,
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      )
-                    ]),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Viewchoice(
-                                    author: data[index]['author'],
-                                    caption: data[index]['caption'],
-                                    date: data[index]['date'],
-                                    description: data[index]['description'],
-                                    title: data[index]['name'],
-                                    username: username,
-                                    image: data[index]['image'],
-                                  )));
-                        },
-                        child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: AppText(
-                              txt: data[index]['name'],
-                              size: 15,
-                              color: Colors.black,
-                            )),
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                  ],
-                );
-              },
-              itemCount: data.length,
-            ),
-          ),
+                          SizedBox(height: 30),
+                        ],
+                      );
+                    },
+                    itemCount: data.length,
+                  ),
+                ),
         ],
       ),
     );
