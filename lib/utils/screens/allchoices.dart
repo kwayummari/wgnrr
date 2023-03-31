@@ -17,6 +17,7 @@ import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/screens/comment/comment.dart';
 import 'package:wgnrr/utils/screens/viewchoice.dart';
 import 'package:wgnrr/utils/screens/viewsearch.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 enum MenuItem {
   item1,
@@ -473,12 +474,10 @@ class _AllState extends State<All> {
                                     image: data[index]['image'],
                                   )));
                         },
-                        child: Text(
-                          'View',
-                          style: GoogleFonts.vesperLibre(
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
+                        child: AppText(
+                          txt: 'View',
+                          size: 15,
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(
@@ -502,12 +501,10 @@ class _AllState extends State<All> {
                         },
                         child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              data[index]['name'],
-                              style: GoogleFonts.vesperLibre(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
+                            child: AppText(
+                              txt: data[index]['name'],
+                              size: 15,
+                              color: Colors.black,
                             )),
                       ),
                     ),

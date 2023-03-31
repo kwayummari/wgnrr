@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class allchoicesShimmerLoading extends StatefulWidget {
   final double width;
@@ -70,6 +72,47 @@ class _allchoicesShimmerLoadingState extends State<allchoicesShimmerLoading>
           ),
         ),
         SizedBox(height: 10,),
+        Row(children: [
+                      IconButton(
+                          onPressed: () async {
+                          },
+                          icon: Icon(
+                            Icons.share_rounded,
+                            color: HexColor('#742B90'),
+                          )),
+                      IconButton(
+                        onPressed: () {
+                        },
+                        icon: InkWell(
+                          onTap: () {
+                          },
+                          child: Icon(
+                            Icons.chat_bubble,
+                            color: HexColor('#742B90'),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: HexColor('#742B90'),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                                side: BorderSide(color: Colors.grey.shade500))
+                            // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                            ),
+                        onPressed: () {
+                        },
+                        child: AppText(
+                          txt: 'View',
+                          size: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      )
+                    ]),
         SizedBox(
           width: widget.commentwidth,
           height: widget.commentheight,
