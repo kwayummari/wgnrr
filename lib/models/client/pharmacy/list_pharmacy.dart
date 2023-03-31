@@ -91,7 +91,40 @@ class _list_chats_pharmacyState extends State<list_chats_pharmacy> {
   TextEditingController comments = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return chats.isEmpty
+        ? Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                SizedBox(
+                  height: 20,
+                ),
+                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+              ],
+            ),
+          )
+        : ListView.builder(
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
