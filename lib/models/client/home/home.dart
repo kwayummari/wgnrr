@@ -94,7 +94,7 @@ class _HomeState extends State<Home> {
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => Community())),
             icon: Image.asset(
-              'assets/commun.png',
+              'assets/community.png',
               height: 40,
             ),
           )
