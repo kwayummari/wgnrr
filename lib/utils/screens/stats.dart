@@ -112,7 +112,7 @@ class _StatsState extends State<Stats> {
                                 description: data[index]['description'],
                                 title: data[index]['title'],
                                 username: username,
-                                image: data[index]['image'],
+                                image: data[index]['image'], language: language,
                               )));
                     },
                     child: Column(
