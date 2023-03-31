@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
+import 'package:wgnrr/utils/animation/shimmers/info-shimmer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_chats_pharmacy extends StatefulWidget {
