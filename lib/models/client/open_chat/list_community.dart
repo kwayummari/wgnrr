@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/chats.dart';
 import 'package:wgnrr/models/client/open_chat/chats_community.dart';
+import 'package:wgnrr/utils/animation/shimmers/info-shimmer.dart';
 
 class list_community extends StatefulWidget {
   const list_community({super.key});
