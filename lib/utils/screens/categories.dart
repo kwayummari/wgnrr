@@ -110,7 +110,7 @@ class _CategoriesState extends State<Categories> {
                                 description: data[index]['description'],
                                 title: data[index]['title'],
                                 username: username,
-                                image: data[index]['image'],
+                                image: data[index]['image'], language: language,
                               )));
                     },
                     child: Column(

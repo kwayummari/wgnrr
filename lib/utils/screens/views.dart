@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class View extends StatefulWidget {
@@ -18,9 +19,11 @@ class View extends StatefulWidget {
   var caption;
   var description;
   var image;
+  var language;
   // ignore: non_constant_identifier_names
   View(
       {Key? key,
+      required this.language,
       required this.username,
       required this.author,
       required this.date,
@@ -258,24 +261,21 @@ class _ViewState extends State<View> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () => Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Quiz())),
-                        child: Container(
-                          margin: const EdgeInsets.all(15.0),
-                          padding: const EdgeInsets.all(3.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.black)),
-                          child: Row(
-                            children: [
-                              Icon(Icons.feedback),
-                              AppText(
-                                txt: 'Provide feedback',
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: 50,
+                        width: 340,
+                        child: AppButton(
+                            onPress: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Quiz())),
+                            label: widget.language == 'Kiswahili'
+                                ? 'Toa mrejesho'
+                                : 'Provide feedback',
+                            bcolor: HexColor('#F5841F'),
+                            borderCurve: 20),
                       ),
                       const SizedBox(
                         height: 30,

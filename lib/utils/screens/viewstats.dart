@@ -17,6 +17,7 @@ class ViewStats extends StatefulWidget {
   var caption;
   var description;
   var image;
+  
   // ignore: non_constant_identifier_names
   ViewStats(
       {Key? key,
