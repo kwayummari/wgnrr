@@ -91,7 +91,12 @@ class _list_chatsState extends State<list_chats> {
   TextEditingController comments = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return chats.isEmpty
+          ? infoShimmerLoading(
+              width: 200,
+              height: 50,
+              borderRadius: 0)
+          : ListView.builder(
       physics: BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
