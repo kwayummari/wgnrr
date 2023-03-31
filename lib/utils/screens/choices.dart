@@ -6,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/animation/shimmers/tips-shimmer.dart';
 import 'package:wgnrr/utils/screens/allchoices.dart';
 import 'package:wgnrr/utils/animation/refresh_widget.dart';
 
@@ -88,7 +89,7 @@ class _ChoicesState extends State<Choices> {
                           color: HexColor('#F5841F'), fontSize: 15),
                     ))),
           ),
-          Expanded(
+          data.isEmpty ? tipShimmerLoading(borderRadius: 20, height: 125.0, width: MediaQuery.of(context).size.width / 2.4,) :Expanded(
             child: StreamBuilder(
         stream: Stream.periodic(Duration(seconds: 10)).asyncMap(
             (i) => get_username()), // i is null here (check periodic docs)
