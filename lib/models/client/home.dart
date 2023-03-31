@@ -62,13 +62,22 @@ class _HomepageState extends State<Homepage> {
                 backgroundColor: HexColor('#742B90'),
                 items: [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.chat_sharp),
+                      icon: Image.asset(
+                        'assets/chats.png',
+                        height: 40,
+                      ),
                       label: language == 'Kiswahili' ? 'Mazungumzo' : 'Chats'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home),
+                      icon: Image.asset(
+                        'assets/home.png',
+                        height: 40,
+                      ),
                       label: language == 'Kiswahili' ? 'Nyumbani' : 'Home'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.medication),
+                      icon: Image.asset(
+                        'assets/hospital3.png',
+                        height: 40,
+                      ),
                       label: language == 'Kiswahili'
                           ? 'Duka la dawa'
                           : 'Pharmacy'),

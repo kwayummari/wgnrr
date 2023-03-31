@@ -91,9 +91,13 @@ class _HomeState extends State<Home> {
                 )),
         actions: [
           IconButton(
-              onPressed: () => Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Community())),
-              icon: Icon(Icons.textsms, color: Colors.white))
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Community())),
+            icon: Image.asset(
+              'assets/commun.png',
+              height: 40,
+            ),
+          )
           // : Container()
         ],
         automaticallyImplyLeading: false,
