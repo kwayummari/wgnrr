@@ -396,108 +396,112 @@ class _AllState extends State<All> {
                               return Center(child: snapshot.data);
                             },
                           ),
-                          Row(children: [
-                            IconButton(
-                                onPressed: () async {
-                                  final urlImage =
-                                      '${murl}choices/image/${data[index]['image']}';
-                                  final url = Uri.parse(urlImage);
-                                  final response = await http.get(url);
-                                  final bytes = response.bodyBytes;
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8, right: 8),
+                            child: Row(children: [
+                              IconButton(
+                                  onPressed: () async {
+                                    final urlImage =
+                                        '${murl}choices/image/${data[index]['image']}';
+                                    final url = Uri.parse(urlImage);
+                                    final response = await http.get(url);
+                                    final bytes = response.bodyBytes;
 
-                                  final temp = await getTemporaryDirectory();
-                                  final path = '${temp.path}/image.jpg';
-                                  File(path).writeAsBytesSync(bytes);
+                                    final temp = await getTemporaryDirectory();
+                                    final path = '${temp.path}/image.jpg';
+                                    File(path).writeAsBytesSync(bytes);
 
-                                  await Share.shareXFiles([XFile(path)],
-                                      text:
-                                          '${data[index]['name']} \n ${data[index]['caption']} \n wgnrr.org');
-                                },
-                                icon: Icon(
-                                  Icons.share_rounded,
-                                  color: HexColor('#742B90'),
-                                )),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Viewchoice(
-                                          author: data[index]['author'],
-                                          caption: data[index]['caption'],
-                                          date: data[index]['date'],
-                                          description: data[index]
-                                              ['description'],
-                                          title: data[index]['name'],
-                                          username: username,
-                                          image: data[index]['image'],
-                                        )));
-                              },
-                              icon: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: ((context) => Comment(
-                                            choice_id: widget.id,
-                                            title: data[index]['name'],
-                                            choice_specific_id: data[index]
-                                                ['id'],
-                                          ))));
-                                },
-                                child: Badge(
-                                  backgroundColor: HexColor('#f5841f'),
-                                  label: FutureBuilder<Widget>(
-                                    future: Count(
-                                      widget.id,
-                                      data[index]['id'],
-                                    ),
-                                    builder: (BuildContext _, snapshot) {
-                                      if (snapshot.hasError) {
-                                        // Error
-                                        return Text('', textScaleFactor: 1);
-                                      } else if (!(snapshot.hasData)) {
-                                        return Text('');
-                                      }
-                                      return Center(child: snapshot.data);
-                                    },
-                                  ),
-                                  child: Icon(
-                                    Icons.chat_bubble,
+                                    await Share.shareXFiles([XFile(path)],
+                                        text:
+                                            '${data[index]['name']} \n ${data[index]['caption']} \n wgnrr.org');
+                                  },
+                                  icon: Icon(
+                                    Icons.share_rounded,
                                     color: HexColor('#742B90'),
+                                  )),
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Viewchoice(
+                                            author: data[index]['author'],
+                                            caption: data[index]['caption'],
+                                            date: data[index]['date'],
+                                            description: data[index]
+                                                ['description'],
+                                            title: data[index]['name'],
+                                            username: username,
+                                            image: data[index]['image'],
+                                          )));
+                                },
+                                icon: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: ((context) => Comment(
+                                                  choice_id: widget.id,
+                                                  title: data[index]['name'],
+                                                  choice_specific_id:
+                                                      data[index]['id'],
+                                                ))));
+                                  },
+                                  child: Badge(
+                                    backgroundColor: HexColor('#f5841f'),
+                                    label: FutureBuilder<Widget>(
+                                      future: Count(
+                                        widget.id,
+                                        data[index]['id'],
+                                      ),
+                                      builder: (BuildContext _, snapshot) {
+                                        if (snapshot.hasError) {
+                                          // Error
+                                          return Text('', textScaleFactor: 1);
+                                        } else if (!(snapshot.hasData)) {
+                                          return Text('');
+                                        }
+                                        return Center(child: snapshot.data);
+                                      },
+                                    ),
+                                    child: Icon(
+                                      Icons.chat_bubble,
+                                      color: HexColor('#742B90'),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Spacer(),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: HexColor('#742B90'),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                      side: BorderSide(
-                                          color: Colors.grey.shade500))
-                                  // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                                  ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => Viewchoice(
-                                          author: data[index]['author'],
-                                          caption: data[index]['caption'],
-                                          date: data[index]['date'],
-                                          description: data[index]
-                                              ['description'],
-                                          title: data[index]['name'],
-                                          username: username,
-                                          image: data[index]['image'],
-                                        )));
-                              },
-                              child: AppText(
-                                txt: 'View',
-                                size: 15,
-                                color: Colors.white,
+                              Spacer(),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: HexColor('#742B90'),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                        side: BorderSide(
+                                            color: Colors.grey.shade500))
+                                    // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                                    ),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Viewchoice(
+                                            author: data[index]['author'],
+                                            caption: data[index]['caption'],
+                                            date: data[index]['date'],
+                                            description: data[index]
+                                                ['description'],
+                                            title: data[index]['name'],
+                                            username: username,
+                                            image: data[index]['image'],
+                                          )));
+                                },
+                                child: AppText(
+                                  txt: 'View',
+                                  size: 15,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            )
-                          ]),
+                              SizedBox(
+                                width: 10,
+                              )
+                            ]),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: InkWell(
@@ -514,13 +518,16 @@ class _AllState extends State<All> {
                                           image: data[index]['image'],
                                         )));
                               },
-                              child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: AppText(
-                                    txt: data[index]['name'],
-                                    size: 15,
-                                    color: Colors.black,
-                                  )),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: AppText(
+                                      txt: data[index]['name'],
+                                      size: 15,
+                                      color: Colors.black,
+                                    )),
+                              ),
                             ),
                           ),
                           SizedBox(height: 30),
