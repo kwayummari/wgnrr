@@ -12,6 +12,7 @@ import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/map/maps.dart';
 import 'package:wgnrr/models/client/chats/table/services.dart';
+import 'package:wgnrr/utils/animation/shimmers/map-shimmer.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -76,8 +77,6 @@ class MapSampleState extends State<MapSample> {
       }
     } //
   }
-
-  
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -168,19 +167,25 @@ class MapSampleState extends State<MapSample> {
         ),
         centerTitle: true,
       ),
-      body: GoogleMap(
-        myLocationButtonEnabled: true,
-        myLocationEnabled: true,
-        markers: Set.of(_markers!),
-        mapType: MapType.hybrid,
-        initialCameraPosition: CameraPosition(
-          target: LatLng(position!.latitude ?? 0.00, position!.longitude ?? 0.00),
-          zoom: 13.4746,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-      ),
+      body: data.isEmpty
+          ? mapShimmerLoading(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              borderRadius: 20)
+          : GoogleMap(
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              markers: Set.of(_markers!),
+              mapType: MapType.hybrid,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                    position!.latitude ?? 0.00, position!.longitude ?? 0.00),
+                zoom: 13.4746,
+              ),
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+              },
+            ),
     );
   }
 }
