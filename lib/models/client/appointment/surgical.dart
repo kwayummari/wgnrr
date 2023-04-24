@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
@@ -26,20 +27,56 @@ class Surgical extends StatefulWidget {
 
 class _SurgicalState extends State<Surgical> {
   Future submit() async {
-    const url = '${murl}appointment/write_appointment.php';
-    var response1 = await http.post(Uri.parse(url), body: {
-      "client": widget.client.toString(),
-      "doctor": widget.doctor.toString(),
-      "procedure": widget.reason.toString(),
-      "timeline": widget.date_difference.toString(),
-      "pain": pain.toString(),
-      "blood": blood.toString(),
-      "fever": fever.toString(),
-      "smell": smell.toString(),
-      "questionare": totalQuestions.toString(),
-    });
-    if (response1.statusCode == 200) {
-      Navigator.pop(context);
+    if (totalQuestions == null) {
+      const url = '${murl}appointment/write_appointment.php';
+      var response1 = await http.post(Uri.parse(url), body: {
+        "client": widget.client.toString(),
+        "doctor": widget.doctor.toString(),
+        "procedure": widget.reason.toString(),
+        "timeline": widget.date_difference.toString(),
+        "pain": pain.toString(),
+        "blood": blood.toString(),
+        "fever": fever.toString(),
+        "smell": smell.toString(),
+        "questionare": '-'.toString(),
+      });
+      if (response1.statusCode == 200) {
+        Fluttertoast.showToast(
+          msg: widget.language == 'Kiswahili' ? 'Imefanikiwa' : 'Successful',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 15.0,
+        );
+        Navigator.pop(context);
+      }
+    } else {
+      const url = '${murl}appointment/write_appointment.php';
+      var response1 = await http.post(Uri.parse(url), body: {
+        "client": widget.client.toString(),
+        "doctor": widget.doctor.toString(),
+        "procedure": widget.reason.toString(),
+        "timeline": widget.date_difference.toString(),
+        "pain": pain.toString(),
+        "blood": blood.toString(),
+        "fever": fever.toString(),
+        "smell": smell.toString(),
+        "questionare": totalQuestions.toString(),
+      });
+      if (response1.statusCode == 200) {
+        Fluttertoast.showToast(
+          msg: widget.language == 'Kiswahili' ? 'Imefanikiwa' : 'Successful',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 15.0,
+        );
+        Navigator.pop(context);
+      }
     }
   }
 
@@ -146,7 +183,7 @@ class _SurgicalState extends State<Surgical> {
     'Worst Pain Possible'
   ];
   var blood;
-  List bloods = ['0', '1-2', 'More'];
+  List bloods = ['0', '1-2', '2-3', '3-4', 'More'];
   var fever;
   List fevers = ['Yes', 'No'];
   var smell;
@@ -1526,8 +1563,12 @@ class _SurgicalState extends State<Surgical> {
                   height: 50,
                   child: AppButton(
                       onPress: () async {
-                        await sum();
-                        submit();
+                        if (int.parse(widget.date_difference) >= 168) {
+                          await sum();
+                          submit();
+                        } else {
+                          submit();
+                        }
                       },
                       label: 'Submit',
                       bcolor: HexColor('#F5841F'),

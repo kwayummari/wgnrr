@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -14,7 +13,6 @@ import 'package:wgnrr/utils/screens/topcircular.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 
-enum MenuItem { item1, item2, item3, item4, item5, item6 }
 
 List datas = [];
 

@@ -92,14 +92,13 @@ class _postProceduresState extends State<postProcedures> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (widget.reason == 'Procedure - Surgical')
-              Surgical(
-                client: widget.client,
-                date_difference: difference,
-                doctor: widget.doctor,
-                language: language,
-                reason: widget.reason,
-              )
+            Surgical(
+              client: widget.client,
+              date_difference: difference,
+              doctor: widget.doctor,
+              language: language,
+              reason: widget.reason,
+            )
           ],
         ),
       ),
