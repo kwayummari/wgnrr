@@ -16,7 +16,7 @@ class Splash extends StatefulWidget {
   _SplashState createState() => _SplashState();
 }
 
-class _SplashState extends State<Splash> {
+class _SplashState extends State<Splash> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
@@ -35,7 +35,12 @@ class _SplashState extends State<Splash> {
       } else if (username == null && language != null && status == null) {
         Navigator.of(context)
             .pushReplacement(MaterialPageRoute(builder: (context) => Login()));
-      } else if (username != null && (status == 'client' || status == 'Community Based Mobilizers' || status == 'admin' || status == 'super-admin') && language != null) {
+      } else if (username != null &&
+          (status == 'client' ||
+              status == 'Community Based Mobilizers' ||
+              status == 'admin' ||
+              status == 'super-admin') &&
+          language != null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Homepage('')));
       } else if (username != null &&

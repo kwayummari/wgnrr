@@ -37,13 +37,7 @@ class _ChatsState extends State<Chats> {
     if (response1.statusCode == 200) {
       if (mounted)
         setState(() {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            _scrollController
-                .jumpTo(_scrollController.position.maxScrollExtent);
-            // or use _scrollController.animateTo(...) for smooth scrolling
-          });
           _comments = json.decode(response1.body);
-          if (_comments.isNotEmpty) _goToBottomPage();
         });
     }
   }
@@ -77,15 +71,10 @@ class _ChatsState extends State<Chats> {
     get_comments();
   }
 
-  final _scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
     getValidationData();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      // or use _scrollController.animateTo(...) for smooth scrolling
-    });
   }
 
   Future Deletechat(id) async {
@@ -94,11 +83,6 @@ class _ChatsState extends State<Chats> {
     var response1 = await http.post(Uri.parse(url), body: {
       "id": id.toString(),
     });
-  }
-
-  void _goToBottomPage() {
-    if (_scrollController.hasClients)
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -162,7 +146,6 @@ class _ChatsState extends State<Chats> {
                           .asyncMap((i) =>
                               getValidationData()), // i is null here (check periodic docs)
                       builder: (context, snapshot) => ListView.builder(
-                        controller: _scrollController,
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
@@ -200,105 +183,135 @@ class _ChatsState extends State<Chats> {
                                                     : const EdgeInsets.only(
                                                         right: 150),
                                             child: InkWell(
-                                              highlightColor: Colors.white,
-                                              focusColor: Colors.white,
-                                              hoverColor: Colors.white,
-                                              onLongPress: () {
-                                                showDialog(
-                                                    context: context,
-                                                    builder:
-                                                        (BuildContext context) {
-                                                      return AlertDialog(
-                                                        content: Stack(
-                                                          children: <Widget>[
-                                                            Positioned(
-                                                              right: -40.0,
-                                                              top: -40.0,
-                                                              child:
-                                                                  InkResponse(
-                                                                onTap: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                },
+                                                highlightColor: Colors.white,
+                                                focusColor: Colors.white,
+                                                hoverColor: Colors.white,
+                                                onLongPress: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Stack(
+                                                            children: <Widget>[
+                                                              Positioned(
+                                                                right: -40.0,
+                                                                top: -40.0,
                                                                 child:
-                                                                    CircleAvatar(
-                                                                  child: Icon(
-                                                                      Icons
-                                                                          .close),
-                                                                  backgroundColor:
-                                                                      HexColor(
-                                                                          '#db5252'),
+                                                                    InkResponse(
+                                                                  onTap: () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
+                                                                  },
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .close),
+                                                                    backgroundColor:
+                                                                        HexColor(
+                                                                            '#db5252'),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            Column(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                if (_comments[
-                                                                            index]
-                                                                        [
-                                                                        'part'] ==
-                                                                    '1')
-                                                                  Row(
-                                                                    children: [
-                                                                      IconButton(
-                                                                          onPressed:
-                                                                              () {
-                                                                            Deletechat(_comments[index]['id']);
-                                                                            Navigator.pop(context);
-                                                                          },
-                                                                          icon:
-                                                                              Icon(Icons.delete)),
-                                                                      AppText(
-                                                                        size:
-                                                                            15,
-                                                                        txt:
-                                                                            'Delete Text',
-                                                                      )
-                                                                    ],
-                                                                  )
-                                                              ],
-                                                            ),
-                                                          ],
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  if (_comments[
+                                                                              index]
+                                                                          [
+                                                                          'part'] ==
+                                                                      '1')
+                                                                    Row(
+                                                                      children: [
+                                                                        IconButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Deletechat(_comments[index]['id']);
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            icon:
+                                                                                Icon(Icons.delete)),
+                                                                        AppText(
+                                                                          size:
+                                                                              15,
+                                                                          txt:
+                                                                              'Delete Text',
+                                                                        )
+                                                                      ],
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                child: Stack(
+                                                  children: [
+                                                    Bubble(
+                                                      color: _comments[index]
+                                                                  ['part'] ==
+                                                              '1'
+                                                          ? HexColor('#742B90')
+                                                          : HexColor('#772255'),
+                                                      margin: BubbleEdges.only(
+                                                          top: 10),
+                                                      alignment: _comments[
+                                                                      index]
+                                                                  ['part'] ==
+                                                              '1'
+                                                          ? Alignment.topRight
+                                                          : Alignment.topLeft,
+                                                      nip: _comments[index]
+                                                                  ['part'] ==
+                                                              '1'
+                                                          ? BubbleNip.rightTop
+                                                          : BubbleNip.leftTop,
+                                                      child: Text(
+                                                        _comments[index]
+                                                            ['comment'],
+                                                        style: GoogleFonts
+                                                            .vesperLibre(
+                                                          color: _comments[
+                                                                          index]
+                                                                      [
+                                                                      'part'] ==
+                                                                  '1'
+                                                              ? Colors.white
+                                                              : Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          fontSize: 15,
                                                         ),
-                                                      );
-                                                    });
-                                              },
-                                              child: Bubble(
-                                                color: _comments[index]
-                                                            ['part'] ==
-                                                        '1'
-                                                    ? HexColor('#742B90')
-                                                    : HexColor('#772255'),
-                                                margin:
-                                                    BubbleEdges.only(top: 10),
-                                                alignment: _comments[index]
-                                                            ['part'] ==
-                                                        '1'
-                                                    ? Alignment.topRight
-                                                    : Alignment.topLeft,
-                                                nip: _comments[index]['part'] ==
-                                                        '1'
-                                                    ? BubbleNip.rightTop
-                                                    : BubbleNip.leftTop,
-                                                child: Text(
-                                                  _comments[index]['comment'],
-                                                  style:
-                                                      GoogleFonts.vesperLibre(
-                                                    color: _comments[index]
+                                                      ),
+                                                    ),
+                                                    if (_comments[index]
+                                                                ['seen'] !=
+                                                            null &&
+                                                        _comments[index]
                                                                 ['part'] ==
-                                                            '1'
-                                                        ? Colors.white
-                                                        : Colors.white,
-                                                    fontWeight: FontWeight.w400,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                              ),
-                                            )),
+                                                            '1') // add a checkmark icon if message is read
+                                                      Positioned(
+                                                        bottom: 0,
+                                                        right: 10,
+                                                        child: Icon(
+                                                          Icons.done_all,
+                                                          color: _comments[
+                                                                          index]
+                                                                      [
+                                                                      'seen'] ==
+                                                                  '0'
+                                                              ? Colors.grey
+                                                              : Colors.green,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                  ],
+                                                ))),
                                       ),
                                     )
                                   : Align(
