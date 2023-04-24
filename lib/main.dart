@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
@@ -45,27 +46,55 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async{
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    var u = sharedPreferences.get('username');
-    var l = sharedPreferences.get('language');
-    var s = sharedPreferences.get('status');
-    if(u != null && s != 'Health Care Providers') {
-      Future get_comments() async {
-    http.Response response;
-    const url = '${murl}chats/chatsfix.php';
-    var response1 = await http.post(Uri.parse(url), body: {
-      "username": u.toString(),
-    });
-    if (response1.statusCode == 200) {
-      
-    }
-  }
-  }
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var u = sharedPreferences.get('username');
+      var l = sharedPreferences.get('language');
+      var s = sharedPreferences.get('status');
+      if (u != null && s == 'Health Care Providers') {
+        http.Response response;
+        const url = '${murl}chats/offline.php';
+        var response1 = await http.post(Uri.parse(url), body: {
+          "username": u.toString(),
+        });
+        if (response1.statusCode == 200) {
+          Fluttertoast.showToast(
+            msg: l == 'Kiswahili' ? 'Karibu $u' : 'Welcome back $u',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 15.0,
+          );
+        }
+      }
     } else if (state == AppLifecycleState.paused) {
-      print('App paused');
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      var u = sharedPreferences.get('username');
+      var l = sharedPreferences.get('language');
+      var s = sharedPreferences.get('status');
+      if (u != null && s == 'Health Care Providers') {
+        http.Response response;
+        const url = '${murl}chats/offline.php';
+        var response1 = await http.post(Uri.parse(url), body: {
+          "username": u.toString(),
+        });
+        if (response1.statusCode == 200) {
+          Fluttertoast.showToast(
+            msg: l == 'Kiswahili' ? 'Karibu $u' : 'Welcome back $u',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 15.0,
+          );
+        }
+      }
     }
   }
 
