@@ -37,6 +37,11 @@ class _ChatsState extends State<Chats> {
     if (response1.statusCode == 200) {
       if (mounted)
         setState(() {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            _scrollController
+                .jumpTo(_scrollController.position.maxScrollExtent);
+            // or use _scrollController.animateTo(...) for smooth scrolling
+          });
           _comments = json.decode(response1.body);
           if (_comments.isNotEmpty) _goToBottomPage();
         });
