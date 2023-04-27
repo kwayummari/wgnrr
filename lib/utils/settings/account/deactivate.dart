@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
-import 'package:wgnrr/utils/widget/textformfield/textformfield.dart';
 
 class deactivateAccount extends StatefulWidget {
   const deactivateAccount({super.key});
@@ -55,12 +54,12 @@ class _deactivateAccountState extends State<deactivateAccount> {
     }
   }
 
-  Future deactivate() async {
+  Future deactivates() async {
     const url = '${murl}user/deactivation.php';
-    var response1 = await http.post(Uri.parse(url), body: {
+    var response2 = await http.post(Uri.parse(url), body: {
       "id": users[0]['id'].toString(),
     });
-    if (response1.statusCode == 200) {
+    if (response2.statusCode == 200) {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       sharedPreferences.remove('username');
@@ -75,9 +74,6 @@ class _deactivateAccountState extends State<deactivateAccount> {
     }
   }
 
-  TextEditingController newphone = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
   @override
   void initState() {
     super.initState();
@@ -90,19 +86,6 @@ class _deactivateAccountState extends State<deactivateAccount> {
       drawerEnableOpenDragGesture: false,
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        leading: Padding(
-          padding: const EdgeInsets.only(top: 25, left: 9),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: AppText(
-              txt: 'Cancel',
-              size: 15,
-              color: Colors.white,
-            ),
-          ),
-        ),
         iconTheme: IconThemeData(color: Colors.white),
         shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
         elevation: 4,
@@ -221,9 +204,9 @@ class _deactivateAccountState extends State<deactivateAccount> {
               Divider(
                 color: Colors.black,
               ),
-              InkWell(
-                onTap: () async {
-                  await deactivate();
+              GestureDetector(
+                onTap: () {
+                  deactivates();
                 },
                 child: AppText(
                   txt: 'Deactivate',

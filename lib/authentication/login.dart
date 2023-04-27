@@ -69,9 +69,9 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     width: 20,
                   ),
-                  AppText(txt: 'WGNRR ', color: HexColor('#ffffff'), size: 16),
+                  AppText(txt: 'MIMI ', color: HexColor('#ffffff'), size: 16),
                   AppText(
-                    txt: 'AFRICA',
+                    txt: 'CARE',
                     size: 16,
                     color: HexColor('#ffffff'),
                     weight: FontWeight.w700,
