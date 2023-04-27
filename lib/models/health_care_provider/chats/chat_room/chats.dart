@@ -56,6 +56,15 @@ class _ChatsState extends State<Chats> {
     }
   }
 
+  Future update() async {
+    http.Response response;
+    const url = '${murl}message/update-seen.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "client": widget.client.toString(),
+      "doctor": widget.doctor.toString()
+    });
+  }
+
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   done() async {
@@ -87,6 +96,7 @@ class _ChatsState extends State<Chats> {
   void initState() {
     super.initState();
     getValidationData();
+    update();
   }
 
   TextEditingController comments = TextEditingController();
@@ -131,9 +141,8 @@ class _ChatsState extends State<Chats> {
                       height: 5,
                     ),
                     StreamBuilder(
-                      stream: Stream.periodic(Duration(seconds: 5))
-                          .asyncMap((i) =>
-                              getValidationData()), // i is null here (check periodic docs)
+                      stream: Stream.periodic(Duration(seconds: 5)).asyncMap((i) =>
+                          getValidationData()), // i is null here (check periodic docs)
                       builder: (context, snapshot) => ListView.builder(
                         physics: BouncingScrollPhysics(),
                         shrinkWrap: true,

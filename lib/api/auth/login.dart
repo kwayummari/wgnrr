@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/api/auth/updatePassword.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/home.dart';
@@ -71,7 +72,11 @@ class loginAuth {
       );
     } else {
       await done(context);
-    final SharedPreferences sharedPreferences =
+      if(password.toString() == 'password') {
+        Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => updatePassword(status: data, username: username.toString(),)));
+      } else {
+        final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.setString('username', username.toString());
     sharedPreferences.setString('status', '${data}');
@@ -86,6 +91,7 @@ class loginAuth {
     );
     Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => Homepage('')));
+      }
   } }
 
   done(BuildContext context) async {

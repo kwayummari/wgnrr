@@ -10,6 +10,7 @@ import 'package:wgnrr/models/health_care_provider/home.dart';
 import 'package:wgnrr/utils/routes/language.dart';
 
 class Splash extends StatefulWidget {
+  
   const Splash({Key? key}) : super(key: key);
 
   @override
