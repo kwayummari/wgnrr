@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/auth/updatePassword.dart';
+import 'package:wgnrr/api/auth/updatePasswordDoctor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/home.dart';
@@ -42,9 +43,9 @@ class loginAuth {
       await done(context);
       if(password.toString() == 'password') {
         Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => updatePassword(status: data, username: username.toString(),)));
-      } else {}
-      Navigator.of(context).pushReplacement(
+        .pushReplacement(MaterialPageRoute(builder: (context) => updatePasswordDoctor(status: data, username: username.toString(),)));
+      } else {
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Homepage_hcp('')));
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -61,6 +62,7 @@ class loginAuth {
         textColor: Colors.white,
         fontSize: 15.0,
       );
+      }
     } else if (data == "wrong") {
       await done(context);
       Fluttertoast.showToast(

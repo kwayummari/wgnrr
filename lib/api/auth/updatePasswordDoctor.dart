@@ -7,19 +7,20 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/home.dart';
+import 'package:wgnrr/models/health_care_provider/home.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
-class updatePassword extends StatefulWidget {
+class updatePasswordDoctor extends StatefulWidget {
   var username;
   var status;
-  updatePassword({Key? key, required this.status, required this.username})
+  updatePasswordDoctor({Key? key, required this.status, required this.username})
       : super(key: key);
 
   @override
-  State<updatePassword> createState() => _updatePasswordState();
+  State<updatePasswordDoctor> createState() => _updatePasswordDoctorState();
 }
 
-class _updatePasswordState extends State<updatePassword> {
+class _updatePasswordDoctorState extends State<updatePasswordDoctor> {
   var language;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
@@ -51,7 +52,7 @@ class _updatePasswordState extends State<updatePassword> {
   }
 
   Future changeUsername() async {
-    const url = '${murl}user/changePassword.php';
+    const url = '${murl}user/changePasswordDoctor.php';
     var response1 = await http.post(Uri.parse(url), body: {
       "newpassword": newpassword.text,
       "username": widget.username.toString(),
@@ -73,7 +74,7 @@ class _updatePasswordState extends State<updatePassword> {
         fontSize: 15.0,
       );
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Homepage('')));
+          MaterialPageRoute(builder: (context) => Homepage_hcp('')));
     }
   }
 
