@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       var s = sharedPreferences.get('status');
       if (u != null && s == 'Health Care Providers') {
         http.Response response;
-        const url = '${murl}chats/offline.php';
+        const url = '${murl}chats/online.php';
         var response1 = await http.post(Uri.parse(url), body: {
           "username": u.toString(),
         });
@@ -111,7 +111,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           ],
         ),
         debugShowCheckedModeBanner: false,
-        title: 'WGNRR',
+        title: 'MimiCare',
         theme: ThemeData(
           // timePickerTheme: Theme.of(context).primaryColor,
           cardColor: Colors.amber.shade900,

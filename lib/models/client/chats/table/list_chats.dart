@@ -155,6 +155,26 @@ class _list_chatsState extends State<list_chats> {
                         txt: chats[index]['doctor'],
                         size: 15,
                       ),
+                      subtitle: Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: int.parse(chats[index]['online']) == 0
+                                ? Colors.grey
+                                : Colors.green,
+                            size: 7,
+                          ),
+                          AppText(
+                            txt: int.parse(chats[index]['online']) == 0
+                                ? 'offline'
+                                : 'online',
+                            size: 14,
+                            color: int.parse(chats[index]['online']) == 0
+                                ? Colors.grey
+                                : Colors.green,
+                          )
+                        ],
+                      ),
                       trailing: double.parse(chats[index]['rate']) > 0
                           ? Text(chats[index]['rate'].toString())
                           : InkWell(
