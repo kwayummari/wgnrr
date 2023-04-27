@@ -40,6 +40,10 @@ class loginAuth {
       );
     } else if (data == "Health Care Providers") {
       await done(context);
+      if(password.toString() == 'password') {
+        Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => updatePassword(status: data, username: username.toString(),)));
+      } else {}
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => Homepage_hcp('')));
       final SharedPreferences sharedPreferences =
