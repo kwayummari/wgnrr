@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/health_care_provider/chats/table/table.dart';
 import 'package:wgnrr/models/health_care_provider/home/home.dart';
+import 'package:wgnrr/models/health_care_provider/pharmacy/pharmacy_chats.dart';
 
 class Homepage_hcp extends StatefulWidget {
   const Homepage_hcp(String text, {Key? key}) : super(key: key);
@@ -18,7 +20,24 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
   final Screen = [
     Chat_table(),
     Home(),
+    Pharmarcy(),
   ];
+
+  var language;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var l = sharedPreferences.get('language');
+    setState(() {
+      language = l;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getValidationData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +54,33 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                   canvasColor: HexColor('#742B90'),
                   primaryColor: HexColor('#742B90'),
                   textTheme: Theme.of(context).textTheme.copyWith(
-                      bodySmall: GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
+                      bodySmall:
+                          GoogleFonts.vesperLibre(color: HexColor('#cbdd33')))),
               child: BottomNavigationBar(
                 selectedItemColor: HexColor('#F5841F'),
                 unselectedItemColor: HexColor('#ffffff'),
                 backgroundColor: HexColor('#742B90'),
                 items: [
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.chat_sharp), label: 'Chats'),
+                      icon: Image.asset(
+                        'assets/chats.png',
+                        height: 35,
+                      ),
+                      label: 'Chats'),
                   BottomNavigationBarItem(
-                      icon: Icon(Icons.home), label: 'Home'),
+                      icon: Image.asset(
+                        'assets/home.png',
+                        height: 35,
+                      ),
+                      label: 'Home'),
+                      BottomNavigationBarItem(
+                      icon: Image.asset(
+                        'assets/hospital3.png',
+                        height: 40,
+                      ),
+                      label: language == 'Kiswahili'
+                          ? 'Duka la dawa'
+                          : 'Pharmacy'),
                 ],
                 currentIndex: index,
                 onTap: (index) {

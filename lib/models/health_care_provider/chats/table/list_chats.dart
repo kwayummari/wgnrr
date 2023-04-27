@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/health_care_provider/chats/chat_room/chats.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_chats extends StatefulWidget {
   const list_chats({super.key});
@@ -88,7 +89,19 @@ class _list_chatsState extends State<list_chats> {
               border: Border.all(color: HexColor('#742B90')),
             ),
             child: ListTile(
-              title: Text(chats[index]['client']),
+              leading: CircleAvatar(
+                  backgroundColor: Colors.grey.shade400,
+                  radius: 20.0,
+                  child: AppText(
+                      color: Colors.black,
+                      txt: chats[index]['client'].substring(0, 2),
+                      size: 15)),
+              title: AppText(
+                txt: chats[index]['client'],
+                size: 15,
+                weight: FontWeight.bold,
+              ),
+              subtitle: AppText(txt: chats[index]['topics'], size: 15),
             ),
           ),
         );

@@ -125,91 +125,96 @@ class _list_chatsState extends State<list_chats> {
               ],
             ),
           )
-        : ListView.builder(
-            physics: BouncingScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => Chats(
-                            client: username,
-                            doctor: chats[index]['doctor'],
-                          )));
-                },
-                child: Container(
-                  margin: const EdgeInsets.all(15.0),
-                  padding: const EdgeInsets.all(3.0),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: HexColor('#742B90')),
-                  ),
-                  child: ListTile(
-                      leading: CircleAvatar(
-                          backgroundColor: Colors.grey.shade400,
-                          radius: 20.0,
-                          child: AppText(
-                              color: Colors.black,
-                              txt: chats[index]['doctor'].substring(0, 2),
-                              size: 15)),
-                      title: AppText(
-                        txt: chats[index]['doctor'],
-                        size: 15,
+        : StreamBuilder(
+            stream: Stream.periodic(Duration(milliseconds: 5)).asyncMap((i) =>
+                getValidationData()), // i is null here (check periodic docs)
+            builder: (context, snapshot) => ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Chats(
+                                  client: username,
+                                  doctor: chats[index]['doctor'],
+                                )));
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsets.all(3.0),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: HexColor('#742B90')),
+                        ),
+                        child: ListTile(
+                            leading: CircleAvatar(
+                                backgroundColor: Colors.grey.shade400,
+                                radius: 20.0,
+                                child: AppText(
+                                    color: Colors.black,
+                                    txt: chats[index]['doctor'].substring(0, 2),
+                                    size: 15)),
+                            title: AppText(
+                              txt: chats[index]['doctor'],
+                              size: 15,
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Icon(
+                                  Icons.circle,
+                                  color: int.parse(chats[index]['online']) == 0
+                                      ? Colors.grey
+                                      : Colors.green,
+                                  size: 7,
+                                ),
+                                AppText(
+                                  txt: int.parse(chats[index]['online']) == 0
+                                      ? 'offline'
+                                      : 'online',
+                                  size: 14,
+                                  color: int.parse(chats[index]['online']) == 0
+                                      ? Colors.grey
+                                      : Colors.green,
+                                )
+                              ],
+                            ),
+                            trailing: double.parse(chats[index]['rate']) > 0
+                                ? Text(chats[index]['rate'].toString())
+                                : InkWell(
+                                    onTap: () {
+                                      showCupertinoDialog(
+                                          context: context,
+                                          builder: ((context) => Center(
+                                                  child: RatingBar.builder(
+                                                initialRating: 1,
+                                                minRating: 1,
+                                                direction: Axis.horizontal,
+                                                allowHalfRating: true,
+                                                itemCount: 5,
+                                                itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                itemBuilder: (context, _) =>
+                                                    Icon(
+                                                  Icons.star,
+                                                  color: HexColor('#742B90'),
+                                                ),
+                                                onRatingUpdate: (rating) {
+                                                  send_rates(
+                                                    rating,
+                                                    chats[index]['id'],
+                                                  );
+                                                  Navigator.pop(context);
+                                                  get_chats();
+                                                },
+                                              ))));
+                                    },
+                                    child: Icon(Icons.star),
+                                  )),
                       ),
-                      subtitle: Row(
-                        children: [
-                          Icon(
-                            Icons.circle,
-                            color: int.parse(chats[index]['online']) == 0
-                                ? Colors.grey
-                                : Colors.green,
-                            size: 7,
-                          ),
-                          AppText(
-                            txt: int.parse(chats[index]['online']) == 0
-                                ? 'offline'
-                                : 'online',
-                            size: 14,
-                            color: int.parse(chats[index]['online']) == 0
-                                ? Colors.grey
-                                : Colors.green,
-                          )
-                        ],
-                      ),
-                      trailing: double.parse(chats[index]['rate']) > 0
-                          ? Text(chats[index]['rate'].toString())
-                          : InkWell(
-                              onTap: () {
-                                showCupertinoDialog(
-                                    context: context,
-                                    builder: ((context) => Center(
-                                            child: RatingBar.builder(
-                                          initialRating: 1,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: true,
-                                          itemCount: 5,
-                                          itemPadding: EdgeInsets.symmetric(
-                                              horizontal: 4.0),
-                                          itemBuilder: (context, _) => Icon(
-                                            Icons.star,
-                                            color: HexColor('#742B90'),
-                                          ),
-                                          onRatingUpdate: (rating) {
-                                            send_rates(
-                                              rating,
-                                              chats[index]['id'],
-                                            );
-                                            Navigator.pop(context);
-                                            get_chats();
-                                          },
-                                        ))));
-                              },
-                              child: Icon(Icons.star),
-                            )),
-                ),
-              );
-            },
-            itemCount: chats == null ? 0 : chats.length,
-          );
+                    );
+                  },
+                  itemCount: chats == null ? 0 : chats.length,
+                ));
   }
 }

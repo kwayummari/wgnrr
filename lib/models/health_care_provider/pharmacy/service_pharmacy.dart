@@ -10,15 +10,16 @@ import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
-class servicesChoices extends StatefulWidget {
+class servicesChoices_pharmacy extends StatefulWidget {
   var facility_name;
-  servicesChoices({Key? key, required this.facility_name});
+  servicesChoices_pharmacy({Key? key, required this.facility_name});
 
   @override
-  State<servicesChoices> createState() => _servicesChoicesState();
+  State<servicesChoices_pharmacy> createState() =>
+      _servicesChoices_pharmacyState();
 }
 
-class _servicesChoicesState extends State<servicesChoices> {
+class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
   var username;
   var status;
   var bot;
@@ -35,60 +36,11 @@ class _servicesChoicesState extends State<servicesChoices> {
       status = s;
       bot = b;
       language = l;
-      get_topics();
       get_doctor();
     });
   }
 
-  // List options = [];
-  // List<String> selectedOption = [];
-  // Future get_topics() async {
-  //   var l;
-  //   if (language == 'Kiswahili') {
-  //     setState(() {
-  //       l = 2;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       l = 1;
-  //     });
-  //   }
-  //   const url = '${murl}choices/choices.php';
-  //   var response = await http.post(Uri.parse(url), body: {
-  //     "language": l.toString(),
-  //   });
-  //   if (response.statusCode == 200) {
-  //     if (mounted)
-  //       setState(() {
-  //         options = json.decode(response.body);
-  //       });
-  //   } //
-  // }
-
-  var option;
-  List options = [];
-  Future get_topics() async {
-    var l;
-    if (language == 'Kiswahili') {
-      setState(() {
-        l = 2;
-      });
-    } else {
-      setState(() {
-        l = 1;
-      });
-    }
-    const url = '${murl}choices/choices.php';
-    var response = await http.post(Uri.parse(url), body: {
-      "language": l.toString(),
-    });
-    if (response.statusCode == 200) {
-      if (mounted)
-        setState(() {
-          options = json.decode(response.body);
-        });
-    }
-  }
+  TextEditingController option = TextEditingController();
 
   var doctor;
   List doctors = [];
@@ -116,15 +68,18 @@ class _servicesChoicesState extends State<servicesChoices> {
   }
 
   Future create_chat() async {
-    const url = '${murl}chats/create_chat.php';
+    const url = '${murl}chats_pharmacy/create_chat.php';
     var response = await http.post(Uri.parse(url), body: {
       "client": username.toString(),
       "doctor": doctor.toString(),
-      "topics": option.toString(),
+      "topics": 'medicine'.toString(),
     });
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
       if (data == "1") {
+        setState(() {
+          isloading = false;
+        });
         Fluttertoast.showToast(
           msg: language == 'Kiswahili'
               ? 'Imepatikana'
@@ -136,11 +91,11 @@ class _servicesChoicesState extends State<servicesChoices> {
           textColor: Colors.white,
           fontSize: 15.0,
         );
+        Navigator.pop(context);
+      } else if (data == "2") {
         setState(() {
           isloading = false;
         });
-        Navigator.pop(context);
-      } else if (data == "2") {
         Fluttertoast.showToast(
           msg: language == 'Kiswahili'
               ? 'Umefanikiwa'
@@ -152,9 +107,6 @@ class _servicesChoicesState extends State<servicesChoices> {
           textColor: Colors.white,
           fontSize: 15.0,
         );
-        setState(() {
-          isloading = false;
-        });
         Navigator.pop(context);
       } else if (data == "3") {
         setState(() {
@@ -175,7 +127,6 @@ class _servicesChoicesState extends State<servicesChoices> {
     }
   }
 
-  bool isloading = false;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -184,6 +135,7 @@ class _servicesChoicesState extends State<servicesChoices> {
     getValidationData();
   }
 
+  bool isloading = false;
   bool check = false;
   @override
   Widget build(BuildContext context) {
@@ -226,87 +178,6 @@ class _servicesChoicesState extends State<servicesChoices> {
             children: [
               SizedBox(
                 height: 20,
-              ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: options.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return CheckboxListTile(
-              //       selected: selectedOption.contains(options[index]['name']),
-              //       activeColor: HexColor('#742B90'),
-              //       value: selectedOption.contains(index),
-              //       title: Text(options[index]['name'] == null
-              //           ? ''
-              //           : options[index]['name']),
-              //       onChanged: (value) {
-              //         if (value != null) {
-              //           if (selectedOption.contains(options[index]['name'])) {
-              //             selectedOption.remove(options[index]['name']);
-              //             print(selectedOption);
-              //           } else {
-              //             selectedOption.add(options[index]['name']);
-              //             print(selectedOption);
-              //           }
-              //         }
-              //       },
-              //     );
-              //   },
-              // ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16, right: 16, top: 10, bottom: 16),
-                child: Container(
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  decoration: BoxDecoration(
-                      color: HexColor('#f0f0f0'),
-                      border: Border.all(color: HexColor("#415812"), width: 1),
-                      borderRadius: BorderRadius.circular(5)),
-                  child: DropdownButtonFormField(
-                    menuMaxHeight: 300,
-                    isExpanded: true,
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    style: TextStyle(color: Colors.black, fontSize: 22),
-                    decoration: InputDecoration(
-                      hoverColor: null,
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                    ),
-                    // underline: SizedBox(),
-                    hint: Text(
-                      'Select Service',
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      ),
-                    ),
-                    value: option,
-                    items: options.map((list22) {
-                      return DropdownMenuItem(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: AppText(
-                                txt: list22['name'],
-                                size: 15,
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.black,
-                            )
-                          ],
-                        ),
-                        value: list22['name'],
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        option = value;
-                      });
-                    },
-                  ),
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(

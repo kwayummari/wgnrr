@@ -55,11 +55,10 @@ class _changePasswordState extends State<changePassword> {
   }
 
   Future changeUsername() async {
-    const url = '${murl}user/password.php';
+    const url = '${murl}user/changePassword.php';
     var response1 = await http.post(Uri.parse(url), body: {
-      "oldpassword": oldpassword.text,
       "newpassword": newpassword.text,
-      "id": users[0]['id'].toString(),
+      "username": username.toString(),
     });
     if (response1.statusCode == 200) {
       final SharedPreferences sharedPreferences =

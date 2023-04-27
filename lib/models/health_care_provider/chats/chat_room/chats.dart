@@ -133,79 +133,83 @@ class _ChatsState extends State<Chats> {
                   ],
                 ),
               )
-            : SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 5,
-                    ),
-                    StreamBuilder(
-                      stream: Stream.periodic(Duration(seconds: 5)).asyncMap((i) =>
-                          getValidationData()), // i is null here (check periodic docs)
-                      builder: (context, snapshot) => ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          // bool isplaying = false;
-                          return Column(
-                            children: [
-                              Align(
-                                alignment: _comments[index]['part'] == '2'
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: AppText(
-                                    txt: _comments[index]['part'] == '2'
-                                        ? username.toString()
-                                        : _comments[index]['username'],
-                                    size: 15),
-                              ),
-                              Align(
-                                alignment: _comments[index]['part'] == '2'
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: Align(
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      StreamBuilder(
+                        stream: Stream.periodic(Duration(seconds: 5)).asyncMap(
+                            (i) =>
+                                getValidationData()), // i is null here (check periodic docs)
+                        builder: (context, snapshot) => ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            // bool isplaying = false;
+                            return Column(
+                              children: [
+                                Align(
                                   alignment: _comments[index]['part'] == '2'
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
-                                  child: Padding(
-                                      padding: _comments[index]['part'] == '2'
-                                          ? const EdgeInsets.only(left: 150)
-                                          : const EdgeInsets.only(right: 150),
-                                      child: Bubble(
-                                        color: _comments[index]['part'] == '2'
-                                            ? HexColor('#742B90')
-                                            : HexColor('#772255'),
-                                        margin: BubbleEdges.only(top: 0),
-                                        alignment:
-                                            _comments[index]['part'] == '2'
-                                                ? Alignment.topRight
-                                                : Alignment.topLeft,
-                                        nip: _comments[index]['part'] == '2'
-                                            ? BubbleNip.rightTop
-                                            : BubbleNip.leftTop,
-                                        child: AppText(
-                                          txt: _comments[index]['comment'],
-                                          size: 15,
-                                          color: Colors.white,
-                                        ),
-                                      )),
+                                  child: AppText(
+                                      txt: _comments[index]['part'] == '2'
+                                          ? username.toString()
+                                          : _comments[index]['username'],
+                                      size: 15),
                                 ),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                            ],
-                          );
-                          // <!-- android:usesCleartextTraffic="true" -->
-                        },
-                        itemCount: _comments == null ? 0 : _comments.length,
+                                Align(
+                                  alignment: _comments[index]['part'] == '2'
+                                      ? Alignment.centerRight
+                                      : Alignment.centerLeft,
+                                  child: Align(
+                                    alignment: _comments[index]['part'] == '2'
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Padding(
+                                        padding: _comments[index]['part'] == '2'
+                                            ? const EdgeInsets.only(left: 150)
+                                            : const EdgeInsets.only(right: 150),
+                                        child: Bubble(
+                                          color: _comments[index]['part'] == '2'
+                                              ? HexColor('#742B90')
+                                              : HexColor('#772255'),
+                                          margin: BubbleEdges.only(top: 0),
+                                          alignment:
+                                              _comments[index]['part'] == '2'
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                          nip: _comments[index]['part'] == '2'
+                                              ? BubbleNip.rightTop
+                                              : BubbleNip.leftTop,
+                                          child: AppText(
+                                            txt: _comments[index]['comment'],
+                                            size: 15,
+                                            color: Colors.white,
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 3,
+                                ),
+                              ],
+                            );
+                            // <!-- android:usesCleartextTraffic="true" -->
+                          },
+                          itemCount: _comments == null ? 0 : _comments.length,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 80,
-                    )
-                  ],
+                      SizedBox(
+                        height: 80,
+                      )
+                    ],
+                  ),
                 ),
               ),
         Align(

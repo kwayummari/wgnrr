@@ -74,6 +74,7 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
       "reason": abortion.toString(),
     });
     if (response1.statusCode == 200) {
+      Navigator.pop(context);
       if (mounted)
         setState(() {
           chats = json.decode(response1.body);
