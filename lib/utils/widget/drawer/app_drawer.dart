@@ -91,42 +91,17 @@ class _AppDrawerState extends State<AppDrawer> {
                 weight: FontWeight.w500,
               ),
             ),
-            if (widget.status != 'Health Care Providers')
-              Divider(
-                color: Colors.black,
-              ),
-            if (widget.status != 'Health Care Providers')
-              ListTile(
-                onTap: () {
-                  if (widget.status != 'Health Care Providers')
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Appointment_table()));
-                },
-                leading: Icon(
-                  Icons.meeting_room,
-                  color: Colors.black,
-                  size: 15,
-                ),
-                title: AppText(
-                  txt: widget.language == 'Kiswahili'
-                      ? 'Apointimenti'
-                      : 'Appointment',
-                  size: 15,
-                  color: HexColor('#000000'),
-                  weight: FontWeight.w500,
-                ),
-              ),
             Divider(
               color: Colors.black,
             ),
             ListTile(
               onTap: () {
                 if (widget.status != 'Health Care Providers')
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Results()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Appointment_table()));
                 else
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) => Results()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Appointment_table_doctor()));
               },
               leading: Icon(
                 Icons.meeting_room,
@@ -135,13 +110,41 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               title: AppText(
                 txt: widget.language == 'Kiswahili'
-                    ? 'Post Procedures Results'
-                    : 'Post Procedures Results',
+                    ? 'Apointimenti'
+                    : 'Appointment',
                 size: 15,
                 color: HexColor('#000000'),
                 weight: FontWeight.w500,
               ),
             ),
+            if (widget.status != 'Health Care Providers')
+              Divider(
+                color: Colors.black,
+              ),
+            if (widget.status != 'Health Care Providers')
+              ListTile(
+                onTap: () {
+                  if (widget.status != 'Health Care Providers')
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Results()));
+                  else
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => Results()));
+                },
+                leading: Icon(
+                  Icons.meeting_room,
+                  color: Colors.black,
+                  size: 15,
+                ),
+                title: AppText(
+                  txt: widget.language == 'Kiswahili'
+                      ? 'Post Procedures Results'
+                      : 'Post Procedures Results',
+                  size: 15,
+                  color: HexColor('#000000'),
+                  weight: FontWeight.w500,
+                ),
+              ),
             Divider(
               color: Colors.black,
             ),

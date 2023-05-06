@@ -1,12 +1,8 @@
 // ignore_for_file: must_be_immutable
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
-
 
 class Individualchatsp extends StatefulWidget {
   var username;
@@ -79,7 +75,7 @@ class _IndividualchatspState extends State<Individualchatsp> {
                 ),
                 child: Scrollbar(
                   child: TextFormField(
-                    style: GoogleFonts.vesperLibre(
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
@@ -109,7 +105,7 @@ class _IndividualchatspState extends State<Individualchatsp> {
                       hoverColor: HexColor('#742B90'),
                       focusColor: HexColor('#742B90'),
                       hintText: 'Message',
-                      hintStyle: GoogleFonts.vesperLibre(
+                      hintStyle: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -126,5 +122,4 @@ class _IndividualchatspState extends State<Individualchatsp> {
       ),
     );
   }
-
 }

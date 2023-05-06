@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
@@ -81,11 +80,6 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
-                        style: GoogleFonts.vesperLibre(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
@@ -111,11 +105,6 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
-                          hintStyle: GoogleFonts.vesperLibre(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                          ),
                           contentPadding: EdgeInsets.only(
                               top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
                         ),

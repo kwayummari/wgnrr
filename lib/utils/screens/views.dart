@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, non_constant_identifier_names, duplicate_ignore, prefer_const_constructors, body_might_complete_normally_nullable, prefer_if_null_operators, no_leading_underscores_for_local_identifiers, unused_element, avoid_print, unused_label
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
@@ -67,23 +65,25 @@ class _ViewState extends State<View> {
             right: 0,
             child: FadeAnimation(
                 1.2,
-                CachedNetworkImage(
-                  imageUrl: '${murl}categories/image/${widget.image}',
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Container(
-                    height: 400,
-                    width: double.infinity,
-                    color: Colors.black,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                )),
+                Image.network('${murl}categories/image/${widget.image}'),
+                // CachedNetworkImage(
+                //   imageUrl: '${murl}categories/image/${widget.image}',
+                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //       Container(
+                //     height: 400,
+                //     width: double.infinity,
+                //     color: Colors.black,
+                //     child: Center(
+                //       child: CircularProgressIndicator(
+                //         value: downloadProgress.progress,
+                //         color: Colors.white,
+                //         strokeWidth: 3,
+                //       ),
+                //     ),
+                //   ),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // )
+                ),
           ),
           Positioned(
             top: 50,
@@ -128,13 +128,11 @@ class _ViewState extends State<View> {
                       FadeAnimation(
                         1.3,
                         Center(
-                          child: Text(
-                            '${widget.title}',
-                            style: GoogleFonts.vesperLibre(
+                          child: AppText(
+                            txt: '${widget.title}',
                               color: HexColor('#000000'),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                              size: 18,
+                              weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -156,15 +154,13 @@ class _ViewState extends State<View> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              language == 'Kiswahili'
+                            AppText(
+                              txt: language == 'Kiswahili'
                                   ? 'Tarehe -${widget.date}'
                                   : 'Date - ${widget.date}',
-                              style: GoogleFonts.vesperLibre(
                                 color: HexColor('#000000'),
-                                // fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 18,
+                                weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -183,15 +179,13 @@ class _ViewState extends State<View> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              language == 'Kiswahili'
+                            AppText(
+                              txt: language == 'Kiswahili'
                                   ? 'Mwandishi - ${widget.author}'
                                   : 'Author - ${widget.author}',
-                              style: GoogleFonts.vesperLibre(
                                 color: HexColor('#000000'),
-                                // fontSize: 1,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 15,
+                                weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -205,13 +199,10 @@ class _ViewState extends State<View> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        language == 'Kiswahili' ? 'Muhtasari' : 'Caption',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt: language == 'Kiswahili' ? 'Muhtasari' : 'Caption',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -221,13 +212,11 @@ class _ViewState extends State<View> {
                         child: Center(
                           child: FadeAnimation(
                             1.3,
-                            Text(
-                              '${widget.caption}',
-                              style: GoogleFonts.vesperLibre(
+                            AppText(
+                              txt: '${widget.caption}',
                                 color: HexColor('#000000'),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 18,
+                                weight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -235,13 +224,10 @@ class _ViewState extends State<View> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text(
-                        language == 'Kiswahili' ? 'Maelezo' : 'Description',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt: language == 'Kiswahili' ? 'Maelezo' : 'Description',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -250,14 +236,11 @@ class _ViewState extends State<View> {
                             border: Border.all(color: Colors.black)),
                         child: FadeAnimation(
                           1.4,
-                          Text(
-                            '${widget.description}',
-                            style: GoogleFonts.vesperLibre(
+                          AppText(
+                            txt:'${widget.description}',
                               color: HexColor('#000000'),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                              height: 1.4,
-                            ),
+                              weight: FontWeight.w700,
+                              size: 18,
                           ),
                         ),
                       ),

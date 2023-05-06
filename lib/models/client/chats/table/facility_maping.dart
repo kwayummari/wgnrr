@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,7 +174,6 @@ class MapSampleState extends State<MapSample> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: Set.of(_markers!),
-              mapType: MapType.hybrid,
               initialCameraPosition: CameraPosition(
                 target: LatLng(
                     position!.latitude, position!.longitude),
@@ -183,6 +181,7 @@ class MapSampleState extends State<MapSample> {
               ),
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
+                controller.setMapStyle("mapbox://styles/mapbox/54196e48a30d7f1");
               },
             ),
     );

@@ -1,5 +1,6 @@
 // ignore_for_file: unused_field, unnecessary_null_comparison
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -62,7 +63,7 @@ class _list_chatsState extends State<list_chats> {
       });
     });
   }
-
+   bool _isVisible = true;
   var username;
   var status;
   var bot;
@@ -87,46 +88,43 @@ class _list_chatsState extends State<list_chats> {
   void initState() {
     super.initState();
     getValidationData();
+    Timer(Duration(seconds: 5), () {
+      setState(() {
+        _isVisible = false;
+      });
+    });
   }
 
   TextEditingController comments = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return chats.isEmpty
-        ? Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-                SizedBox(
-                  height: 20,
-                ),
-                infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-              ],
-            ),
-          )
+        ? Visibility(
+      visible: _isVisible,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+            SizedBox(height: 20),
+            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+          ],
+        ),
+      ),
+      replacement: Center(child: AppText(txt: "No messages available right now", size: 15, color: Colors.black,)),
+    )
         : StreamBuilder(
-            stream: Stream.periodic(Duration(milliseconds: 5)).asyncMap((i) =>
+            stream: Stream.periodic(Duration(milliseconds: 2)).asyncMap((i) =>
                 getValidationData()), // i is null here (check periodic docs)
             builder: (context, snapshot) => ListView.builder(
                   physics: BouncingScrollPhysics(),

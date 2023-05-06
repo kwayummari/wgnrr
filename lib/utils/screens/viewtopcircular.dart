@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, prefer_typing_uninitialized_variables, non_constant_identifier_names, duplicate_ignore, prefer_const_constructors, body_might_complete_normally_nullable, prefer_if_null_operators, no_leading_underscores_for_local_identifiers, unused_element, avoid_print, unused_label
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
@@ -99,13 +98,11 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                       FadeAnimation(
                         1.3,
                         Center(
-                          child: Text(
-                            '${widget.title}',
-                            style: GoogleFonts.vesperLibre(
+                          child: AppText(
+                            txt: '${widget.title}',
                               color: HexColor('#000000'),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                              size: 18,
+                              weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -127,13 +124,11 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              'Date -${widget.date}',
-                              style: GoogleFonts.vesperLibre(
-                                color: HexColor('#000000'),
-                                // fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            AppText(
+                              txt: 'Date -${widget.date}',
+                              color: Colors.black,
+                              size: 15,
+                              weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -152,13 +147,11 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              'Author -${widget.author}',
-                              style: GoogleFonts.vesperLibre(
-                                color: HexColor('#000000'),
-                                // fontSize: 1,
-                                fontWeight: FontWeight.w700,
-                              ),
+                            AppText(
+                              txt:'Author -${widget.author}',
+                              color: Colors.white,
+                              size: 15,
+                              weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -172,13 +165,10 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'Caption',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt:'Caption',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -188,13 +178,11 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                         child: Center(
                           child: FadeAnimation(
                             1.3,
-                            Text(
-                              '${widget.caption}',
-                              style: GoogleFonts.vesperLibre(
+                            AppText(
+                              txt: '${widget.caption}',
                                 color: HexColor('#000000'),
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 18,
+                                weight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -202,13 +190,10 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text(
-                        'Description',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt: 'Description',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -217,14 +202,11 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                             border: Border.all(color: Colors.black)),
                         child: FadeAnimation(
                           1.4,
-                          Text(
-                            '${widget.description}',
-                            style: GoogleFonts.vesperLibre(
+                          AppText(
+                            txt: '${widget.description}',
                               color: HexColor('#000000'),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 18,
-                              height: 1.4,
-                            ),
+                              weight: FontWeight.w700,
+                              size: 18,
                           ),
                         ),
                       ),

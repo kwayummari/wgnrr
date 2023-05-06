@@ -4,14 +4,12 @@ import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/chat_room/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/pharmacy/individual.dart';
-import 'package:wgnrr/utils/screens/individual_chat.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Chatsp extends StatefulWidget {
@@ -124,12 +122,11 @@ class _ChatspState extends State<Chatsp> {
                       height: 200,
                     ),
                     Center(
-                      child: Text(
-                        'No comments available at the moment',
-                        style: GoogleFonts.vesperLibre(
+                      child: AppText(
+                        txt: 'No comments available at the moment',
                             color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
+                            weight: FontWeight.w400,
+                            size: 16,
                       ),
                     )
                   ],
@@ -158,15 +155,14 @@ class _ChatspState extends State<Chatsp> {
                                   alignment: _comments[index]['part'] == '1'
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
-                                  child: Text(
-                                      _comments[index]['part'] == '1'
+                                  child: AppText(
+                                      txt: _comments[index]['part'] == '1'
                                           ? username.toString()
                                           : _comments[index]['doctor'],
-                                      style: GoogleFonts.vesperLibre(
                                         color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15,
-                                      )),
+                                        weight: FontWeight.w400,
+                                        size: 15,
+                                      ),
                                 ),
                                 _comments[index]['type'] == '1'
                                     ? Align(
@@ -274,11 +270,9 @@ class _ChatspState extends State<Chatsp> {
                                                                 '1'
                                                             ? BubbleNip.rightTop
                                                             : BubbleNip.leftTop,
-                                                        child: Text(
-                                                          _comments[index]
+                                                        child: AppText(
+                                                          txt: _comments[index]
                                                               ['comment'],
-                                                          style: GoogleFonts
-                                                              .vesperLibre(
                                                             color: _comments[
                                                                             index]
                                                                         [
@@ -286,10 +280,9 @@ class _ChatspState extends State<Chatsp> {
                                                                     '1'
                                                                 ? Colors.white
                                                                 : Colors.white,
-                                                            fontWeight:
+                                                            weight:
                                                                 FontWeight.w400,
-                                                            fontSize: 15,
-                                                          ),
+                                                            size: 15,
                                                         ),
                                                       ),
                                                       if (_comments[index]

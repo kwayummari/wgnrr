@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -102,11 +101,9 @@ class _chatsCommunityState extends State<chatsCommunity> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: Text(widget.topic_name.toString().toUpperCase(),
-            style: GoogleFonts.vesperLibre(
-              color: Colors.white,
-              fontSize: 15,
-            )),
+        title: AppText(txt: widget.topic_name.toString().toUpperCase(),
+        size: 15,
+        color: Colors.white),
         backgroundColor: HexColor('#742B90'),
       ),
       body: Stack(children: [
@@ -118,12 +115,11 @@ class _chatsCommunityState extends State<chatsCommunity> {
                       height: 200,
                     ),
                     Center(
-                      child: Text(
-                        'No comments available at the moment',
-                        style: GoogleFonts.vesperLibre(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
+                      child: AppText(
+                        txt: 'No comments available at the moment',
+                        size: 16,
+                        weight: FontWeight.w400,
+                        color: Colors.black,
                       ),
                     )
                   ],

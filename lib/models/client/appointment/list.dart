@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/appointment/pdf.dart';
 import 'package:wgnrr/models/client/appointment/post_procedures.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class list_appointment extends StatefulWidget {
   const list_appointment({super.key});
@@ -107,7 +110,7 @@ class _list_appointmentState extends State<list_appointment> {
                                   chats[index]['status'] == '4')
                               ? Colors.red
                               : Colors.green,
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(5.0),
                     ),
                     child: Text(
                       _getStatus(chats[index]['status']),
@@ -134,7 +137,7 @@ class _list_appointmentState extends State<list_appointment> {
               ),
               SizedBox(height: 10.0),
               Text(
-                chats[index]['reason'] ?? 'Unknown',
+                chats[index]['reason'] ?? '',
                 style: TextStyle(fontSize: 15),
               ),
               SizedBox(height: 10.0),
@@ -143,56 +146,45 @@ class _list_appointmentState extends State<list_appointment> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      height: 20,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text('Accepted'),
-                        style: ElevatedButton.styleFrom(primary: Colors.green),
-                      ),
-                    ),
+                        height: 20,
+                        child: AppButton(
+                            onPress: () => null,
+                            label: 'Accepted',
+                            bcolor: Colors.green,
+                            borderCurve: 5)),
                     SizedBox(width: 10.0),
                     Container(
-                      height: 20,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        child: Text('Print Appointment'),
-                        style: ElevatedButton.styleFrom(primary: Colors.green),
-                      ),
-                    ),
+                        height: 20, child: Image.asset('assets/logoss.jpg')),
                   ],
                 ),
               if (chats[index]['status'] == '3' &&
                   (chats[index]['reason'] == 'Procedure - Medical' ||
                       chats[index]['reason'] == 'Procedure - Surgical'))
                 Container(
-                  margin: EdgeInsets.only(top: 10.0),
-                  height: 20,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => postProcedures(
-                            client: chats[index]['client'],
-                            doctor: chats[index]['doctor'],
-                            reason: chats[index]['reason'],
-                            date_attended: chats[index]['date_attended'],
-                          ),
-                        ),
-                      );
-                    },
-                    child: Text('Post Procedures'),
-                    style: ElevatedButton.styleFrom(primary: Colors.green),
-                  ),
-                ),
+                    margin: EdgeInsets.only(top: 10.0),
+                    height: 20,
+                    child: AppButton(
+                        onPress: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => postProcedures(
+                                  client: chats[index]['client'],
+                                  doctor: chats[index]['doctor'],
+                                  reason: chats[index]['reason'],
+                                  date_attended: chats[index]['date_attended'],
+                                ),
+                              ),
+                            ),
+                        label: 'Post Procedures',
+                        bcolor: Colors.green,
+                        borderCurve: 5)),
               if (chats[index]['status'] == '4')
                 Container(
-                  height: 20,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Missed'),
-                    style: ElevatedButton.styleFrom(primary: Colors.red),
-                  ),
-                ),
+                    height: 20,
+                    child: AppButton(
+                        onPress: () => null,
+                        label: 'Missed',
+                        bcolor: Colors.red,
+                        borderCurve: 5)),
             ],
           ),
         ),

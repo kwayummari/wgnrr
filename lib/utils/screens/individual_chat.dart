@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
@@ -37,9 +36,9 @@ class _IndividualchatsState extends State<Individualchats> {
         "type": '1'.toString(),
       });
       if (response.statusCode == 200) {
+        comments.clear();
         setState(() {
           get_comments();
-          comments.clear();
         });
       }
     }
@@ -80,7 +79,7 @@ class _IndividualchatsState extends State<Individualchats> {
                 ),
                 child: Scrollbar(
                   child: TextFormField(
-                    style: GoogleFonts.vesperLibre(
+                    style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
@@ -110,7 +109,7 @@ class _IndividualchatsState extends State<Individualchats> {
                       hoverColor: HexColor('#742B90'),
                       focusColor: HexColor('#742B90'),
                       hintText: 'Message',
-                      hintStyle: GoogleFonts.vesperLibre(
+                      hintStyle: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,

@@ -1,14 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/animation/shimmers/tips-shimmer.dart';
 import 'package:wgnrr/utils/screens/allchoices.dart';
-import 'package:wgnrr/utils/animation/refresh_widget.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Choices extends StatefulWidget {
   const Choices({super.key});
@@ -83,10 +82,9 @@ class _ChoicesState extends State<Choices> {
                 alignment: Alignment.centerLeft,
                 child: Title(
                     color: HexColor('#F5841F'),
-                    child: Text(
-                      language == 'Kiswahili' ? 'Mada' : 'Topics',
-                      style: GoogleFonts.vesperLibre(
-                          color: HexColor('#F5841F'), fontSize: 15),
+                    child: AppText(
+                      txt: language == 'Kiswahili' ? 'Mada' : 'Topics',
+                          color: HexColor('#F5841F'), size: 15,
                     ))),
           ),
           data.isEmpty ? tipShimmerLoading(borderRadius: 20, height: 125.0, width: MediaQuery.of(context).size.width / 2.4,) :Expanded(
@@ -143,12 +141,11 @@ class _ChoicesState extends State<Choices> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                language == 'Kiswahili'
+                              AppText(
+                                txt: language == 'Kiswahili'
                                     ? 'Soma zaidi'
                                     : 'Read More',
-                                style: GoogleFonts.vesperLibre(
-                                    color: HexColor('#800B24')),
+                                    color: HexColor('#800B24'),size: 15,
                               ),
                               Icon(
                                 Icons.arrow_forward,

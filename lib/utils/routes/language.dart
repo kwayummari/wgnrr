@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/authentication/login.dart';
@@ -32,9 +31,8 @@ class _LanguageState extends State<Language> {
               color: Colors.white,
               size: 20,
             ),
-            Text(
-              'Chagua Lugha yako',
-              style: GoogleFonts.vesperLibre(color: Colors.white),
+            AppText(
+              txt: 'Chagua Lugha yako',color: Colors.white,size: 15,
             ),
             SizedBox(
               height: 30,

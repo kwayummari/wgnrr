@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
@@ -12,6 +11,7 @@ import 'package:wgnrr/utils/screens/stats.dart';
 import 'package:wgnrr/utils/screens/topcircular.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 
 List datas = [];
@@ -103,14 +103,13 @@ class _HomeState extends State<Home> {
         elevation: 4,
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
-        title: Text(
-            language == 'Kiswahili'
+        title: AppText(
+            txt: language == 'Kiswahili'
                 ? 'Karibu ${username}'
                 : 'Welcome ${username}',
-            style: GoogleFonts.vesperLibre(
-                fontSize: 15,
-                color: HexColor('#ffffff'),
-                fontWeight: FontWeight.w500)),
+                size: 15,
+                color: Colors.white,
+                weight: FontWeight.w500,),
         centerTitle: true,
       ),
       backgroundColor: HexColor('#742B90'),

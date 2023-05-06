@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:connectivity/connectivity.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
@@ -11,6 +10,7 @@ import 'package:wgnrr/utils/animation/shimmers/topcircular-shimmer.dart';
 import 'package:wgnrr/utils/database/initializing.dart';
 import 'package:wgnrr/utils/database/models/feeds.dart';
 import 'package:wgnrr/utils/screens/viewtopcircular.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Topcircular extends StatefulWidget {
   const Topcircular({super.key});
@@ -174,15 +174,15 @@ class _TopcircularState extends State<Topcircular> {
                                     BorderRadius.all(Radius.circular(5.0)),
                                 border: Border.all(color: Colors.black),
                               ),
-                              child: Text(
-                                datas[i]['title'].toString().length > 40
+                              child: AppText(
+                                txt: datas[i]['title'].toString().length > 40
                                     ? datas[i]['title']
                                             .toString()
                                             .substring(0, 40) +
                                         '...'
                                     : datas[i]['title'].toString(),
-                                style: GoogleFonts.vesperLibre(
-                                    color: Colors.white),
+                                    color: Colors.white,
+                                    size: 15,
                               ),
                             ),
                           ),

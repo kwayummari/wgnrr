@@ -8,9 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/home.dart';
 import 'package:wgnrr/utils/routes/language.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Splash extends StatefulWidget {
-  
   const Splash({Key? key}) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   var language;
   _navigatortohome() async {
     await getValidationData().whenComplete(() async {
-      await Future.delayed(Duration(seconds: 1), () {});
+      await Future.delayed(Duration(seconds: 5), () {});
       if (language == null && username == null && status == null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Language()));
@@ -70,12 +70,27 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: HexColor('#ffffff'),
-      body: Center(
-          child: SpinKitCircle(
-        // duration: const Duration(seconds: 3),
-        size: 70,
-        color: HexColor('#742B90'),
-      )),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 200,
+            ),
+            Image.asset('assets/logoss.jpg'),
+            SizedBox(
+              height: 20,
+            ),
+            AppText(txt: 'MimiCare', size: 25, color: Colors.black, weight: FontWeight.bold,),
+            Center(
+                child: SpinKitCircle(
+              // duration: const Duration(seconds: 3),
+              size: 40,
+              color: HexColor('#742B90'),
+            )),
+            
+          ],
+        ),
+      ),
     );
   }
 }

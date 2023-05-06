@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
@@ -97,7 +95,7 @@ class _HomeState extends State<Home> {
             language == 'Kiswahili'
                 ? 'Karibu ${username}'
                 : 'Welcome ${username}',
-            style: GoogleFonts.vesperLibre(
+            style: TextStyle(
                 fontSize: 15,
                 color: HexColor('#ffffff'),
                 fontWeight: FontWeight.w500)),

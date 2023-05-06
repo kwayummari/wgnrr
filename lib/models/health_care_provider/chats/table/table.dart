@@ -1,11 +1,11 @@
 // ignore_for_file: unused_field
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/models/health_care_provider/chats/table/list_chats.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Chat_table extends StatefulWidget {
   const Chat_table({super.key});
@@ -65,14 +65,13 @@ class _Chat_tableState extends State<Chat_table> {
           elevation: 4,
           toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
-          title: Text(
-              language == 'Kiswahili'
+          title: AppText(
+              txt: language == 'Kiswahili'
                   ? 'Karibu ${username}'
                   : 'Welcome ${username}',
-              style: GoogleFonts.vesperLibre(
-                  fontSize: 15,
-                  color: HexColor('#ffffff'),
-                  fontWeight: FontWeight.w500)),
+                  size: 15,
+                  color: Colors.white,
+                  weight: FontWeight.w500,),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

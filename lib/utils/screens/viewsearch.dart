@@ -2,14 +2,13 @@
 
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Viewchoicesearch extends StatefulWidget {
   var title;
@@ -65,24 +64,26 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
             right: 0,
             child: FadeAnimation(
                 1.2,
-                CachedNetworkImage(
-                  imageUrl:
-                      '${murl}choices/image/${data[1]['image']}',
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Container(
-                    height: 400,
-                    width: double.infinity,
-                    color: Colors.black,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: downloadProgress.progress,
-                        color: Colors.white,
-                        strokeWidth: 3,
-                      ),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                )),
+                Image.network('${murl}choices/image/${data[1]['image']}'),
+                // CachedNetworkImage(
+                //   imageUrl:
+                //       '${murl}choices/image/${data[1]['image']}',
+                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
+                //       Container(
+                //     height: 400,
+                //     width: double.infinity,
+                //     color: Colors.black,
+                //     child: Center(
+                //       child: CircularProgressIndicator(
+                //         value: downloadProgress.progress,
+                //         color: Colors.white,
+                //         strokeWidth: 3,
+                //       ),
+                //     ),
+                //   ),
+                //   errorWidget: (context, url, error) => Icon(Icons.error),
+                // )
+                ),
           ),
           Positioned(
             top: 50,
@@ -127,13 +128,11 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                       FadeAnimation(
                         1.3,
                         Center(
-                          child: Text(
-                            '${widget.title}',
-                            style: GoogleFonts.vesperLibre(
+                          child: AppText(
+                            txt: '${widget.title}',
                               color: HexColor('#F5841F'),
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                              size: 18,
+                              weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -152,13 +151,11 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              'Date -${data[1]['date']}',
-                              style: GoogleFonts.vesperLibre(
+                            AppText(
+                              txt: 'Date -${data[1]['date']}',
                                 color: HexColor('#F5841F'),
-                                // fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 18,
+                                weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -174,13 +171,11 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             SizedBox(
                               width: 10,
                             ),
-                            Text(
-                              'Author -${data[1]['author']}',
-                              style: GoogleFonts.vesperLibre(
+                            AppText(
+                              txt: 'Author -${data[1]['author']}',
                                 color: HexColor('#F5841F'),
-                                // fontSize: 1,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 15,
+                                weight: FontWeight.w700,
                             ),
                           ],
                         ),
@@ -194,13 +189,10 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
-                        'Caption',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt: 'Caption',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -210,13 +202,11 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                         child: Center(
                           child: FadeAnimation(
                             1.3,
-                            Text(
-                              '${data[1]['caption']}',
-                              style: GoogleFonts.vesperLibre(
+                            AppText(
+                              txt: '${data[1]['caption']}',
                                 color: HexColor('#F5841F'),
-                                fontSize: 15,
-                                fontWeight: FontWeight.w700,
-                              ),
+                                size: 15,
+                                weight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -224,13 +214,10 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text(
-                        'Description',
-                        style: GoogleFonts.vesperLibre(
+                      AppText(
+                        txt: 'Description',
                           color: HexColor('#981EE4'),
-                          fontSize: 18,
-                          height: 1.4,
-                        ),
+                          size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -239,14 +226,11 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                             border: Border.all(color: Colors.black)),
                         child: FadeAnimation(
                           1.4,
-                          Text(
-                            '${data[1]['description']}',
-                            style: GoogleFonts.vesperLibre(
+                          AppText(
+                            txt: '${data[1]['description']}',
                               color: HexColor('#F5841F'),
-                              fontWeight: FontWeight.w700,
-                              fontSize: 15,
-                              height: 1.4,
-                            ),
+                              weight: FontWeight.w700,
+                              size: 15,
                           ),
                         ),
                       ),

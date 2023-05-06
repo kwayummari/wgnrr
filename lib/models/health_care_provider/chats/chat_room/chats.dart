@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -233,7 +232,7 @@ class _ChatsState extends State<Chats> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
-                        style: GoogleFonts.vesperLibre(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -263,7 +262,7 @@ class _ChatsState extends State<Chats> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
-                          hintStyle: GoogleFonts.vesperLibre(
+                          hintStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                             fontSize: 15,

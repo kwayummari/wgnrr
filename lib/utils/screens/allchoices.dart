@@ -2,10 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:better_player/better_player.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mime/mime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,10 +11,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/animation/shimmers/allchoices-shimmer.dart';
-import 'package:wgnrr/utils/routes/language.dart';
+import 'package:wgnrr/utils/animation/shimmers/image-shimmer.dart';
 import 'package:wgnrr/utils/screens/comment/comment.dart';
 import 'package:wgnrr/utils/screens/viewchoice.dart';
 import 'package:wgnrr/utils/screens/viewsearch.dart';
+import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 enum MenuItem {
@@ -110,34 +108,20 @@ class _AllState extends State<All> {
     var file_type = lookupMimeType(link);
     final names = file_type.toString().split("/");
     final type = names[0];
-    return type == 'image'
-        ? Padding(
-            padding: const EdgeInsets.only(left: 8, right: 8),
-            child: CachedNetworkImage(
-              height: 400,
-              imageUrl: link,
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  Container(
-                height: 400,
-                width: double.infinity,
-                color: Colors.black,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    value: downloadProgress.progress,
-                    color: Colors.white,
-                    strokeWidth: 3,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          )
-        : Container(
-            width: MediaQuery.of(context).size.width,
-            height: 500,
-            child: BetterPlayer.network(
-              '${link}.mp4',
-            ));
+    return Padding(
+      padding: const EdgeInsets.only(left: 8, right: 8),
+      child: MyImageWidget(
+        imageUrl: link,
+        width: MediaQuery.of(context).size.width,
+        height: 300,
+      ),
+    );
+    // : Container(
+    //     width: MediaQuery.of(context).size.width,
+    //     height: 500,
+    //     child: BetterPlayer.network(
+    //       '${link}.mp4',
+    //     ));
   }
 
   TextEditingController search = TextEditingController();
@@ -155,182 +139,34 @@ class _AllState extends State<All> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerEnableOpenDragGesture: false,
+      drawer: AppDrawer(
+        username: username,
+        language: language,
+        status: status,
+      ),
       appBar: AppBar(
+        leading: Builder(
+            builder: (context) => // Ensure Scaffold is in context
+                IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                )),
         automaticallyImplyLeading: false,
+        shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
         elevation: 4,
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
-        title: Row(
-          children: [
-            SizedBox(
-              width: 15,
-            ),
-            PopupMenuButton(
-                color: HexColor('#742B90'),
-                onSelected: (value) async {
-                  if (value == MenuItem.item4) {
-                    final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    sharedPreferences.remove('username');
-                    sharedPreferences.remove('status');
-                    sharedPreferences.remove('bot');
-                    sharedPreferences.remove('language');
-                    Navigator.of(context).pushAndRemoveUntil(
-                        // the new route
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Language(),
-                        ),
-                        (Route route) => false);
-                  } else if (value == MenuItem.item3) {
-                    Navigator.pop(context);
-                  }
-                },
-                position: PopupMenuPosition.under,
-                child: Icon(
-                  Icons.menu,
-                  color: HexColor('#ffffff'),
-                ),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: MenuItem.item1,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(username.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item2,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.library_books,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(status.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item3,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.home,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text('Home',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item4,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Toka'
-                                        : 'Sign Out!',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-            Spacer(),
-            Text(widget.title == null ? '' : widget.title,
-                style: GoogleFonts.vesperLibre(
-                    fontSize: 15,
-                    color: HexColor('#ffffff'),
-                    fontWeight: FontWeight.w500)),
-            Spacer(),
-            IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: MySearchDelegate());
-                },
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.white,
-                ))
-          ],
+        title: AppText(
+          txt: language == 'Kiswahili'
+              ? 'Karibu ${username}'
+              : 'Welcome ${username}',
+          size: 15,
+          color: HexColor('#ffffff'),
+          weight: FontWeight.w500,
         ),
         centerTitle: true,
       ),
@@ -342,7 +178,7 @@ class _AllState extends State<All> {
           data.isEmpty
               ? allchoicesShimmerLoading(
                   borderRadius: 20,
-                  commentheight: 50,
+                  commentheight: 20,
                   commentwidth: MediaQuery.of(context).size.width,
                   height: 400,
                   width: MediaQuery.of(context).size.width,
@@ -364,12 +200,11 @@ class _AllState extends State<All> {
                                   backgroundColor: Colors.white,
                                   radius: 20,
                                   child: Image.asset('assets/icon.ico')),
-                              Text(
-                                'WGNRR',
-                                style: GoogleFonts.vesperLibre(
-                                    color: Colors.black,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500),
+                              AppText(
+                                txt: 'MIMI CARE',
+                                color: Colors.black,
+                                size: 15,
+                                weight: FontWeight.w500,
                               )
                             ],
                           ),
@@ -431,6 +266,7 @@ class _AllState extends State<All> {
                                             title: data[index]['name'],
                                             username: username,
                                             image: data[index]['image'],
+                                            language: language,
                                           )));
                                 },
                                 icon: InkWell(
@@ -489,6 +325,7 @@ class _AllState extends State<All> {
                                             title: data[index]['name'],
                                             username: username,
                                             image: data[index]['image'],
+                                            language: language,
                                           )));
                                 },
                                 child: AppText(
@@ -516,6 +353,7 @@ class _AllState extends State<All> {
                                           title: data[index]['name'],
                                           username: username,
                                           image: data[index]['image'],
+                                          language: language,
                                         )));
                               },
                               child: Padding(
@@ -565,9 +403,10 @@ class MySearchDelegate extends SearchDelegate {
       ];
   @override
   Widget buildResults(BuildContext context) => Center(
-        child: Text(
-          query,
-          style: GoogleFonts.vesperLibre(color: Colors.black),
+        child: AppText(
+          txt: query,
+          color: Colors.black,
+          size: 15,
         ),
       );
   @override

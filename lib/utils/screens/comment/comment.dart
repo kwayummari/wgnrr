@@ -4,11 +4,11 @@ import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Comment extends StatefulWidget {
   var choice_id;
@@ -103,11 +103,10 @@ class _CommentState extends State<Comment> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: Text(widget.title,
-            style: GoogleFonts.vesperLibre(
-              color: Colors.white,
-              fontSize: 15,
-            )),
+        title: AppText(txt: widget.title,
+        color: Colors.white,
+              size: 15,
+            ),
         backgroundColor: HexColor('#742B90'),
       ),
       body: Stack(children: [
@@ -119,13 +118,12 @@ class _CommentState extends State<Comment> {
                       height: 200,
                     ),
                     Center(
-                      child: Text(
-                        'No comments available at the moment',
-                        style: GoogleFonts.vesperLibre(
+                      child: AppText(
+                        txt: 'No comments available at the moment',
                           color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
+                          weight: FontWeight.w400,
+                          size: 20,
+                        
                       ),
                     )
                   ],
@@ -150,15 +148,14 @@ class _CommentState extends State<Comment> {
                                   _comments[index]['username'] == username
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
-                              child: Text(
-                                  _comments[index]['username'] == username
+                              child: AppText(
+                                  txt: _comments[index]['username'] == username
                                       ? username.toString()
                                       : _comments[index]['username'],
-                                  style: GoogleFonts.vesperLibre(
                                     color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 15,
-                                  )),
+                                    weight: FontWeight.w400,
+                                    size: 15,
+                                  ),
                             ),
                             Align(
                               alignment:
@@ -189,16 +186,14 @@ class _CommentState extends State<Comment> {
                                               username
                                           ? BubbleNip.rightTop
                                           : BubbleNip.leftTop,
-                                      child: Text(
-                                        _comments[index]['comment'],
-                                        style: GoogleFonts.vesperLibre(
+                                      child: AppText(
+                                        txt: _comments[index]['comment'],
                                           color: _comments[index]['username'] ==
                                                   username
                                               ? Colors.white
                                               : Colors.white,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 15,
-                                        ),
+                                          weight: FontWeight.w400,
+                                          size: 15,
                                       ),
                                     )),
                               ),
@@ -236,7 +231,7 @@ class _CommentState extends State<Comment> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
-                        style: GoogleFonts.vesperLibre(
+                        style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: 20,
@@ -266,7 +261,7 @@ class _CommentState extends State<Comment> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
-                          hintStyle: GoogleFonts.vesperLibre(
+                          hintStyle: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.w400,
                             fontSize: 15,

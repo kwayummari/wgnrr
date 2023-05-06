@@ -1,13 +1,9 @@
 // ignore_for_file: unused_field, unused_local_variable
-
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 class No_comment extends StatefulWidget {
   const No_comment({super.key});
@@ -76,11 +72,9 @@ class _No_commentState extends State<No_comment> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: Text('widget.caption',
-            style: GoogleFonts.vesperLibre(
-              color: Colors.white,
-              fontSize: 20,
-            )),
+        title: AppText(txt: 'widget.caption',
+        size: 20,
+        color: Colors.white,),
         backgroundColor: Colors.grey.shade900,
       ),
       body: SingleChildScrollView(
@@ -91,13 +85,11 @@ class _No_commentState extends State<No_comment> {
               height: size.height,
             ),
             Center(
-              child: Text(
-                'No Text available at the moment',
-                style: GoogleFonts.vesperLibre(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
+              child: AppText(
+                txt: 'No Text available at the moment',
+                size: 20,
+                color: Colors.black,
+                weight: FontWeight.w400,
               ),
             ),
             Positioned(
@@ -143,7 +135,7 @@ class _No_commentState extends State<No_comment> {
                         hoverColor: Theme.of(context).iconTheme.color,
                         focusColor: Theme.of(context).iconTheme.color,
                         hintText: 'Message',
-                        hintStyle: GoogleFonts.vesperLibre(
+                        hintStyle: TextStyle(
                             fontSize: 15.0,
                             color: Theme.of(context).iconTheme.color),
                         contentPadding: EdgeInsets.only(

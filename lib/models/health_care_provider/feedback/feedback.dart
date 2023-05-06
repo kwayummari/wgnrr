@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 import '../../../utils/routes/language.dart';
 
@@ -88,186 +88,36 @@ class _QuizState extends State<Quiz> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
-        elevation: 4,
-        toolbarHeight: 70,
-        backgroundColor: HexColor('#742B90'),
-        title: Row(
-          children: [
-            SizedBox(
-              width: 15,
-            ),
-            PopupMenuButton(
-                color: HexColor('#742B90'),
-                onSelected: (value) async {
-                  if (value == MenuItem.item3) {
-                    final SharedPreferences sharedPreferences =
-                        await SharedPreferences.getInstance();
-                    sharedPreferences.remove('username');
-                    sharedPreferences.remove('status');
-                    sharedPreferences.remove('bot');
-                    sharedPreferences.remove('language');
-                    Navigator.of(context).pushAndRemoveUntil(
-                        // the new route
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => Language(),
-                        ),
-                        (Route route) => false);
-                  } else if (value == MenuItem.item4) {
-                    // _callNumber();
-                  } else if (value == MenuItem.item2) {
-                    Navigator.pop(context);
-                  }
-                },
-                position: PopupMenuPosition.under,
-                child: Icon(
-                  Icons.menu,
-                  color: HexColor('#ffffff'),
-                ),
-                itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: MenuItem.item1,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    username == null
-                                        ? ''
-                                        : username.toString() +
-                                            ' - ' +
-                                            status.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item2,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.home_filled,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text('Home',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item4,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.phone,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text('Contact us',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: MenuItem.item3,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.logout,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                    language == 'Kiswahili'
-                                        ? 'Toka'
-                                        : 'Sign Out!',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
-                                SizedBox(
-                                  width: 30,
-                                ),
-                              ],
-                            ),
-                            Divider(
-                              color: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ]),
-            Spacer(),
-            AppText(
-              txt: 'Feedback SECTION'.toUpperCase(),
-              weight: FontWeight.w700,
-              color: Colors.white,
-              size: 20,
-            ),
-            Spacer()
-          ],
+      drawerEnableOpenDragGesture: false,
+        drawer: AppDrawer(
+          username: username,
+          language: language,
+          status: status,
         ),
-        centerTitle: true,
-      ),
+        appBar: AppBar(
+          leading: Builder(
+              builder: (context) => // Ensure Scaffold is in context
+                  IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => Scaffold.of(context).openDrawer(),
+                  )),
+          automaticallyImplyLeading: false,
+          shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
+          elevation: 4,
+          toolbarHeight: 70,
+          backgroundColor: HexColor('#742B90'),
+          title: AppText(
+              txt: language == 'Kiswahili'
+                  ? 'Karibu ${username}'
+                  : 'Welcome ${username}',
+                  size: 15,
+                  color: Colors.white,
+                  weight: FontWeight.w500,),
+          centerTitle: true,
+        ),
       body: SingleChildScrollView(
         child: Align(
           alignment: Alignment.center,
@@ -314,7 +164,7 @@ class _QuizState extends State<Quiz> {
                       hoverColor: HexColor('#742B90'),
                       focusColor: HexColor('#742B90'),
                       hintText: 'Message',
-                      hintStyle: GoogleFonts.vesperLibre(
+                      hintStyle: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -322,12 +172,12 @@ class _QuizState extends State<Quiz> {
                       contentPadding: EdgeInsets.only(
                           top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
                     ),
-                    hint: Text(
-                      language == 'Kiswahili'
+                    hint: AppText(
+                      txt: language == 'Kiswahili'
                           ? 'Aina ya Maoni'
                           : 'Feedback type',
-                      style: GoogleFonts.vesperLibre(
-                          fontSize: 15, color: Colors.black),
+                          size: 15,
+                          color: Colors.black,
                     ),
                     validator: (value) {
                       if (value == null) {
@@ -347,10 +197,10 @@ class _QuizState extends State<Quiz> {
                     items: types.map((valueItem) {
                       return DropdownMenuItem(
                         value: valueItem,
-                        child: Text(
-                          valueItem != null ? valueItem : 'default value',
-                          style: GoogleFonts.vesperLibre(
-                              color: Colors.black, fontSize: 15),
+                        child: AppText(
+                          txt: valueItem != null ? valueItem : 'default value',
+                          color: Colors.black,
+                          size: 15,
                         ),
                       );
                     }).toList(),
@@ -363,7 +213,7 @@ class _QuizState extends State<Quiz> {
                   height: 50,
                   width: 340,
                   child: TextFormField(
-                    style: GoogleFonts.vesperLibre(
+                    style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w400,
                       fontSize: 20,
@@ -390,7 +240,7 @@ class _QuizState extends State<Quiz> {
                       hoverColor: HexColor('#742B90'),
                       focusColor: HexColor('#742B90'),
                       hintText: 'Message',
-                      hintStyle: GoogleFonts.vesperLibre(
+                      hintStyle: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 15,
@@ -418,7 +268,7 @@ class _QuizState extends State<Quiz> {
                               foregroundColor: HexColor('#742B90'),
                               backgroundColor: HexColor('#742B90'),
                               textStyle:
-                                  GoogleFonts.vesperLibre(color: Colors.white),
+                                  TextStyle(color: Colors.white),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
                                   side: BorderSide(color: Colors.black)),

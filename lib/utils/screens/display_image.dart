@@ -1,4 +1,3 @@
-import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker_plus/image_picker_plus.dart';

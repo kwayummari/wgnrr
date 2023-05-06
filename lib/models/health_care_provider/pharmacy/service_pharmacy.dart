@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -161,14 +160,13 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
         elevation: 4,
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
-        title: Text(
-            language == 'Kiswahili'
+        title: AppText(
+            txt: language == 'Kiswahili'
                 ? 'Karibu ${username}'
                 : 'Welcome ${username}',
-            style: GoogleFonts.vesperLibre(
-                fontSize: 15,
+                size: 15,
                 color: HexColor('#ffffff'),
-                fontWeight: FontWeight.w500)),
+                weight: FontWeight.w500),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -200,11 +198,9 @@ class _servicesChoices_pharmacyState extends State<servicesChoices_pharmacy> {
                       errorBorder: InputBorder.none,
                     ),
                     // underline: SizedBox(),
-                    hint: Text(
-                      'Select Health Care Provider',
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                      ),
+                    hint: AppText(
+                      txt: 'Select Health Care Provider',
+                      size: 15,
                     ),
                     value: doctor,
                     items: doctors.map((list22) {

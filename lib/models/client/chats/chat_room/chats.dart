@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -123,20 +122,19 @@ class _ChatsState extends State<Chats> {
                       height: 200,
                     ),
                     Center(
-                      child: Text(
-                        'No comments available at the moment',
-                        style: GoogleFonts.vesperLibre(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
+                      child: AppText(
+                        txt: 'No comments available at the moment',
+                        color: Colors.black,
+                        size: 16,
+                        weight: FontWeight.w400,
                       ),
                     )
                   ],
                 ),
               )
             : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(8.0),
+                child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Column(
                     children: [
@@ -157,33 +155,34 @@ class _ChatsState extends State<Chats> {
                                   alignment: _comments[index]['part'] == '1'
                                       ? Alignment.centerRight
                                       : Alignment.centerLeft,
-                                  child: Text(
-                                      _comments[index]['part'] == '1'
+                                  child: AppText(
+                                      txt: _comments[index]['part'] == '1'
                                           ? username.toString()
                                           : _comments[index]['doctor'],
-                                      style: GoogleFonts.vesperLibre(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 15,
-                                      )),
+                                          size: 15,
+                                                          color: Colors.black,
+                                                          weight:
+                                                              FontWeight.w400,),
                                 ),
                                 _comments[index]['type'] == '1'
                                     ? Align(
-                                        alignment: _comments[index]['part'] == '1'
-                                            ? Alignment.centerRight
-                                            : Alignment.centerLeft,
+                                        alignment:
+                                            _comments[index]['part'] == '1'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
                                         child: Align(
                                           alignment:
                                               _comments[index]['part'] == '1'
                                                   ? Alignment.centerRight
                                                   : Alignment.centerLeft,
                                           child: Padding(
-                                              padding:
-                                                  _comments[index]['part'] == '1'
-                                                      ? const EdgeInsets.only(
-                                                          left: 150)
-                                                      : const EdgeInsets.only(
-                                                          right: 150),
+                                              padding: _comments[index]
+                                                          ['part'] ==
+                                                      '1'
+                                                  ? const EdgeInsets.only(
+                                                      left: 150)
+                                                  : const EdgeInsets.only(
+                                                      right: 150),
                                               child: InkWell(
                                                   highlightColor: Colors.white,
                                                   focusColor: Colors.white,
@@ -195,7 +194,8 @@ class _ChatsState extends State<Chats> {
                                                             context) {
                                                           return AlertDialog(
                                                             content: Stack(
-                                                              children: <Widget>[
+                                                              children: <
+                                                                  Widget>[
                                                                 Positioned(
                                                                   right: -40.0,
                                                                   top: -40.0,
@@ -222,21 +222,18 @@ class _ChatsState extends State<Chats> {
                                                                       MainAxisSize
                                                                           .min,
                                                                   children: [
-                                                                    if (_comments[
-                                                                                index]
+                                                                    if (_comments[index]
                                                                             [
                                                                             'part'] ==
                                                                         '1')
                                                                       Row(
                                                                         children: [
                                                                           IconButton(
-                                                                              onPressed:
-                                                                                  () {
+                                                                              onPressed: () {
                                                                                 Deletechat(_comments[index]['id']);
                                                                                 Navigator.pop(context);
                                                                               },
-                                                                              icon:
-                                                                                  Icon(Icons.delete)),
+                                                                              icon: Icon(Icons.delete)),
                                                                           AppText(
                                                                             size:
                                                                                 15,
@@ -258,10 +255,13 @@ class _ChatsState extends State<Chats> {
                                                         color: _comments[index]
                                                                     ['part'] ==
                                                                 '1'
-                                                            ? HexColor('#742B90')
-                                                            : HexColor('#772255'),
-                                                        margin: BubbleEdges.only(
-                                                            top: 10),
+                                                            ? HexColor(
+                                                                '#742B90')
+                                                            : HexColor(
+                                                                '#772255'),
+                                                        margin:
+                                                            BubbleEdges.only(
+                                                                top: 10),
                                                         alignment: _comments[
                                                                         index]
                                                                     ['part'] ==
@@ -273,22 +273,19 @@ class _ChatsState extends State<Chats> {
                                                                 '1'
                                                             ? BubbleNip.rightTop
                                                             : BubbleNip.leftTop,
-                                                        child: Text(
-                                                          _comments[index]
+                                                        child: AppText(
+                                                          txt: _comments[index]
                                                               ['comment'],
-                                                          style: GoogleFonts
-                                                              .vesperLibre(
-                                                            color: _comments[
-                                                                            index]
-                                                                        [
-                                                                        'part'] ==
-                                                                    '1'
-                                                                ? Colors.white
-                                                                : Colors.white,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            fontSize: 15,
-                                                          ),
+                                                          size: 15,
+                                                          color: _comments[
+                                                                          index]
+                                                                      [
+                                                                      'part'] ==
+                                                                  '1'
+                                                              ? Colors.white
+                                                              : Colors.white,
+                                                          weight:
+                                                              FontWeight.w400,
                                                         ),
                                                       ),
                                                       if (_comments[index]
@@ -317,21 +314,23 @@ class _ChatsState extends State<Chats> {
                                         ),
                                       )
                                     : Align(
-                                        alignment: _comments[index]['part'] == '1'
-                                            ? Alignment.centerRight
-                                            : Alignment.centerLeft,
+                                        alignment:
+                                            _comments[index]['part'] == '1'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
                                         child: Align(
                                           alignment:
                                               _comments[index]['part'] == '1'
                                                   ? Alignment.centerRight
                                                   : Alignment.centerLeft,
                                           child: Padding(
-                                              padding:
-                                                  _comments[index]['part'] == '1'
-                                                      ? const EdgeInsets.only(
-                                                          left: 150)
-                                                      : const EdgeInsets.only(
-                                                          right: 150),
+                                              padding: _comments[index]
+                                                          ['part'] ==
+                                                      '1'
+                                                  ? const EdgeInsets.only(
+                                                      left: 150)
+                                                  : const EdgeInsets.only(
+                                                      right: 150),
                                               child: InkWell(
                                                 highlightColor: Colors.white,
                                                 focusColor: Colors.white,
@@ -339,8 +338,8 @@ class _ChatsState extends State<Chats> {
                                                 onLongPress: () {
                                                   showDialog(
                                                       context: context,
-                                                      builder:
-                                                          (BuildContext context) {
+                                                      builder: (BuildContext
+                                                          context) {
                                                         return AlertDialog(
                                                           content: Stack(
                                                             children: <Widget>[
@@ -406,8 +405,8 @@ class _ChatsState extends State<Chats> {
                                                             '1'
                                                         ? HexColor('#742B90')
                                                         : HexColor('#772255'),
-                                                    margin:
-                                                        BubbleEdges.only(top: 10),
+                                                    margin: BubbleEdges.only(
+                                                        top: 10),
                                                     alignment: _comments[index]
                                                                 ['part'] ==
                                                             '1'
@@ -438,7 +437,7 @@ class _ChatsState extends State<Chats> {
                     ],
                   ),
                 ),
-            ),
+              ),
         Individualchats(
             client: widget.client, doctor: widget.doctor, username: username)
       ]),

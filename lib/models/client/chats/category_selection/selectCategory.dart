@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wgnrr/models/client/chats/table/facility_maping.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/utils/routes/language.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 
 enum MenuItem { item1, item2, item3, item4, item5 }
 
@@ -94,12 +93,11 @@ class _selectCategoryState extends State<selectCategory> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text(
-                                    username == null ? '' : username.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
+                                AppText(
+                                    txt: username == null ? '' : username.toString(),
+                                    size: 15,
+                                    color: Colors.white,
+                                    weight: FontWeight.w500,),
                                 SizedBox(
                                   width: 30,
                                 ),
@@ -125,11 +123,9 @@ class _selectCategoryState extends State<selectCategory> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text(status.toString(),
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
+                                AppText(txt: status.toString(),size: 15,
+                                    color: Colors.white,
+                                    weight: FontWeight.w500,),
                                 SizedBox(
                                   width: 30,
                                 ),
@@ -155,14 +151,12 @@ class _selectCategoryState extends State<selectCategory> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text(
-                                    language == 'Kiswahili'
+                                AppText(
+                                    txt: language == 'Kiswahili'
                                         ? 'Toka'
-                                        : 'Sign Out!',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
+                                        : 'Sign Out!',size: 15,
+                                    color: Colors.white,
+                                    weight: FontWeight.w500,),
                                 SizedBox(
                                   width: 30,
                                 ),
@@ -188,11 +182,9 @@ class _selectCategoryState extends State<selectCategory> {
                                 SizedBox(
                                   width: 7,
                                 ),
-                                Text('Home',
-                                    style: GoogleFonts.rajdhani(
-                                        fontSize: 15,
-                                        color: HexColor('#ffffff'),
-                                        fontWeight: FontWeight.w500)),
+                                AppText(txt: 'Home',size: 15,
+                                    color: Colors.white,
+                                    weight: FontWeight.w500,),
                                 SizedBox(
                                   width: 30,
                                 ),
@@ -209,13 +201,11 @@ class _selectCategoryState extends State<selectCategory> {
             Center(
               child: Container(
                   width: size.width / 1.4,
-                  child: Text(
-                    language == 'Kiswahili' ? 'Chagua Kategoria' : 'Choose Category',
-                    style: GoogleFonts.rajdhani(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 15,
-                    ),
+                  child: AppText(
+                    txt: language == 'Kiswahili' ? 'Chagua Kategoria' : 'Choose Category',
+                    size: 15,
+                                    color: Colors.white,
+                                    weight: FontWeight.w500,
                   )),
             ),
             Spacer(),
