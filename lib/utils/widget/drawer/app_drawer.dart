@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -49,6 +48,32 @@ class _AppDrawerState extends State<AppDrawer> {
             Divider(
               color: Colors.black,
             ),
+            if (widget.update.toString() != '1' || widget.update == null)
+              ListTile(
+                tileColor: Colors.red,
+                onTap: () async {
+                  var url =
+                      'https://play.google.com/store/apps/details?id=com.wgnrr.app';
+                  launchUrl(Uri.parse(url));
+                },
+                leading: Icon(
+                  Icons.update,
+                  color: Colors.white,
+                  size: 15,
+                ),
+                title: AppText(
+                  txt: widget.language == 'Kiswahili'
+                      ? 'Nyenyekea programu yako'
+                      : 'Update your application',
+                  size: 15,
+                  color: Colors.white,
+                  weight: FontWeight.w500,
+                ),
+              ),
+            if (widget.update.toString() != '1' || widget.update == null)
+              Divider(
+                color: Colors.black,
+              ),
             ListTile(
               leading: Icon(
                 Icons.person_2,
@@ -186,28 +211,6 @@ class _AppDrawerState extends State<AppDrawer> {
                 txt: widget.language == 'Kiswahili' ? 'Mpangilio' : 'Settings',
                 size: 15,
                 color: HexColor('#000000'),
-                weight: FontWeight.w500,
-              ),
-            ),
-            if(widget.update.toString() != '1' || widget.update == null)
-            ListTile(
-              tileColor: Colors.red,
-              onTap: () async {
-                var url =
-                    'https://play.google.com/store/apps/details?id=com.wgnrr.app';
-                launchUrl(Uri.parse(url));
-              },
-              leading: Icon(
-                Icons.update,
-                color: Colors.white,
-                size: 15,
-              ),
-              title: AppText(
-                txt: widget.language == 'Kiswahili'
-                    ? 'Nyenyekea programu yako'
-                    : 'Update your application',
-                size: 15,
-                color: Colors.white,
                 weight: FontWeight.w500,
               ),
             ),
