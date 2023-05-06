@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
 import 'package:wgnrr/models/client/appointment/results.dart';
 import 'package:wgnrr/models/client/home.dart';
@@ -7,15 +9,18 @@ import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/settings/settings.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
+import 'package:http/http.dart' as http;
 
 class AppDrawer extends StatefulWidget {
   var language;
   var status;
   var username;
+  var update;
   AppDrawer(
       {Key? key,
       required this.language,
       required this.status,
+      required this.update,
       required this.username});
 
   @override
@@ -185,11 +190,33 @@ class _AppDrawerState extends State<AppDrawer> {
                 weight: FontWeight.w500,
               ),
             ),
+            if(widget.update != '1')
+            ListTile(
+              tileColor: Colors.red,
+              onTap: () async {
+                var url =
+                    'https://play.google.com/store/apps/details?id=com.wgnrr.app';
+                launchUrl(Uri.parse(url));
+              },
+              leading: Icon(
+                Icons.update,
+                color: Colors.white,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili'
+                    ? 'Nyenyekea programu yako'
+                    : 'Update your application',
+                size: 15,
+                color: Colors.white,
+                weight: FontWeight.w500,
+              ),
+            ),
             Divider(
               color: Colors.black,
             ),
             SizedBox(
-              height: 40,
+              height: 70,
             )
           ],
         ),
