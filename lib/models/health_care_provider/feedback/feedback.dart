@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -81,6 +83,19 @@ class _QuizState extends State<Quiz> {
   void initState() {
     super.initState();
     getValidationData();
+  update();
+  }
+  List updates = [];
+  Future update() async {
+    http.Response response;
+    const url = '${murl}version/get.php';
+    var response1 = await http.get(Uri.parse(url));
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          updates = json.decode(response1.body);
+        });
+    }
   }
 
   TextEditingController question = TextEditingController();
@@ -92,7 +107,7 @@ class _QuizState extends State<Quiz> {
         drawer: AppDrawer(
           username: username,
           language: language,
-          status: status,
+          status: status, update: null,
         ),
         appBar: AppBar(
           leading: Builder(

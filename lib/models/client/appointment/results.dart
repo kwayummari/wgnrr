@@ -52,7 +52,6 @@ class _ResultsState extends State<Results> {
         setState(() {
           updates = json.decode(response1.body);
         });
-      print(updates);
     }
   }
 

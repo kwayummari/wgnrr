@@ -1,12 +1,16 @@
 // ignore_for_file: unused_field
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/chats/table/facility_maping.dart';
 import 'package:wgnrr/models/client/chats/table/list_chats.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
+import 'package:http/http.dart' as http;
 
 enum MenuItem { item1, item2, item3, item4, item5 }
 
@@ -41,6 +45,19 @@ class _Chat_tableState extends State<Chat_table> {
   void initState() {
     super.initState();
     getValidationData();
+  update();
+  }
+  List updates = [];
+  Future update() async {
+    http.Response response;
+    const url = '${murl}version/get.php';
+    var response1 = await http.get(Uri.parse(url));
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          updates = json.decode(response1.body);
+        });
+    }
   }
 
   @override
@@ -51,7 +68,7 @@ class _Chat_tableState extends State<Chat_table> {
         drawer: AppDrawer(
           username: username,
           language: language,
-          status: status,
+          status: status, update: updates[0]['version'],
         ),
         appBar: AppBar(
           actions: [

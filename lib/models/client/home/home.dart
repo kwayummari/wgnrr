@@ -65,6 +65,19 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getValidationData();
+  update();
+  }
+  List updates = [];
+  Future update() async {
+    http.Response response;
+    const url = '${murl}version/get.php';
+    var response1 = await http.get(Uri.parse(url));
+    if (response1.statusCode == 200) {
+      if (mounted)
+        setState(() {
+          updates = json.decode(response1.body);
+        });
+    }
   }
 
   @override
@@ -75,7 +88,7 @@ class _HomeState extends State<Home> {
       drawer: AppDrawer(
         username: username,
         language: language,
-        status: status,
+        status: status, update: updates[0]['version'],
       ),
       appBar: AppBar(
         leading: Builder(
