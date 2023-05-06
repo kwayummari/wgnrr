@@ -53,7 +53,6 @@ class _viewResultsState extends State<viewResults> {
         setState(() {
           updates = json.decode(response1.body);
         });
-      print(updates);
     }
   }
   @override

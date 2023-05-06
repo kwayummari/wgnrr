@@ -9,7 +9,6 @@ import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/settings/settings.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
-import 'package:http/http.dart' as http;
 
 class AppDrawer extends StatefulWidget {
   var language;

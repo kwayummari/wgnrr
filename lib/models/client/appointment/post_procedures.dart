@@ -69,7 +69,6 @@ class _postProceduresState extends State<postProcedures> {
         setState(() {
           updates = json.decode(response1.body);
         });
-      print(updates);
     }
   }
 

@@ -193,7 +193,6 @@ class _servicesChoicesState extends State<servicesChoices> {
         setState(() {
           updates = json.decode(response1.body);
         });
-      print(updates);
     }
   }
 

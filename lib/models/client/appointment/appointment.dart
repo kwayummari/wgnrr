@@ -55,7 +55,6 @@ class _Appointment_tableState extends State<Appointment_table> {
         setState(() {
           updates = json.decode(response1.body);
         });
-      print(updates);
     }
   }
 
