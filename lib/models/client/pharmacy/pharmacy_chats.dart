@@ -45,8 +45,9 @@ class _PharmarcyState extends State<Pharmarcy> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -65,11 +66,14 @@ class _PharmarcyState extends State<Pharmarcy> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: AppDrawer(
-          username: username,
-          language: language,
-          status: status, update: updates[0]['version'],
-        ),
+        drawer: updates.isNotEmpty
+            ? AppDrawer(
+                username: username,
+                language: language,
+                status: status,
+                update: updates[0]['version'],
+              )
+            : null,
         appBar: AppBar(
           actions: [
             CircleAvatar(
@@ -102,9 +106,12 @@ class _PharmarcyState extends State<Pharmarcy> {
           backgroundColor: HexColor('#742B90'),
           title: AppText(
             size: 15,
-              txt: language == 'Kiswahili'
-                  ? 'Karibu ${username}'
-                  : 'Welcome ${username}',color: Colors.white,weight: FontWeight.w500,),
+            txt: language == 'Kiswahili'
+                ? 'Karibu ${username}'
+                : 'Welcome ${username}',
+            color: Colors.white,
+            weight: FontWeight.w500,
+          ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

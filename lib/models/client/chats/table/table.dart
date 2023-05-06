@@ -65,11 +65,11 @@ class _Chat_tableState extends State<Chat_table> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: AppDrawer(
-          username: username,
-          language: language,
-          status: status, update: updates[0]['version'],
-        ),
+        drawer: updates.isNotEmpty ? AppDrawer(
+        username: username,
+        language: language,
+        status: status, update: updates[0]['version'],
+      ) : null,
         appBar: AppBar(
           actions: [
             Padding(

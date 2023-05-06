@@ -59,11 +59,11 @@ class _viewResultsState extends State<viewResults> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: AppDrawer(
+      drawer: updates.isNotEmpty ? AppDrawer(
         username: widget.client,
         language: widget.language,
         status: widget.status, update: updates[0]['version'],
-      ),
+      ) : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context

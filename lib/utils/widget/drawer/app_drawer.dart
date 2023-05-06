@@ -189,7 +189,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 weight: FontWeight.w500,
               ),
             ),
-            if(widget.update != '1')
+            if(widget.update.toString() != '1' || widget.update == null)
             ListTile(
               tileColor: Colors.red,
               onTap: () async {

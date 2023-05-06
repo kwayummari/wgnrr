@@ -84,11 +84,11 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: AppDrawer(
+      drawer: updates.isNotEmpty ? AppDrawer(
         username: username,
         language: language,
         status: status, update: updates[0]['version'],
-      ),
+      ) : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context

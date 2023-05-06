@@ -104,11 +104,11 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-        drawer: AppDrawer(
-          username: username,
-          language: language,
-          status: status, update: null,
-        ),
+        drawer: updates.isNotEmpty ? AppDrawer(
+        username: username,
+        language: language,
+        status: status, update: updates[0]['version'],
+      ) : null,
         appBar: AppBar(
           leading: Builder(
               builder: (context) => // Ensure Scaffold is in context
