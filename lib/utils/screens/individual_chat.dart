@@ -36,6 +36,7 @@ class _IndividualchatsState extends State<Individualchats> {
         setState(() {
           get_comments();
         });
+        Navigator.pop(context);
       }
     }
   }
