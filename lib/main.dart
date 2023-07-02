@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
@@ -11,6 +12,7 @@ import 'package:wgnrr/splash/splash.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
+  FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -20,7 +22,9 @@ void main() async {
   runApp(
     MultiProvider(
       providers: appProviders,
-      child: const MyApp(),
+      child: ScreenshotPreventionApp(
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -124,4 +128,18 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         ),
         home: Splash(),
       );
+}
+
+class ScreenshotPreventionApp extends StatelessWidget {
+  final Widget child;
+
+  ScreenshotPreventionApp({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    // Prevent screenshots globally
+    FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+
+    return child;
+  }
 }

@@ -9,7 +9,7 @@ import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
-class View extends StatefulWidget {
+class Views extends StatefulWidget {
   var username;
   var author;
   var date;
@@ -19,7 +19,7 @@ class View extends StatefulWidget {
   var image;
   var language;
   // ignore: non_constant_identifier_names
-  View(
+  Views(
       {Key? key,
       required this.language,
       required this.username,
@@ -32,10 +32,10 @@ class View extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<View> createState() => _ViewState();
+  State<Views> createState() => _ViewsState();
 }
 
-class _ViewState extends State<View> {
+class _ViewsState extends State<Views> {
   var language;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =

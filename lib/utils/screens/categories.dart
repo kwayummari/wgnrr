@@ -101,7 +101,7 @@ class _CategoriesState extends State<Categories> {
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => View(
+                          builder: (context) => Views(
                                 author: data[index]['author'],
                                 caption: data[index]['caption'],
                                 date: data[index]['date'],

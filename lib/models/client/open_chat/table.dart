@@ -10,6 +10,7 @@ import 'package:wgnrr/models/client/open_chat/list_community.dart';
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:http/http.dart' as http;
+
 enum MenuItem { item1, item2, item3, item4, item5 }
 
 class Community extends StatefulWidget {
@@ -43,8 +44,9 @@ class _CommunityState extends State<Community> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -63,11 +65,14 @@ class _CommunityState extends State<Community> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+        drawer: updates.isNotEmpty
+            ? AppDrawer(
+                username: username,
+                language: language,
+                status: status,
+                update: updates[0]['version'],
+              )
+            : null,
         appBar: AppBar(
           leading: Builder(
               builder: (context) => // Ensure Scaffold is in context
@@ -84,11 +89,13 @@ class _CommunityState extends State<Community> {
           toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
           title: AppText(
-              txt: language == 'Kiswahili'
-                  ? 'Karibu ${username}'
-                  : 'Welcome ${username}',
-                  size: 15,
-                  weight: FontWeight.w500,),
+            txt: language == 'Kiswahili'
+                ? 'Karibu ${username}'
+                : 'Welcome ${username}',
+            size: 15,
+            color: Colors.white,
+            weight: FontWeight.w500,
+          ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

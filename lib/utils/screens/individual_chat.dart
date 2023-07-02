@@ -1,8 +1,6 @@
 // ignore_for_file: must_be_immutable
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 
@@ -127,29 +125,29 @@ class _IndividualchatsState extends State<Individualchats> {
     );
   }
 
-  TabsTexts _tabsTexts() {
-    return TabsTexts(
-      galleryText: "GALLERY",
-      deletingText: "DELETE",
-      clearImagesText: "Delete Selected Photo",
-      limitingText: "10 The maximum number of images is",
-    );
-  }
+  // TabsTexts _tabsTexts() {
+  //   return TabsTexts(
+  //     galleryText: "GALLERY",
+  //     deletingText: "DELETE",
+  //     clearImagesText: "Delete Selected Photo",
+  //     limitingText: "10 The maximum number of images is",
+  //   );
+  // }
 
-  Future<void> displayDetails(SelectedImagesDetails details) async {
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) {
-          return DisplayImages(
-            selectedBytes: details.selectedFiles,
-            details: details,
-            aspectRatio: details.aspectRatio,
-            doctor: widget.doctor,
-            username: widget.username,
-            client: widget.client,
-          );
-        },
-      ),
-    );
-  }
+  // Future<void> displayDetails(SelectedImagesDetails details) async {
+  //   await Navigator.of(context).push(
+  //     CupertinoPageRoute(
+  //       builder: (context) {
+  //         return DisplayImages(
+  //           selectedBytes: details.selectedFiles,
+  //           details: details,
+  //           aspectRatio: details.aspectRatio,
+  //           doctor: widget.doctor,
+  //           username: widget.username,
+  //           client: widget.client,
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
 }

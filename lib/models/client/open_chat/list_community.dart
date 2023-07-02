@@ -110,7 +110,7 @@ class _list_communityState extends State<list_community> {
               return InkWell(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => chatsCommunity(
+                      builder: (context) => ChatsCommunity(
                             client: username,
                             topic_id: chats[index]['id'],
                             topic_name: chats[index]['topic'],

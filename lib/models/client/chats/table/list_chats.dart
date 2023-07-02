@@ -178,7 +178,7 @@ class _list_chatsState extends State<list_chats> {
                             ),
                             trailing: double.parse(chats[index]['rate']) > 0
                                 ? Text(chats[index]['rate'].toString())
-                                : InkWell(
+                                : GestureDetector(
                                     onTap: () {
                                       showCupertinoDialog(
                                           context: context,

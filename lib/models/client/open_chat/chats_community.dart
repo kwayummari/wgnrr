@@ -1,355 +1,331 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names, prefer_typing_uninitialized_variables, avoid_print, curly_braces_in_flow_control_structures, constant_identifier_names, must_be_immutable, body_might_complete_normally_nullable, unused_local_variable, unnecessary_null_comparison, depend_on_referenced_packages
-
+import 'dart:async';
 import 'dart:convert';
-
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/client/open_chat/individualcommunitychats.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
-class chatsCommunity extends StatefulWidget {
-  var topic_id;
-  var topic_name;
-  var client;
-  chatsCommunity(
-      {Key? key,
-      required this.client,
-      required this.topic_id,
-      required this.topic_name})
-      : super(key: key);
+class ChatsCommunity extends StatefulWidget {
+  final int topic_id;
+  final String topic_name;
+  final String client;
+
+  const ChatsCommunity({
+    Key? key,
+    required this.client,
+    required this.topic_id,
+    required this.topic_name,
+  }) : super(key: key);
 
   @override
-  State<chatsCommunity> createState() => _chatsCommunityState();
+  _ChatsCommunityState createState() => _ChatsCommunityState();
 }
 
-class _chatsCommunityState extends State<chatsCommunity> {
-  var comment;
-  List _comments = [];
+class _ChatsCommunityState extends State<ChatsCommunity> {
+  List<dynamic> _comments = [];
+  TextEditingController comments = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
-  Future get_comments() async {
-    http.Response response;
-    const url = '${murl}community/community_text.php';
-    var response1 = await http.post(Uri.parse(url), body: {
+  Future<void> getComments() async {
+    final url = '${murl}community/community_text.php';
+    final response1 = await http.post(Uri.parse(url), body: {
       "topic": widget.topic_id.toString(),
     });
     if (response1.statusCode == 200) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _comments = json.decode(response1.body);
-          if (_comments.isNotEmpty) _goToBottomPage();
         });
+        if (_comments.isNotEmpty) {
+          scrollToBottom();
+        }
+      }
     }
-  }
-
-  bool isLoading = false;
-  done() async {
-    await Future.delayed(Duration(seconds: 5), () {
-      setState(() {
-        isLoading = false;
-      });
-    });
   }
 
   var username;
   var status;
   var bot;
+  var language;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var u = sharedPreferences.get('username');
     var s = sharedPreferences.get('status');
     var b = sharedPreferences.get('bot');
+    var l = sharedPreferences.get('language');
     setState(() {
       username = u;
       status = s;
       bot = b;
+      language = l;
     });
-    get_comments();
   }
 
+  void scrollToBottom() {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
+  }
+
+  Timer? _timer;
   @override
   void initState() {
     super.initState();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      getComments();
+    });
     getValidationData();
   }
 
-  void _goToBottomPage() {
-    if (_scrollController.hasClients)
-      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
-
-  Future Deletechat(id) async {
-    http.Response response;
-    const url = '${murl}community/delete_text.php';
-    var response1 = await http.post(Uri.parse(url), body: {
-      "id": id.toString(),
-    });
-  }
-
-  ScrollController _scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.white, //change your color here
+          color: Colors.white, // Change your color here
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        title: AppText(txt: widget.topic_name.toString().toUpperCase(),
-        size: 15,
-        color: Colors.white),
+        title: AppText(
+          txt: widget.topic_name.toString().toUpperCase(),
+          size: 15,
+          color: Colors.white,
+        ),
         backgroundColor: HexColor('#742B90'),
       ),
-      body: Stack(children: [
-        _comments.isEmpty
-            ? SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 200,
-                    ),
-                    Center(
-                      child: AppText(
-                        txt: 'No comments available at the moment',
-                        size: 16,
-                        weight: FontWeight.w400,
-                        color: Colors.black,
-                      ),
-                    )
-                  ],
-                ),
-              )
-            : Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+      body: Stack(
+        children: [
+          _comments.isEmpty
+              ? SingleChildScrollView(
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 5,
-                      ),
-                      StreamBuilder(
-                        stream: Stream.periodic(Duration(milliseconds: 100))
-                            .asyncMap((i) =>
-                                getValidationData()), // i is null here (check periodic docs)
-                        builder: (context, snapshot) => Scrollbar(
-                          controller: _scrollController,
-                          child: ListView.builder(
-                            controller: _scrollController,
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Column(
-                                children: [
-                                  Align(
-                                    alignment: _comments[index]['username'] ==
-                                            widget.client.toString()
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
-                                    child: AppText(
-                                      txt:
-                                          _comments[index]['username'].toString(),
-                                      size: 15,
-                                    ),
-                                  ),
-                                  _comments[index]['type'] == '1'
-                                      ? Align(
-                                          alignment: _comments[index]
-                                                      ['username'] ==
-                                                  widget.client.toString()
-                                              ? Alignment.centerRight
-                                              : Alignment.centerLeft,
-                                          child: Align(
-                                            alignment: _comments[index]
-                                                        ['username'] ==
-                                                    widget.client.toString()
-                                                ? Alignment.centerRight
-                                                : Alignment.centerLeft,
-                                            child: Padding(
-                                                padding: _comments[index]
-                                                            ['username'] ==
-                                                        widget.client.toString()
-                                                    ? const EdgeInsets.only(
-                                                        left: 150)
-                                                    : const EdgeInsets.only(
-                                                        right: 150),
-                                                child: InkWell(
-                                                  highlightColor: Colors.white,
-                                                  focusColor: Colors.white,
-                                                  hoverColor: Colors.white,
-                                                  onLongPress: () {
-                                                    showDialog(
-                                                        context: context,
-                                                        builder: (BuildContext
-                                                            context) {
-                                                          return AlertDialog(
-                                                            content: Stack(
-                                                              children: <Widget>[
-                                                                Positioned(
-                                                                  right: -40.0,
-                                                                  top: -40.0,
-                                                                  child:
-                                                                      InkResponse(
-                                                                    onTap: () {
-                                                                      Navigator.of(
-                                                                              context)
-                                                                          .pop();
-                                                                    },
-                                                                    child:
-                                                                        CircleAvatar(
-                                                                      child: Icon(
-                                                                          Icons
-                                                                              .close),
-                                                                      backgroundColor:
-                                                                          HexColor(
-                                                                              '#db5252'),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .min,
-                                                                  children: [
-                                                                    if (_comments[
-                                                                                index]
-                                                                            [
-                                                                            'username'] ==
-                                                                        widget
-                                                                            .client
-                                                                            .toString())
-                                                                      Row(
-                                                                        children: [
-                                                                          IconButton(
-                                                                              onPressed:
-                                                                                  () {
-                                                                                Deletechat(_comments[index]['id']);
-                                                                                Navigator.pop(context);
-                                                                              },
-                                                                              icon:
-                                                                                  Icon(Icons.delete)),
-                                                                          AppText(
-                                                                            size:
-                                                                                15,
-                                                                            txt:
-                                                                                'Delete Text',
-                                                                          )
-                                                                        ],
-                                                                      )
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          );
-                                                        });
-                                                  },
-                                                  child: Bubble(
-                                                    color: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client
-                                                                .toString()
-                                                        ? HexColor('#742B90')
-                                                        : HexColor('#772255'),
-                                                    margin:
-                                                        BubbleEdges.only(top: 10),
-                                                    alignment: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client
-                                                                .toString()
-                                                        ? Alignment.topRight
-                                                        : Alignment.topLeft,
-                                                    nip: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client
-                                                                .toString()
-                                                        ? BubbleNip.rightTop
-                                                        : BubbleNip.leftTop,
-                                                    child: AppText(
-                                                      txt: _comments[index]
-                                                          ['message'],
-                                                      color: _comments[index]
-                                                                  ['username'] ==
-                                                              widget.client
-                                                                  .toString()
-                                                          ? Colors.white
-                                                          : Colors.white,
-                                                      weight: FontWeight.w400,
-                                                      size: 15,
-                                                    ),
-                                                  ),
-                                                )),
-                                          ),
-                                        )
-                                      : Align(
-                                          alignment: _comments[index]
-                                                      ['username'] ==
-                                                  widget.client.toString()
-                                              ? Alignment.centerRight
-                                              : Alignment.centerLeft,
-                                          child: Align(
-                                            alignment: _comments[index]
-                                                        ['username'] ==
-                                                    widget.client.toString()
-                                                ? Alignment.centerRight
-                                                : Alignment.centerLeft,
-                                            child: Padding(
-                                                padding: _comments[index]['username'] ==
-                                                        widget.client.toString()
-                                                    ? const EdgeInsets.only(
-                                                        left: 150)
-                                                    : const EdgeInsets.only(
-                                                        right: 150),
-                                                child: Bubble(
-                                                    elevation: 4,
-                                                    color: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client
-                                                                .toString()
-                                                        ? HexColor('#742B90')
-                                                        : HexColor('#772255'),
-                                                    margin:
-                                                        BubbleEdges.only(top: 10),
-                                                    alignment: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client
-                                                                .toString()
-                                                        ? Alignment.topRight
-                                                        : Alignment.topLeft,
-                                                    nip: _comments[index]
-                                                                ['username'] ==
-                                                            widget.client.toString()
-                                                        ? BubbleNip.rightTop
-                                                        : BubbleNip.leftTop,
-                                                    child: Image.network(
-                                                      '${murl}message/image/${_comments[index]['image']}',
-                                                      height: 50,
-                                                      width: 50,
-                                                    ))),
-                                          ),
-                                        ),
-                                ],
-                              );
-                            },
-                            itemCount: _comments == null ? 0 : _comments.length,
-                          ),
+                      SizedBox(height: 200),
+                      Center(
+                        child: AppText(
+                          txt: 'No comments available at the moment',
+                          size: 16,
+                          weight: FontWeight.w400,
+                          color: Colors.black,
                         ),
-                      ),
-                      SizedBox(
-                        height: 100,
                       ),
                     ],
                   ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: NotificationListener<ScrollNotification>(
+                    onNotification: (notification) {
+                      if (notification is ScrollEndNotification &&
+                          _scrollController.position.extentAfter == 0) {
+                        // Fetch more comments here if needed
+                        // e.g., paginate or load older comments
+                      }
+                      return false;
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 70),
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _comments.length,
+                        itemBuilder: (context, index) {
+                          final comment = _comments[index];
+                          final isClientComment =
+                              comment['username'] == widget.client;
+                          return Column(
+                            children: [
+                              Align(
+                                alignment: isClientComment
+                                    ? Alignment.centerRight
+                                    : Alignment.centerLeft,
+                                child: AppText(
+                                  txt: comment['username'].toString(),
+                                  size: 15,
+                                ),
+                              ),
+                              comment['type'] == '1'
+                                  ? Align(
+                                      alignment: isClientComment
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Align(
+                                        alignment: isClientComment
+                                            ? Alignment.centerRight
+                                            : Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: isClientComment
+                                              ? const EdgeInsets.only(left: 150)
+                                              : const EdgeInsets.only(
+                                                  right: 150),
+                                          child: InkWell(
+                                            highlightColor: Colors.white,
+                                            focusColor: Colors.white,
+                                            hoverColor: Colors.white,
+                                            onLongPress: () {
+                                              showDialog(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    content: Stack(
+                                                      children: <Widget>[
+                                                        Positioned(
+                                                          right: -40.0,
+                                                          top: -40.0,
+                                                          child: InkResponse(
+                                                            onTap: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: CircleAvatar(
+                                                              child: Icon(
+                                                                  Icons.close),
+                                                              backgroundColor:
+                                                                  HexColor(
+                                                                      '#db5252'),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            if (isClientComment)
+                                                              Row(
+                                                                children: [
+                                                                  IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      Deletechat(
+                                                                          comment[
+                                                                              'id']);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    icon: Icon(Icons
+                                                                        .delete),
+                                                                  ),
+                                                                  AppText(
+                                                                    size: 15,
+                                                                    txt:
+                                                                        'Delete Text',
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            },
+                                            child: Bubble(
+                                              color: isClientComment
+                                                  ? HexColor('#742B90')
+                                                  : HexColor('#772255'),
+                                              margin: BubbleEdges.only(top: 10),
+                                              alignment: isClientComment
+                                                  ? Alignment.topRight
+                                                  : Alignment.topLeft,
+                                              nip: isClientComment
+                                                  ? BubbleNip.rightTop
+                                                  : BubbleNip.leftTop,
+                                              child: AppText(
+                                                txt: comment['message'],
+                                                color: isClientComment
+                                                    ? Colors.white
+                                                    : Colors.white,
+                                                weight: FontWeight.w400,
+                                                size: 15,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Align(
+                                      alignment: isClientComment
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Align(
+                                        alignment: isClientComment
+                                            ? Alignment.centerRight
+                                            : Alignment.centerLeft,
+                                        child: Padding(
+                                          padding: isClientComment
+                                              ? const EdgeInsets.only(left: 150)
+                                              : const EdgeInsets.only(
+                                                  right: 150),
+                                          child: Bubble(
+                                            elevation: 4,
+                                            color: isClientComment
+                                                ? HexColor('#742B90')
+                                                : HexColor('#772255'),
+                                            margin: BubbleEdges.only(top: 10),
+                                            alignment: isClientComment
+                                                ? Alignment.topRight
+                                                : Alignment.topLeft,
+                                            nip: isClientComment
+                                                ? BubbleNip.rightTop
+                                                : BubbleNip.leftTop,
+                                            child: Image.network(
+                                              '${murl}message/image/${comment['image']}',
+                                              height: 50,
+                                              width: 50,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                              SizedBox(height: 10),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-            ),
-        Individualcommunitychats(
-            client: widget.client, topic: widget.topic_id, username: username)
-      ]),
+          Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Individualcommunitychats(
+                client: widget.client,
+                topic: widget.topic_id,
+                username: username,
+              )),
+        ],
+      ),
     );
+  }
+
+  Future<void> Deletechat(int id) async {
+    final url = '${murl}community/delete_text.php';
+    await http.post(Uri.parse(url), body: {
+      "id": id.toString(),
+    });
+    setState(() {
+      _comments.removeWhere((comment) => comment['id'] == id);
+    });
   }
 }

@@ -1,11 +1,8 @@
 // ignore_for_file: must_be_immutable
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:image_picker_plus/image_picker_plus.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
-import 'package:wgnrr/utils/screens/display_image.dart';
 
 class Individualcommunitychats extends StatefulWidget {
   var username;
@@ -27,13 +24,14 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
   TextEditingController comments = TextEditingController();
   Future send_comments() async {
     if (comments.text.isNotEmpty) {
+      var comment = comments.text.toString();
+      comments.clear();
       const url = '${murl}community/create_community_text.php';
       var response = await http.post(Uri.parse(url), body: {
         "username": widget.username.toString(),
         "topic": widget.topic.toString(),
-        "message": comments.text,
+        "message": comment,
       });
-      comments.clear();
       if (response.statusCode == 200) {
         setState(() {
           get_comments();
@@ -80,6 +78,7 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
                     ),
                     child: Scrollbar(
                       child: TextFormField(
+                        style: TextStyle(color: Colors.white),
                         cursorColor: Colors.white,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
@@ -105,6 +104,7 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
                           hoverColor: HexColor('#742B90'),
                           focusColor: HexColor('#742B90'),
                           hintText: 'Message',
+                          hintStyle: TextStyle(color: Colors.white),
                           contentPadding: EdgeInsets.only(
                               top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
                         ),
@@ -142,33 +142,6 @@ class _IndividualcommunitychatsState extends State<Individualcommunitychats> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  TabsTexts _tabsTexts() {
-    return TabsTexts(
-      videoText: "VIDEO",
-      galleryText: "GALLERY",
-      deletingText: "DELETE",
-      clearImagesText: "Delete Selected Photo",
-      limitingText: "10 The maximum number of images is",
-    );
-  }
-
-  Future<void> displayDetails(SelectedImagesDetails details) async {
-    await Navigator.of(context).push(
-      CupertinoPageRoute(
-        builder: (context) {
-          return DisplayImages(
-            selectedBytes: details.selectedFiles,
-            details: details,
-            aspectRatio: details.aspectRatio,
-            doctor: widget.client,
-            username: widget.username,
-            client: widget.client,
-          );
-        },
       ),
     );
   }
