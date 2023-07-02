@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
-
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -26,6 +26,7 @@ class Chats extends StatefulWidget {
 class _ChatsState extends State<Chats> {
   var comment;
   List _comments = [];
+  ScrollController _scrollController = ScrollController();
 
   Future get_comments() async {
     http.Response response;
@@ -51,19 +52,6 @@ class _ChatsState extends State<Chats> {
     });
   }
 
-  final ScrollController _scrollController = ScrollController();
-  void scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      }
-    });
-  }
-
   var username;
   var status;
   var bot;
@@ -82,7 +70,7 @@ class _ChatsState extends State<Chats> {
       language = l;
     });
   }
-
+  bool allowScreenshots = false;
   Timer? _timer;
   @override
   void initState() {
@@ -90,12 +78,19 @@ class _ChatsState extends State<Chats> {
     _timer = Timer.periodic(Duration(seconds: 3), (timer) {
       get_comments();
     });
+    allowScreenshots = false;
+  FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+    });
     getValidationData();
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    FlutterWindowManager.clearFlags(FlutterWindowManager.FLAG_SECURE);
+  allowScreenshots = true;
     super.dispose();
   }
 
@@ -164,16 +159,8 @@ class _ChatsState extends State<Chats> {
                       SizedBox(
                         height: 5,
                       ),
-                      NotificationListener<ScrollNotification>(
-                        onNotification: (notification) {
-                          if (notification is ScrollEndNotification &&
-                              _scrollController.position.extentAfter == 0) {
-                            // Fetch more comments here if needed
-                            // e.g., paginate or load older comments
-                          }
-                          return false;
-                        },
-                        child: ListView.builder(
+                       ListView.builder(
+                        controller: _scrollController, 
                           physics: BouncingScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
@@ -457,14 +444,14 @@ class _ChatsState extends State<Chats> {
                                                             '${murl}message/image/${_comments[index]['image']}',
                                                           ),
                                                           SizedBox(
-                                                            height: 20,
+                                                            height: 10,
                                                           ),
                                                           AppText(
                                                             size: 15,
                                                             txt:
                                                                 _comments[index]
                                                                     ['comment'],
-                                                            color: Colors.black,
+                                                            color: Colors.white,
                                                           ),
                                                         ],
                                                       )),
@@ -477,7 +464,6 @@ class _ChatsState extends State<Chats> {
                           },
                           itemCount: _comments == null ? 0 : _comments.length,
                         ),
-                      ),
                       SizedBox(
                         height: 100,
                       ),

@@ -59,8 +59,9 @@ dependencies:
   cached_network_image: ^3.2.3
   pdf: ^3.8.4
   shimmer: ^2.0.0
-  flutter_windowmanager: ^0.2.0
   image_picker: ^1.0.0
+  flutter_native_screenshot: ^1.1.2
+  flutter_windowmanager: ^0.2.0
 
 flutter_icons:
   android: "launcher_icon"

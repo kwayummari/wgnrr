@@ -33,7 +33,6 @@ class _IndividualchatsState extends State<Individualchats> {
         "type": '1'.toString(),
       });
       if (response.statusCode == 200) {
-        comments.clear();
         setState(() {
           get_comments();
         });
@@ -96,6 +95,7 @@ class _IndividualchatsState extends State<Individualchats> {
                                     return;
                                   }
                                   send_comments();
+                                  comments.clear();
                                 },
                                 icon: Icon(
                                   Icons.send,
