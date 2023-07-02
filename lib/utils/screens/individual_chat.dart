@@ -4,8 +4,6 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
 
-import 'display_image.dart';
-
 class Individualchats extends StatefulWidget {
   var username;
   var doctor;
