@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:wgnrr/api/const.dart';
@@ -7,33 +9,54 @@ import 'package:wgnrr/widget/app_button.dart';
 import 'package:wgnrr/widget/app_input_text.dart';
 
 class Add extends StatefulWidget {
-  const Add({super.key});
+  var username;
+  var doctor;
+  var client;
+  Add(
+      {super.key,
+      required this.client,
+      required this.doctor,
+      required this.username});
 
   @override
   State<Add> createState() => _AddState();
 }
 
 class _AddState extends State<Add> {
-  Future add(
-    BuildContext context,
-    String caption,
-    File? _imageFile,
-  ) async {
+  File? _imageFile;
+  Future addPic() async {
     final uri = Uri.parse('${murl}message/message.php');
     var request = http.MultipartRequest('POST', uri);
-    request.fields['caption'] = caption.toString();
-    request.fields['email'] = email.toString();
+    request.fields['username'] = widget.username.toString();
+    request.fields['doctor'] = widget.doctor.toString();
+    request.fields['comment'] = caption.text.toString();
+    request.fields['part'] = '1'.toString();
     var pic = await http.MultipartFile.fromPath("image", _imageFile!.path);
     request.files.add(pic);
     var response = await request.send();
-    var responseData = await http.Response.fromStream(response);
-    var responseString = jsonDecode(responseData.body);
-    return responseString;
+    if (response.statusCode == 200) {
+      caption.clear();
+      setState(() {
+        get_comments();
+      });
+    }
   }
+
+  var comment;
+  Future get_comments() async {
+    const url = '${murl}message/message.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "client": widget.client.toString(),
+      "doctor": widget.doctor.toString()
+    });
+    if (response1.statusCode == 200) {
+      if (mounted) setState(() {});
+    }
+  }
+
   final _formKey = GlobalKey<FormState>();
   TextEditingController caption = TextEditingController();
   var category;
-  File? _imageFile;
 
   Future<void> _pickImage(ImageSource source) async {
     final picker = ImagePicker();
