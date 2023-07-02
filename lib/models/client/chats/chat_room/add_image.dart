@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:hexcolor/hexcolor.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:wgnrr/api/const.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/models/client/chats/chat_room/appointment.dart';
+import 'package:wgnrr/utils/widget/text/text.dart';
 import 'package:wgnrr/widget/app_button.dart';
 import 'package:wgnrr/widget/app_input_text.dart';
 
@@ -73,23 +76,29 @@ class _AddState extends State<Add> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.purple,
-          centerTitle: true,
-          title: Text(
-            'Welcome John',
-            style: TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-            ),
-          ),
           actions: [
             IconButton(
-                onPressed: () => null,
-                icon: Icon(Icons.home, color: Colors.white))
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Appointment(
+                            client: widget.client,
+                            doctor: widget.doctor,
+                          )));
+                },
+                icon: Icon(Icons.notifications))
           ],
+          iconTheme: IconThemeData(
+            color: Colors.white, //change your color here
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: true,
+          title: AppText(
+            txt: 'Chat Room',
+            color: Colors.white,
+            size: 15,
+          ),
+          backgroundColor: HexColor('#742B90'),
         ),
-        backgroundColor: Colors.white,
         body: Form(
             key: _formKey,
             child: Column(
@@ -130,7 +139,7 @@ class _AddState extends State<Add> {
                   height: 20,
                 ),
                 Container(
-                  width: 400,
+                  width: 350,
                   height: 50,
                   child: AppButton(
                       onPress: () async {

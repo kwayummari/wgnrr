@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/models/client/chats/chat_room/add_image.dart';
 
 class Individualchats extends StatefulWidget {
   var username;
@@ -86,17 +87,37 @@ class _IndividualchatsState extends State<Individualchats> {
                     maxLines: null,
                     controller: comments,
                     decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            if (!_formKey.currentState!.validate()) {
-                              return;
-                            }
-                            send_comments();
-                          },
-                          icon: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                          )),
+                      suffixIcon: Container(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  send_comments();
+                                },
+                                icon: Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Add(
+                                            client: widget.client,
+                                            doctor: widget.doctor,
+                                            username: widget.username,
+                                          )));
+                                },
+                                icon: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
+                      ),
                       border: InputBorder.none,
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: HexColor('#742B90')),
@@ -123,30 +144,4 @@ class _IndividualchatsState extends State<Individualchats> {
       ),
     );
   }
-
-  // TabsTexts _tabsTexts() {
-  //   return TabsTexts(
-  //     galleryText: "GALLERY",
-  //     deletingText: "DELETE",
-  //     clearImagesText: "Delete Selected Photo",
-  //     limitingText: "10 The maximum number of images is",
-  //   );
-  // }
-
-  // Future<void> displayDetails(SelectedImagesDetails details) async {
-  //   await Navigator.of(context).push(
-  //     CupertinoPageRoute(
-  //       builder: (context) {
-  //         return DisplayImages(
-  //           selectedBytes: details.selectedFiles,
-  //           details: details,
-  //           aspectRatio: details.aspectRatio,
-  //           doctor: widget.doctor,
-  //           username: widget.username,
-  //           client: widget.client,
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
 }

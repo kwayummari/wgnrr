@@ -31,7 +31,7 @@ class AppInputText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20, top: 20),
       child: TextFormField(
         keyboardType: textinputtype ?? TextInputType.text,
         onChanged: onChange,
@@ -45,10 +45,10 @@ class AppInputText extends StatelessWidget {
           label: Container(
             color: labelColor ?? HexColor('#e7d4d3'),
             child: Text(
-               label.toString(),
+              label.toString(),
               style: TextStyle(
                 fontSize: 15,
-              color: Colors.black,
+                color: Colors.black,
               ),
             ),
           ),
