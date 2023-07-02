@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -61,19 +60,32 @@ class _AppointmentState extends State<Appointment> {
     }
   }
 
- 
+  var newTime;
+  TimeOfDay currentTime = TimeOfDay.now();
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? selectedTime = await showTimePicker(
+      context: context,
+      initialTime: currentTime,
+    );
+    if (selectedTime != null && selectedTime != currentTime) {
+      setState(() {
+        newTime = selectedTime.format(context);
+      });
+    }
+  }
 
-  Future submit_appointment(newdate) async {
+  Future submit_appointment(newdate, newTime) async {
     const url = '${murl}appointment/write.php';
     var response = await http.post(Uri.parse(url), body: {
       "client": username.toString(),
       "doctor": widget.doctor.toString(),
       "service": option.toString(),
       "date": newdate.toString(),
+      "time": newTime.toString(),
     });
     if (response.statusCode == 200) {
       Fluttertoast.showToast(
-        msg: language == 'Kiswahili' ? 'Umetuma maombi' : 'Succefully',
+        msg: language == 'Kiswahili' ? 'Umetuma maombi' : 'Successfully',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 1,
@@ -237,13 +249,54 @@ class _AppointmentState extends State<Appointment> {
                 height: 20,
               ),
               Container(
+                height: 70,
+                width: 330,
+                child: InkWell(
+                  onTap: () {
+                    _selectTime(context);
+                  },
+                  child: TextFormField(
+                    enabled: false,
+                    cursorColor: Theme.of(context).iconTheme.color,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: newTime == null
+                          ? language == 'Kiswahili'
+                              ? 'Chagua muda'
+                              : 'Select appointment time'
+                          : newTime,
+                      filled: true,
+                      fillColor: Colors.white,
+                      disabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                        borderSide: BorderSide(color: HexColor('#000000')),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.access_time,
+                        color: Colors.black,
+                      ),
+                      prefixIconColor: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Container(
                 height: 60,
                 width: 330,
                 child: AppButton(
                   label: language == 'Kiswahili' ? 'Kusanya Chaguo' : 'Submit',
                   onPress: () async {
-                    submit_appointment(newdate);
-                  }, bcolor: HexColor('#F5841F'), borderCurve: 20,
+                    submit_appointment(newdate, newTime);
+                  },
+                  bcolor: HexColor('#F5841F'),
+                  borderCurve: 20,
                 ),
               ),
             ],
