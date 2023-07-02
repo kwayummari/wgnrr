@@ -28,7 +28,7 @@ class Add extends StatefulWidget {
 class _AddState extends State<Add> {
   File? _imageFile;
   Future addPic() async {
-    final uri = Uri.parse('${murl}message/message.php');
+    final uri = Uri.parse('${murl}message/message_image_write.php');
     var request = http.MultipartRequest('POST', uri);
     request.fields['username'] = widget.username.toString();
     request.fields['doctor'] = widget.doctor.toString();
@@ -42,6 +42,7 @@ class _AddState extends State<Add> {
       setState(() {
         get_comments();
       });
+      Navigator.pop(context);
     }
   }
 
@@ -142,7 +143,7 @@ class _AddState extends State<Add> {
                   width: 350,
                   height: 50,
                   child: AppButton(
-                      onPress: () async {
+                      onPress: () {
                         addPic();
                       },
                       label: 'Save',

@@ -24,7 +24,7 @@ class _IndividualchatsState extends State<Individualchats> {
   TextEditingController comments = TextEditingController();
   Future send_comments() async {
     if (comments.text.isNotEmpty) {
-      const url = '${murl}message/message_image_write.php';
+      const url = '${murl}message/message_write.php';
       var response = await http.post(Uri.parse(url), body: {
         "username": widget.username.toString(),
         "doctor": widget.doctor.toString(),
@@ -37,7 +37,6 @@ class _IndividualchatsState extends State<Individualchats> {
         setState(() {
           get_comments();
         });
-        Navigator.pop(context);
       }
     }
   }
