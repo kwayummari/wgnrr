@@ -206,7 +206,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                               txt: '${data[1]['caption']}',
                                 color: HexColor('#F5841F'),
                                 size: 15,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ),
                         ),

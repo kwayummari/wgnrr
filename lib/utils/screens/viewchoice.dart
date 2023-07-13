@@ -195,7 +195,7 @@ class _ViewchoiceState extends State<Viewchoice> {
                               txt: '${widget.caption}',
                               color: HexColor('#000000'),
                               size: 18,
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                             ),
                           ),
                         ),

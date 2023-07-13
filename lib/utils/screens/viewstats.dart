@@ -178,7 +178,7 @@ class _ViewStatsState extends State<ViewStats> {
                               txt: '${widget.caption}',
                                 color: HexColor('#000000'),
                                 size: 18,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ),
                         ),
