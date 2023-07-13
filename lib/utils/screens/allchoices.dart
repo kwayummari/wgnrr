@@ -116,12 +116,6 @@ class _AllState extends State<All> {
         height: 300,
       ),
     );
-    // : Container(
-    //     width: MediaQuery.of(context).size.width,
-    //     height: 500,
-    //     child: BetterPlayer.network(
-    //       '${link}.mp4',
-    //     ));
   }
 
   TextEditingController search = TextEditingController();

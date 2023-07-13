@@ -20,7 +20,7 @@ class MyImageWidget extends StatelessWidget {
       height: height,
       child: Image.network(
         imageUrl,
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
         loadingBuilder: (BuildContext context, Widget child,
             ImageChunkEvent? loadingProgress) {
           if (loadingProgress == null) {

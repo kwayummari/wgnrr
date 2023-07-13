@@ -39,31 +39,6 @@ class _servicesChoicesState extends State<servicesChoices> {
     });
   }
 
-  // List options = [];
-  // List<String> selectedOption = [];
-  // Future get_topics() async {
-  //   var l;
-  //   if (language == 'Kiswahili') {
-  //     setState(() {
-  //       l = 2;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       l = 1;
-  //     });
-  //   }
-  //   const url = '${murl}choices/choices.php';
-  //   var response = await http.post(Uri.parse(url), body: {
-  //     "language": l.toString(),
-  //   });
-  //   if (response.statusCode == 200) {
-  //     if (mounted)
-  //       setState(() {
-  //         options = json.decode(response.body);
-  //       });
-  //   } //
-  // }
-
   var option;
   List options = [];
   Future get_topics() async {
@@ -238,31 +213,6 @@ class _servicesChoicesState extends State<servicesChoices> {
               SizedBox(
                 height: 20,
               ),
-              // ListView.builder(
-              //   shrinkWrap: true,
-              //   itemCount: options.length,
-              //   itemBuilder: (BuildContext context, int index) {
-              //     return CheckboxListTile(
-              //       selected: selectedOption.contains(options[index]['name']),
-              //       activeColor: HexColor('#742B90'),
-              //       value: selectedOption.contains(index),
-              //       title: Text(options[index]['name'] == null
-              //           ? ''
-              //           : options[index]['name']),
-              //       onChanged: (value) {
-              //         if (value != null) {
-              //           if (selectedOption.contains(options[index]['name'])) {
-              //             selectedOption.remove(options[index]['name']);
-              //             print(selectedOption);
-              //           } else {
-              //             selectedOption.add(options[index]['name']);
-              //             print(selectedOption);
-              //           }
-              //         }
-              //       },
-              //     );
-              //   },
-              // ),
               Padding(
                 padding: const EdgeInsets.only(
                     left: 16, right: 16, top: 10, bottom: 16),
