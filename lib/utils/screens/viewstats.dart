@@ -49,23 +49,6 @@ class _ViewStatsState extends State<ViewStats> {
             child: FadeAnimation(
                 1.2,
                 Image.network('${murl}stats/image/${widget.image}'),
-                // CachedNetworkImage(
-                //   imageUrl: '${murl}stats/image/${widget.image}',
-                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                //       Container(
-                //     height: 400,
-                //     width: double.infinity,
-                //     color: Colors.black,
-                //     child: Center(
-                //       child: CircularProgressIndicator(
-                //         value: downloadProgress.progress,
-                //         color: Colors.white,
-                //         strokeWidth: 3,
-                //       ),
-                //     ),
-                //   ),
-                //   errorWidget: (context, url, error) => Icon(Icons.error),
-                // )
                 ),
           ),
           Positioned(
@@ -218,7 +201,7 @@ class _ViewStatsState extends State<ViewStats> {
                           AppText(
                             txt: '${widget.description}',
                               color: HexColor('#000000'),
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                               size: 18,
                           ),
                         ),

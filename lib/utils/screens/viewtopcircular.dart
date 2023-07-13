@@ -100,9 +100,9 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                         Center(
                           child: AppText(
                             txt: '${widget.title}',
-                              color: HexColor('#000000'),
-                              size: 18,
-                              weight: FontWeight.w700,
+                            color: HexColor('#000000'),
+                            size: 18,
+                            weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -148,7 +148,7 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                               width: 10,
                             ),
                             AppText(
-                              txt:'Author -${widget.author}',
+                              txt: 'Author -${widget.author}',
                               color: Colors.white,
                               size: 15,
                               weight: FontWeight.w700,
@@ -166,9 +166,9 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                         height: 10,
                       ),
                       AppText(
-                        txt:'Caption',
-                          color: HexColor('#981EE4'),
-                          size: 18,
+                        txt: 'Caption',
+                        color: HexColor('#981EE4'),
+                        size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -180,9 +180,9 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                             1.3,
                             AppText(
                               txt: '${widget.caption}',
-                                color: HexColor('#000000'),
-                                size: 18,
-                                weight: FontWeight.w700,
+                              color: HexColor('#000000'),
+                              size: 18,
+                              weight: FontWeight.w700,
                             ),
                           ),
                         ),
@@ -192,8 +192,8 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                       ),
                       AppText(
                         txt: 'Description',
-                          color: HexColor('#981EE4'),
-                          size: 18,
+                        color: HexColor('#981EE4'),
+                        size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -204,9 +204,9 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                           1.4,
                           AppText(
                             txt: '${widget.description}',
-                              color: HexColor('#000000'),
-                              weight: FontWeight.w700,
-                              size: 18,
+                            color: HexColor('#000000'),
+                            weight: FontWeight.w300,
+                            size: 18,
                           ),
                         ),
                       ),

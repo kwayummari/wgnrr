@@ -229,7 +229,7 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                           AppText(
                             txt: '${data[1]['description']}',
                               color: HexColor('#F5841F'),
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                               size: 15,
                           ),
                         ),

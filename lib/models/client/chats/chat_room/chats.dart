@@ -9,8 +9,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/chats/chat_room/add_image.dart';
 import 'package:wgnrr/models/client/chats/chat_room/appointment.dart';
-import 'package:wgnrr/utils/screens/individual_chat.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Chats extends StatefulWidget {
@@ -42,6 +42,8 @@ class _ChatsState extends State<Chats> {
         });
     }
   }
+  final _formKey1 = GlobalKey<FormState>();
+  TextEditingController comments = TextEditingController();
 
   bool isLoading = false;
   done() async {
@@ -52,6 +54,19 @@ class _ChatsState extends State<Chats> {
     });
   }
 
+Future send_comments() async {
+    if (comments.text.isNotEmpty) {
+      const url = '${murl}message/message_write.php';
+      var response = await http.post(Uri.parse(url), body: {
+        "username": username.toString(),
+        "doctor": widget.doctor.toString(),
+        "comments": comments.text,
+        "part": '1'.toString(),
+        "type": '1'.toString(),
+      });
+      get_comments();
+    }
+  }
   var username;
   var status;
   var bot;
@@ -75,7 +90,8 @@ class _ChatsState extends State<Chats> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(Duration(seconds: 3), (timer) {
+    get_comments();
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
       get_comments();
     });
     allowScreenshots = false;
@@ -471,8 +487,94 @@ class _ChatsState extends State<Chats> {
                   ),
                 ),
               ),
-        Individualchats(
-            client: widget.client, doctor: widget.doctor, username: username)
+        Align(
+      alignment: Alignment.bottomCenter,
+      child: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: HexColor('#742B90'),
+                  borderRadius: BorderRadius.circular(25.0),
+                  border: Border.all(color: HexColor('#742B90'))),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: MediaQuery.of(context).size.width / 1.3,
+                  maxWidth: MediaQuery.of(context).size.width / 1.2,
+                  minHeight: 30.0,
+                  maxHeight: 250.0,
+                ),
+                child: Scrollbar(
+                  child: TextFormField(
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 20,
+                    ),
+                    cursorColor: Colors.white,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    controller: comments,
+                    decoration: InputDecoration(
+                      suffixIcon: Container(
+                        width: 100,
+                        child: Row(
+                          children: [
+                            IconButton(
+                                onPressed: () {
+                                  if (!_formKey.currentState!.validate()) {
+                                    return;
+                                  }
+                                  send_comments();
+                                  comments.clear();
+                                },
+                                icon: Icon(
+                                  Icons.send,
+                                  color: Colors.white,
+                                )),
+                            IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Add(
+                                            client: widget.client,
+                                            doctor: widget.doctor,
+                                            username: username,
+                                          )));
+                                },
+                                icon: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: HexColor('#742B90')),
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      fillColor: Colors.white,
+                      hoverColor: HexColor('#742B90'),
+                      focusColor: HexColor('#742B90'),
+                      hintText: 'Message',
+                      hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                      ),
+                      contentPadding: EdgeInsets.only(
+                          top: 5.0, left: 15.0, right: 15.0, bottom: 5.0),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    )
       ]),
     );
   }

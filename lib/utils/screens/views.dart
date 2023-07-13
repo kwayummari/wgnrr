@@ -239,7 +239,7 @@ class _ViewsState extends State<Views> {
                           AppText(
                             txt:'${widget.description}',
                               color: HexColor('#000000'),
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                               size: 18,
                           ),
                         ),

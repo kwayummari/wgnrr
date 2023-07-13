@@ -63,7 +63,8 @@ class _list_chatsState extends State<list_chats> {
       });
     });
   }
-   bool _isVisible = true;
+
+  bool _isVisible = true;
   var username;
   var status;
   var bot;
@@ -100,31 +101,36 @@ class _list_chatsState extends State<list_chats> {
   Widget build(BuildContext context) {
     return chats.isEmpty
         ? Visibility(
-      visible: _isVisible,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-            SizedBox(height: 20),
-            infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
-          ],
-        ),
-      ),
-      replacement: Center(child: AppText(txt: "No messages available right now", size: 15, color: Colors.black,)),
-    )
+            visible: _isVisible,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                  SizedBox(height: 20),
+                  infoShimmerLoading(width: 400, height: 50, borderRadius: 0),
+                ],
+              ),
+            ),
+            replacement: Center(
+                child: AppText(
+              txt: "No messages available right now",
+              size: 15,
+              color: Colors.black,
+            )),
+          )
         : StreamBuilder(
-            stream: Stream.periodic(Duration(milliseconds: 2)).asyncMap((i) =>
+            stream: Stream.periodic(Duration(milliseconds: 5)).asyncMap((i) =>
                 getValidationData()), // i is null here (check periodic docs)
             builder: (context, snapshot) => ListView.builder(
                   physics: BouncingScrollPhysics(),

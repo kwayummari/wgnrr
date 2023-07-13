@@ -218,7 +218,7 @@ class _ViewchoiceState extends State<Viewchoice> {
                           AppText(
                             txt: '${widget.description}',
                             color: HexColor('#000000'),
-                            weight: FontWeight.w700,
+                            weight: FontWeight.w300,
                             size: 18,
                           ),
                         ),
