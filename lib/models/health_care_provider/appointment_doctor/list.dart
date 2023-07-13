@@ -202,6 +202,15 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                                   size: 15,
                                   weight: FontWeight.w300,
                                 )),
+                                Align(
+                                alignment: Alignment.centerLeft,
+                                child: AppText(
+                                  txt: chats[index]['time']
+                                      .toString()
+                                      .toUpperCase(),
+                                  size: 15,
+                                  weight: FontWeight.w300,
+                                )),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: AppText(
@@ -212,7 +221,7 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                           ],
                         ),
                       ),
-                      subtitle: AppText(txt: chats[index]['reason'], size: 15),
+                      subtitle: AppText(txt: chats[index]['reason'] ?? '', size: 15),
                       trailing: Column(
                         children: [
                           if (chats[index]['status'] != '2' &&

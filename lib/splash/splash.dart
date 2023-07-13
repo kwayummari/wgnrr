@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   var language;
   _navigatortohome() async {
     await getValidationData().whenComplete(() async {
-      await Future.delayed(Duration(seconds: 5), () {});
+      await Future.delayed(Duration(seconds: 2), () {});
       if (language == null && username == null && status == null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Language()));
@@ -76,13 +76,13 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
             SizedBox(
               height: 200,
             ),
-            Image.asset('assets/logoss.jpg'),
+            Image.asset('assets/icon.ico'),
             SizedBox(
               height: 20,
             ),
-            AppText(txt: 'MimiCare', size: 25, color: Colors.black, weight: FontWeight.bold,),
+            AppText(txt: 'MimiCare', size: 40, color: HexColor('#742B90'), weight: FontWeight.bold,),
             Center(
-                child: SpinKitCircle(
+                child: SpinKitWave(
               // duration: const Duration(seconds: 3),
               size: 40,
               color: HexColor('#742B90'),

@@ -231,6 +231,35 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
                                                                   ),
                                                                 ],
                                                               ),
+                                                            if (!isClientComment)
+                                                              Row(
+                                                                children: [
+                                                                  IconButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      // Deletechat(
+                                                                      //     comment[
+                                                                      //         'id']);
+                                                                      Navigator.pop(
+                                                                          context);
+                                                                    },
+                                                                    icon: Icon(Icons
+                                                                        .reply),
+                                                                  ),
+                                                                  if (isClientComment)
+                                                                    AppText(
+                                                                      size: 15,
+                                                                      txt:
+                                                                          'Delete Text',
+                                                                    ),
+                                                                  if (!isClientComment)
+                                                                    AppText(
+                                                                      size: 15,
+                                                                      txt:
+                                                                          'Reply Text',
+                                                                    ),
+                                                                ],
+                                                              ),
                                                           ],
                                                         ),
                                                       ],

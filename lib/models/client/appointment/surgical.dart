@@ -299,7 +299,7 @@ class _SurgicalState extends State<Surgical> {
                     alignment: Alignment.centerLeft,
                     child: AppText(
                         txt:
-                            'How many pads  have you used ${widget.date_difference} hrs after Surgical Procedure?',
+                            'How many pads/kanga/kitenge  have you used ${widget.date_difference} hrs after Surgical Procedure?',
                         weight: FontWeight.w500,
                         size: 15),
                   ),

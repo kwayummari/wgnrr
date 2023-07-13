@@ -48,7 +48,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Divider(
               color: Colors.black,
             ),
-            if (widget.update.toString() != '1' || widget.update == null)
+            if (widget.update.toString() != '2' || widget.update == null)
               ListTile(
                 tileColor: Colors.red,
                 onTap: () async {
