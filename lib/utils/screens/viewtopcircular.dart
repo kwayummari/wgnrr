@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
@@ -36,6 +37,20 @@ class Viewtopcircularcategory extends StatefulWidget {
 }
 
 class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
+      var language;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var l = sharedPreferences.get('language');
+    setState(() {
+      language = l;
+    });
+  }
+  @override
+  void initState() {
+    super.initState();
+    getValidationData();
+  }
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -125,10 +140,12 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                               width: 10,
                             ),
                             AppText(
-                              txt: 'Date -${widget.date}',
+                              txt: language == 'Kiswahili'
+                                  ? 'Tarehe -${widget.date}'
+                                  : 'Date - ${widget.date}',
                               color: Colors.black,
                               size: 15,
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                             ),
                           ],
                         ),
@@ -148,10 +165,12 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                               width: 10,
                             ),
                             AppText(
-                              txt: 'Author -${widget.author}',
+                              txt: language == 'Kiswahili'
+                                  ? 'Mwandishi - ${widget.author}'
+                                  : 'Author - ${widget.author}',
                               color: Colors.white,
                               size: 15,
-                              weight: FontWeight.w700,
+                              weight: FontWeight.w300,
                             ),
                           ],
                         ),

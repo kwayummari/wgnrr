@@ -66,23 +66,6 @@ class _ViewsState extends State<Views> {
             child: FadeAnimation(
                 1.2,
                 Image.network('${murl}categories/image/${widget.image}'),
-                // CachedNetworkImage(
-                //   imageUrl: '${murl}categories/image/${widget.image}',
-                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                //       Container(
-                //     height: 400,
-                //     width: double.infinity,
-                //     color: Colors.black,
-                //     child: Center(
-                //       child: CircularProgressIndicator(
-                //         value: downloadProgress.progress,
-                //         color: Colors.white,
-                //         strokeWidth: 3,
-                //       ),
-                //     ),
-                //   ),
-                //   errorWidget: (context, url, error) => Icon(Icons.error),
-                // )
                 ),
           ),
           Positioned(
@@ -160,7 +143,7 @@ class _ViewsState extends State<Views> {
                                   : 'Date - ${widget.date}',
                                 color: HexColor('#000000'),
                                 size: 18,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ],
                         ),
@@ -185,7 +168,7 @@ class _ViewsState extends State<Views> {
                                   : 'Author - ${widget.author}',
                                 color: HexColor('#000000'),
                                 size: 15,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ],
                         ),

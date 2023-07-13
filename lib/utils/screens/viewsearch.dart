@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:http/http.dart' as http;
@@ -36,11 +37,21 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
       });
     }
   }
+  var language;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var l = sharedPreferences.get('language');
+    setState(() {
+      language = l;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     fecth_data();
+    getValidationData();
   }
 
   @override
@@ -65,24 +76,6 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
             child: FadeAnimation(
                 1.2,
                 Image.network('${murl}choices/image/${data[1]['image']}'),
-                // CachedNetworkImage(
-                //   imageUrl:
-                //       '${murl}choices/image/${data[1]['image']}',
-                //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-                //       Container(
-                //     height: 400,
-                //     width: double.infinity,
-                //     color: Colors.black,
-                //     child: Center(
-                //       child: CircularProgressIndicator(
-                //         value: downloadProgress.progress,
-                //         color: Colors.white,
-                //         strokeWidth: 3,
-                //       ),
-                //     ),
-                //   ),
-                //   errorWidget: (context, url, error) => Icon(Icons.error),
-                // )
                 ),
           ),
           Positioned(
@@ -152,10 +145,12 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                               width: 10,
                             ),
                             AppText(
-                              txt: 'Date -${data[1]['date']}',
+                              txt: language == 'Kiswahili'
+                                  ? 'Tarehe -${data[1]['date']}'
+                                  : 'Date - ${data[1]['date']}',
                                 color: HexColor('#F5841F'),
                                 size: 18,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ],
                         ),
@@ -172,10 +167,12 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                               width: 10,
                             ),
                             AppText(
-                              txt: 'Author -${data[1]['author']}',
+                              txt: language == 'Kiswahili'
+                                  ? 'Mwandishi - ${data[1]['author']}'
+                                  : 'Author - ${data[1]['author']}',
                                 color: HexColor('#F5841F'),
                                 size: 15,
-                                weight: FontWeight.w700,
+                                weight: FontWeight.w300,
                             ),
                           ],
                         ),
