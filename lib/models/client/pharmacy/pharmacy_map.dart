@@ -47,6 +47,7 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
     if (response.statusCode == 200) {
       setState(() {
         data = jsonDecode(response.body);
+        print(data);
       });
       if (data != null) {
         for (var i = 0; i < data.length; i++) {
@@ -159,9 +160,9 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
                     txt: language == 'Kiswahili'
                         ? 'Chagua Kituo'
                         : 'Choose Facility',
-                        size: 15,
-                        weight: FontWeight.w500,
-                        color: Colors.white,
+                    size: 15,
+                    weight: FontWeight.w500,
+                    color: Colors.white,
                   )),
             ),
             Spacer(),
@@ -185,7 +186,8 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
               ),
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
-                controller.setMapStyle("mapbox://styles/mapbox/54196e48a30d7f1");
+                controller
+                    .setMapStyle("mapbox://styles/mapbox/54196e48a30d7f1");
               },
             ),
     );
