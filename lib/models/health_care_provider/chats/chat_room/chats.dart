@@ -91,6 +91,14 @@ class _ChatsState extends State<Chats> {
     get_comments();
   }
 
+  Future Deletechat(id) async {
+    http.Response response;
+    const url = '${murl}message/delete.php';
+    var response1 = await http.post(Uri.parse(url), body: {
+      "id": id.toString(),
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -162,44 +170,255 @@ class _ChatsState extends State<Chats> {
                                           : _comments[index]['username'],
                                       size: 15),
                                 ),
-                                Align(
-                                  alignment: _comments[index]['part'] == '2'
-                                      ? Alignment.centerRight
-                                      : Alignment.centerLeft,
-                                  child: Align(
-                                    alignment: _comments[index]['part'] == '2'
-                                        ? Alignment.centerRight
-                                        : Alignment.centerLeft,
-                                    child: Padding(
-                                        padding: _comments[index]['part'] == '2'
-                                            ? const EdgeInsets.only(left: 150)
-                                            : const EdgeInsets.only(right: 150),
-                                        child: Bubble(
-                                          color: _comments[index]['part'] == '2'
-                                              ? HexColor('#742B90')
-                                              : HexColor('#772255'),
-                                          margin: BubbleEdges.only(top: 0),
+                                _comments[index]['type'] == '1'
+                                    ? Align(
+                                        alignment:
+                                            _comments[index]['part'] == '2'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
+                                        child: Align(
                                           alignment:
                                               _comments[index]['part'] == '2'
-                                                  ? Alignment.topRight
-                                                  : Alignment.topLeft,
-                                          nip: _comments[index]['part'] == '2'
-                                              ? BubbleNip.rightTop
-                                              : BubbleNip.leftTop,
-                                          child: AppText(
-                                            txt: _comments[index]['comment'],
-                                            size: 15,
-                                            color: Colors.white,
+                                                  ? Alignment.centerRight
+                                                  : Alignment.centerLeft,
+                                          child: Padding(
+                                            padding:
+                                                _comments[index]['part'] == '2'
+                                                    ? const EdgeInsets.only(
+                                                        left: 150)
+                                                    : const EdgeInsets.only(
+                                                        right: 150),
+                                            child: InkWell(
+                                                highlightColor: Colors.white,
+                                                focusColor: Colors.white,
+                                                hoverColor: Colors.white,
+                                                onLongPress: () {
+                                                  if (_comments[index]
+                                                          ['part'] ==
+                                                      '2')
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return AlertDialog(
+                                                            content: Stack(
+                                                              children: <Widget>[
+                                                                Positioned(
+                                                                  right: -40.0,
+                                                                  top: -40.0,
+                                                                  child:
+                                                                      InkResponse(
+                                                                    onTap: () {
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .pop();
+                                                                    },
+                                                                    child:
+                                                                        CircleAvatar(
+                                                                      child: Icon(
+                                                                          Icons
+                                                                              .close),
+                                                                      backgroundColor:
+                                                                          HexColor(
+                                                                              '#db5252'),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .min,
+                                                                  children: [
+                                                                    if (_comments[index]
+                                                                            [
+                                                                            'part'] ==
+                                                                        '2')
+                                                                      Row(
+                                                                        children: [
+                                                                          IconButton(
+                                                                              onPressed: () {
+                                                                                Deletechat(_comments[index]['id']);
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              icon: Icon(Icons.delete)),
+                                                                        ],
+                                                                      )
+                                                                  ],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          );
+                                                        });
+                                                },
+                                                child: Stack(
+                                                  children: [
+                                                    Bubble(
+                                                      color: _comments[index]
+                                                                  ['part'] ==
+                                                              '2'
+                                                          ? HexColor('#742B90')
+                                                          : HexColor('#772255'),
+                                                      margin: BubbleEdges.only(
+                                                          top: 10),
+                                                      alignment: _comments[
+                                                                      index]
+                                                                  ['part'] ==
+                                                              '2'
+                                                          ? Alignment.topRight
+                                                          : Alignment.topLeft,
+                                                      nip: _comments[index]
+                                                                  ['part'] ==
+                                                              '2'
+                                                          ? BubbleNip.rightTop
+                                                          : BubbleNip.leftTop,
+                                                      child: AppText(
+                                                        txt: _comments[index]
+                                                            ['comment'],
+                                                        size: 15,
+                                                        color: _comments[index]
+                                                                    ['part'] ==
+                                                                '2'
+                                                            ? Colors.white
+                                                            : Colors.white,
+                                                        weight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )),
                                           ),
-                                        )),
-                                  ),
-                                ),
+                                        ),
+                                      )
+                                    : Align(
+                                        alignment:
+                                            _comments[index]['part'] == '2'
+                                                ? Alignment.centerRight
+                                                : Alignment.centerLeft,
+                                        child: Align(
+                                          alignment:
+                                              _comments[index]['part'] == '2'
+                                                  ? Alignment.centerRight
+                                                  : Alignment.centerLeft,
+                                          child: Padding(
+                                              padding: _comments[index]
+                                                          ['part'] ==
+                                                      '2'
+                                                  ? const EdgeInsets.only(
+                                                      left: 150)
+                                                  : const EdgeInsets.only(
+                                                      right: 150),
+                                              child: InkWell(
+                                                highlightColor: Colors.white,
+                                                focusColor: Colors.white,
+                                                hoverColor: Colors.white,
+                                                onLongPress: () {
+                                                  showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          context) {
+                                                        return AlertDialog(
+                                                          content: Stack(
+                                                            children: <Widget>[
+                                                              Positioned(
+                                                                right: -40.0,
+                                                                top: -40.0,
+                                                                child:
+                                                                    InkResponse(
+                                                                  onTap: () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .pop();
+                                                                  },
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    child: Icon(
+                                                                        Icons
+                                                                            .close),
+                                                                    backgroundColor:
+                                                                        HexColor(
+                                                                            '#db5252'),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  if (_comments[
+                                                                              index]
+                                                                          [
+                                                                          'part'] ==
+                                                                      '2')
+                                                                    Row(
+                                                                      children: [
+                                                                        IconButton(
+                                                                            onPressed:
+                                                                                () {
+                                                                              Deletechat(_comments[index]['id']);
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            icon:
+                                                                                Icon(Icons.delete)),
+                                                                      ],
+                                                                    )
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      });
+                                                },
+                                                child: Align(
+                                                  alignment: _comments[index]
+                                                              ['part'] ==
+                                                          '2'
+                                                      ? Alignment.centerRight
+                                                      : Alignment.centerLeft,
+                                                  child: Container(
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        color: _comments[index]
+                                                                    ['part'] ==
+                                                                '2'
+                                                            ? HexColor(
+                                                                '#742B90')
+                                                            : HexColor(
+                                                                '#772255'),
+                                                        border: Border.all(
+                                                          color: Colors
+                                                              .black, // Set the desired border color here
+                                                          width:
+                                                              2, // Set the desired border width
+                                                        ),
+                                                      ),
+                                                      child: Column(
+                                                        children: [
+                                                          Image.network(
+                                                            '${murl}message/image/${_comments[index]['image']}',
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          AppText(
+                                                            size: 15,
+                                                            txt:
+                                                                _comments[index]
+                                                                    ['comment'],
+                                                            color: Colors.white,
+                                                          ),
+                                                        ],
+                                                      )),
+                                                ),
+                                              )),
+                                        ),
+                                      ),
                                 SizedBox(
                                   height: 3,
                                 ),
                               ],
                             );
-                            // <!-- android:usesCleartextTraffic="true" -->
                           },
                           itemCount: _comments == null ? 0 : _comments.length,
                         ),
