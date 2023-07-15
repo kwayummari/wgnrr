@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/open_chat/table.dart';
 import 'package:wgnrr/utils/screens/categories.dart';
 import 'package:wgnrr/utils/screens/choices.dart';
 import 'package:wgnrr/utils/screens/stats.dart';
@@ -64,8 +65,9 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -84,11 +86,14 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+      drawer: updates.isNotEmpty
+          ? AppDrawer(
+              username: username,
+              language: language,
+              status: status,
+              update: updates[0]['version'],
+            )
+          : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context
@@ -113,6 +118,17 @@ class _HomeState extends State<Home> {
                 color: HexColor('#ffffff'),
                 fontWeight: FontWeight.w500)),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => Community())),
+            icon: Image.asset(
+              'assets/community.png',
+              height: 40,
+            ),
+          )
+          // : Container()
+        ],
       ),
       backgroundColor: HexColor('#742B90'),
       body: SingleChildScrollView(

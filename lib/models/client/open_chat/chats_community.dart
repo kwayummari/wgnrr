@@ -27,7 +27,6 @@ class ChatsCommunity extends StatefulWidget {
 
 class _ChatsCommunityState extends State<ChatsCommunity> {
   List<dynamic> _comments = [];
-  TextEditingController comments = TextEditingController();
   final ScrollController _scrollController = ScrollController();
 
   Future<void> getComments() async {
@@ -40,9 +39,7 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
         setState(() {
           _comments = json.decode(response1.body);
         });
-        if (_comments.isNotEmpty) {
-          scrollToBottom();
-        }
+        if (_comments.isNotEmpty) {}
       }
     }
   }
@@ -66,16 +63,24 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
     });
   }
 
-  void scrollToBottom() {
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController commentss = TextEditingController();
+  Future send_comments() async {
+    if (commentss.text.isNotEmpty) {
+      var commentsss = commentss.text.toString();
+      commentss.clear();
+      const url = '${murl}community/create_community_text.php';
+      var response = await http.post(Uri.parse(url), body: {
+        "username": username.toString(),
+        "topic": widget.topic_id.toString(),
+        "message": commentsss,
+      });
+      if (response.statusCode == 200) {
+        setState(() {
+          getComments();
+        });
       }
-    });
+    }
   }
 
   Timer? _timer;
@@ -86,12 +91,6 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
       getComments();
     });
     getValidationData();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -130,183 +129,134 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
                 )
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: NotificationListener<ScrollNotification>(
-                    onNotification: (notification) {
-                      if (notification is ScrollEndNotification &&
-                          _scrollController.position.extentAfter == 0) {
-                        // Fetch more comments here if needed
-                        // e.g., paginate or load older comments
-                      }
-                      return false;
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 70),
-                      child: ListView.builder(
-                        controller: _scrollController,
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: _comments.length,
-                        itemBuilder: (context, index) {
-                          final comment = _comments[index];
-                          final isClientComment =
-                              comment['username'] == widget.client;
-                          return Column(
-                            children: [
-                              Align(
-                                alignment: isClientComment
-                                    ? Alignment.centerRight
-                                    : Alignment.centerLeft,
-                                child: AppText(
-                                  txt: comment['username'].toString(),
-                                  size: 15,
-                                ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 70),
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      physics: BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _comments.length,
+                      itemBuilder: (context, index) {
+                        final comment = _comments[index];
+                        final isClientComment =
+                            comment['username'] == widget.client;
+                        return Column(
+                          children: [
+                            Align(
+                              alignment: isClientComment
+                                  ? Alignment.centerRight
+                                  : Alignment.centerLeft,
+                              child: AppText(
+                                txt: comment['username'].toString(),
+                                size: 15,
                               ),
-                              comment['type'] == '1'
-                                  ? Align(
+                            ),
+                            comment['type'] == '1'
+                                ? Align(
+                                    alignment: isClientComment
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Align(
                                       alignment: isClientComment
                                           ? Alignment.centerRight
                                           : Alignment.centerLeft,
-                                      child: Align(
-                                        alignment: isClientComment
-                                            ? Alignment.centerRight
-                                            : Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: isClientComment
-                                              ? const EdgeInsets.only(left: 150)
-                                              : const EdgeInsets.only(
-                                                  right: 150),
-                                          child: InkWell(
-                                            highlightColor: Colors.white,
-                                            focusColor: Colors.white,
-                                            hoverColor: Colors.white,
-                                            onLongPress: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) {
-                                                  return AlertDialog(
-                                                    content: Stack(
-                                                      children: <Widget>[
-                                                        Positioned(
-                                                          right: -40.0,
-                                                          top: -40.0,
-                                                          child: InkResponse(
-                                                            onTap: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            child: CircleAvatar(
-                                                              child: Icon(
-                                                                  Icons.close),
-                                                              backgroundColor:
-                                                                  HexColor(
-                                                                      '#db5252'),
-                                                            ),
+                                      child: Padding(
+                                        padding: isClientComment
+                                            ? const EdgeInsets.only(left: 150)
+                                            : const EdgeInsets.only(right: 150),
+                                        child: InkWell(
+                                          highlightColor: Colors.white,
+                                          focusColor: Colors.white,
+                                          hoverColor: Colors.white,
+                                          onLongPress: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  content: Stack(
+                                                    children: <Widget>[
+                                                      Positioned(
+                                                        right: -40.0,
+                                                        top: -40.0,
+                                                        child: InkResponse(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: CircleAvatar(
+                                                            child: Icon(
+                                                                Icons.close),
+                                                            backgroundColor:
+                                                                HexColor(
+                                                                    '#db5252'),
                                                           ),
                                                         ),
-                                                        Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.min,
-                                                          children: [
-                                                            if (isClientComment)
-                                                              Row(
-                                                                children: [
-                                                                  IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Deletechat(
-                                                                          comment[
-                                                                              'id']);
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    icon: Icon(Icons
-                                                                        .delete),
-                                                                  ),
+                                                      ),
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        children: [
+                                                          if (isClientComment)
+                                                            Row(
+                                                              children: [
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    Deletechat(
+                                                                        comment[
+                                                                            'id']);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(Icons
+                                                                      .delete),
+                                                                ),
+                                                                AppText(
+                                                                  size: 15,
+                                                                  txt:
+                                                                      'Delete Text',
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          if (!isClientComment)
+                                                            Row(
+                                                              children: [
+                                                                IconButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    // Deletechat(
+                                                                    //     comment[
+                                                                    //         'id']);
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  icon: Icon(Icons
+                                                                      .reply),
+                                                                ),
+                                                                if (isClientComment)
                                                                   AppText(
                                                                     size: 15,
                                                                     txt:
                                                                         'Delete Text',
                                                                   ),
-                                                                ],
-                                                              ),
-                                                            if (!isClientComment)
-                                                              Row(
-                                                                children: [
-                                                                  IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      // Deletechat(
-                                                                      //     comment[
-                                                                      //         'id']);
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    },
-                                                                    icon: Icon(Icons
-                                                                        .reply),
+                                                                if (!isClientComment)
+                                                                  AppText(
+                                                                    size: 15,
+                                                                    txt:
+                                                                        'Reply Text',
                                                                   ),
-                                                                  if (isClientComment)
-                                                                    AppText(
-                                                                      size: 15,
-                                                                      txt:
-                                                                          'Delete Text',
-                                                                    ),
-                                                                  if (!isClientComment)
-                                                                    AppText(
-                                                                      size: 15,
-                                                                      txt:
-                                                                          'Reply Text',
-                                                                    ),
-                                                                ],
-                                                              ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            child: Bubble(
-                                              color: isClientComment
-                                                  ? HexColor('#742B90')
-                                                  : HexColor('#772255'),
-                                              margin: BubbleEdges.only(top: 10),
-                                              alignment: isClientComment
-                                                  ? Alignment.topRight
-                                                  : Alignment.topLeft,
-                                              nip: isClientComment
-                                                  ? BubbleNip.rightTop
-                                                  : BubbleNip.leftTop,
-                                              child: AppText(
-                                                txt: comment['message'],
-                                                color: isClientComment
-                                                    ? Colors.white
-                                                    : Colors.white,
-                                                weight: FontWeight.w400,
-                                                size: 15,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : Align(
-                                      alignment: isClientComment
-                                          ? Alignment.centerRight
-                                          : Alignment.centerLeft,
-                                      child: Align(
-                                        alignment: isClientComment
-                                            ? Alignment.centerRight
-                                            : Alignment.centerLeft,
-                                        child: Padding(
-                                          padding: isClientComment
-                                              ? const EdgeInsets.only(left: 150)
-                                              : const EdgeInsets.only(
-                                                  right: 150),
+                                                              ],
+                                                            ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
                                           child: Bubble(
-                                            elevation: 4,
                                             color: isClientComment
                                                 ? HexColor('#742B90')
                                                 : HexColor('#772255'),
@@ -317,32 +267,132 @@ class _ChatsCommunityState extends State<ChatsCommunity> {
                                             nip: isClientComment
                                                 ? BubbleNip.rightTop
                                                 : BubbleNip.leftTop,
-                                            child: Image.network(
-                                              '${murl}message/image/${comment['image']}',
-                                              height: 50,
-                                              width: 50,
+                                            child: AppText(
+                                              txt: comment['message'],
+                                              color: isClientComment
+                                                  ? Colors.white
+                                                  : Colors.white,
+                                              weight: FontWeight.w400,
+                                              size: 15,
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                              SizedBox(height: 10),
-                            ],
-                          );
-                        },
-                      ),
+                                  )
+                                : Align(
+                                    alignment: isClientComment
+                                        ? Alignment.centerRight
+                                        : Alignment.centerLeft,
+                                    child: Align(
+                                      alignment: isClientComment
+                                          ? Alignment.centerRight
+                                          : Alignment.centerLeft,
+                                      child: Padding(
+                                        padding: isClientComment
+                                            ? const EdgeInsets.only(left: 150)
+                                            : const EdgeInsets.only(right: 150),
+                                        child: Bubble(
+                                          elevation: 4,
+                                          color: isClientComment
+                                              ? HexColor('#742B90')
+                                              : HexColor('#772255'),
+                                          margin: BubbleEdges.only(top: 10),
+                                          alignment: isClientComment
+                                              ? Alignment.topRight
+                                              : Alignment.topLeft,
+                                          nip: isClientComment
+                                              ? BubbleNip.rightTop
+                                              : BubbleNip.leftTop,
+                                          child: Image.network(
+                                            '${murl}message/image/${comment['image']}',
+                                            height: 50,
+                                            width: 50,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            SizedBox(height: 10),
+                          ],
+                        );
+                      },
                     ),
                   ),
                 ),
           Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Individualcommunitychats(
-                client: widget.client,
-                topic: widget.topic_id,
-                username: username,
-              )),
+            bottom: 0,
+            left: 0,
+            right: 30,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 30,
+                  ),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: HexColor('#742B90'),
+                            borderRadius: BorderRadius.circular(25.0),
+                            border: Border.all(color: HexColor('#742B90'))),
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width / 1.3,
+                            maxWidth: MediaQuery.of(context).size.width / 1.2,
+                            minHeight: 30.0,
+                            maxHeight: 250.0,
+                          ),
+                          child: Scrollbar(
+                            child: TextFormField(
+                              style: TextStyle(color: Colors.white),
+                              cursorColor: Colors.white,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              controller: commentss,
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                    onPressed: () {
+                                      if (!_formKey.currentState!.validate()) {
+                                        return;
+                                      }
+                                      send_comments();
+                                    },
+                                    icon: Icon(
+                                      Icons.send,
+                                      color: Colors.white,
+                                    )),
+                                border: InputBorder.none,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: HexColor('#742B90')),
+                                  borderRadius: BorderRadius.circular(25.0),
+                                ),
+                                fillColor: Colors.white,
+                                hoverColor: HexColor('#742B90'),
+                                focusColor: HexColor('#742B90'),
+                                hintText: 'Message',
+                                hintStyle: TextStyle(color: Colors.white),
+                                contentPadding: EdgeInsets.only(
+                                    top: 5.0,
+                                    left: 15.0,
+                                    right: 15.0,
+                                    bottom: 5.0),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
