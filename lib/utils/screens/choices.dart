@@ -137,7 +137,7 @@ class _ChoicesState extends State<Choices> {
                               ),
                               Text(
                                 data[index]['name'].toString().length > 20
-                                    ? data[index]['name']
+                                    ? data[index]['name'].toUpperCase()
                                             .toString()
                                             .substring(0, 20) +
                                         '...'

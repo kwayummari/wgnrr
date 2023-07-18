@@ -84,89 +84,102 @@ class _CategoriesState extends State<Categories> {
                     color: HexColor('#F5841F'),
                     child: AppText(
                       txt: language == 'Kiswahili' ? 'Majarida' : 'Daily Tips',
-                          color: HexColor('#F5841F'), size: 15,
+                      color: HexColor('#F5841F'),
+                      size: 15,
                     ))),
           ),
-          data.isEmpty ? tipShimmerLoading(borderRadius: 20, height: 125.0, width: MediaQuery.of(context).size.width / 2.4,) : Expanded(
-            child: StreamBuilder(
-        stream: Stream.periodic(Duration(seconds: 10)).asyncMap(
-            (i) => get_username()), // i is null here (check periodic docs)
-        builder: (context, snapshot) => ListView.builder(
-              itemCount: data.length,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => Views(
-                                author: data[index]['author'],
-                                caption: data[index]['caption'],
-                                date: data[index]['date'],
-                                description: data[index]['description'],
-                                title: data[index]['title'],
-                                username: username,
-                                image: data[index]['image'], language: language,
-                              )));
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Container(
-                            height: 125.0,
-                            width: MediaQuery.of(context).size.width / 2.4,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              border: Border.all(color: Colors.black),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    '${murl}categories/image/${data[index]['image']}'),
-                                fit: BoxFit.fill,
-                              ),
-                              shape: BoxShape.rectangle,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          data[index]['title'].toString().length > 20
-                              ? data[index]['title']
-                                      .toString()
-                                      .substring(0, 20) +
-                                  '...'
-                              : data[index]['name'].toString(),
-                          style: TextStyle(overflow: TextOverflow.ellipsis),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          data.isEmpty
+              ? tipShimmerLoading(
+                  borderRadius: 20,
+                  height: 125.0,
+                  width: MediaQuery.of(context).size.width / 2.4,
+                )
+              : Expanded(
+                  child: StreamBuilder(
+                  stream: Stream.periodic(Duration(seconds: 10)).asyncMap((i) =>
+                      get_username()), // i is null here (check periodic docs)
+                  builder: (context, snapshot) => ListView.builder(
+                    itemCount: data.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Views(
+                                      author: data[index]['author'],
+                                      caption: data[index]['caption'],
+                                      date: data[index]['date'],
+                                      description: data[index]['description'],
+                                      title: data[index]['title'],
+                                      username: username,
+                                      image: data[index]['image'],
+                                      language: language,
+                                    )));
+                          },
+                          child: Column(
                             children: [
-                              AppText(
-                                size: 15,
-                                txt: language == 'Kiswahili'
-                                    ? 'Soma zaidi'
-                                    : 'Read More',
-                                    color: HexColor('#800B24'),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                child: Container(
+                                  height: 125.0,
+                                  width:
+                                      MediaQuery.of(context).size.width / 2.4,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    border: Border.all(color: Colors.black),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          '${murl}categories/image/${data[index]['image']}'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                ),
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: HexColor('#800B24'),
-                              )
+                              Text(
+                                data[index]['title'].toString().length > 20
+                                    ? data[index]['title']
+                                            .toString()
+                                            .substring(0, 20) +
+                                        '...'
+                                    : data[index]['name']
+                                        .toString()
+                                        .toUpperCase(),
+                                style:
+                                    TextStyle(overflow: TextOverflow.ellipsis),
+                              ),
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      size: 15,
+                                      txt: language == 'Kiswahili'
+                                          ? 'Soma zaidi'
+                                          : 'Read More',
+                                      color: HexColor('#800B24'),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: HexColor('#800B24'),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),)
-          ),
+                )),
         ],
       ),
     );

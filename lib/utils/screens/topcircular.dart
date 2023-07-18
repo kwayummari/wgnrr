@@ -177,7 +177,7 @@ class _TopcircularState extends State<Topcircular> {
                               child: AppText(
                                 txt: datas[i]['title'].toString().length > 40
                                     ? datas[i]['title']
-                                            .toString()
+                                            .toString().toUpperCase()
                                             .substring(0, 40) +
                                         '...'
                                     : datas[i]['title'].toString(),

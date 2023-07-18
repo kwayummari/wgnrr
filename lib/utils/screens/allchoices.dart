@@ -368,7 +368,7 @@ class _AllState extends State<All> {
                                 child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: AppText(
-                                      txt: data[index]['name'],
+                                      txt: data[index]['name'].toUpperCase(),
                                       size: 15,
                                       color: Colors.black,
                                     )),

@@ -140,7 +140,7 @@ class _StatsState extends State<Stats> {
                                       .toString()
                                       .substring(0, 20) +
                                   '...'
-                              : data[index]['title'].toString(),
+                              : data[index]['title'].toString().toUpperCase(),
                           style: TextStyle(overflow: TextOverflow.ellipsis),
                         ),
                         Align(
