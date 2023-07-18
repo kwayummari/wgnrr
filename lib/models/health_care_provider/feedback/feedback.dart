@@ -52,11 +52,7 @@ class _QuizState extends State<Quiz> {
     'COMPLAINTS',
     'COMPLEMENTS',
   ];
-  List types1 = [
-    'MASWALI YA KAWAIDA',
-    'Malalamiko',
-    'Sifa'
-  ];
+  List types1 = ['MASWALI YA KAWAIDA', 'Malalamiko', 'Sifa'];
 
   Future send() async {
     const url = '${murl}question/question.php';
@@ -221,25 +217,30 @@ class _QuizState extends State<Quiz> {
                       });
                     },
                     items: language == 'Kiswahili'
-              ? types1.map((valueItem) {
-                      return DropdownMenuItem(
-                        value: valueItem,
-                        child: AppText(
-                          txt: valueItem != null ? valueItem : 'default value',
-                          color: Colors.black,
-                          size: 15,
-                        ),
-                      );
-                    }).toList() : types.map((valueItem) {
-                      return DropdownMenuItem(
-                        value: valueItem,
-                        child: AppText(
-                          txt: valueItem != null ? valueItem : 'default value',
-                          color: Colors.black,
-                          size: 15,
-                        ),
-                      );
-                    }).toList(),
+                        ? types1.map((valueItem) {
+                            return DropdownMenuItem(
+                              value: valueItem,
+                              child: AppText(
+                                txt: valueItem != null
+                                    ? valueItem
+                                    : 'default value',
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                            );
+                          }).toList()
+                        : types.map((valueItem) {
+                            return DropdownMenuItem(
+                              value: valueItem,
+                              child: AppText(
+                                txt: valueItem != null
+                                    ? valueItem
+                                    : 'default value',
+                                color: Colors.black,
+                                size: 15,
+                              ),
+                            );
+                          }).toList(),
                   ),
                 ),
                 SizedBox(
