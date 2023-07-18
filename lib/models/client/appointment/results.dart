@@ -81,7 +81,7 @@ class _ResultsState extends State<Results> {
         backgroundColor: HexColor('#742B90'),
         title: AppText(
           txt: language == 'Kiswahili'
-              ? 'Matokeo ya post'
+              ? 'Matokeo ya huduma'
               : 'Post procedures results',
           size: 15,
           color: HexColor('#ffffff'),

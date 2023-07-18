@@ -65,7 +65,7 @@ class _HomepageState extends State<Homepage> {
                         height: 40,
                       ),
                       label: language == 'Kiswahili'
-                          ? 'Mazungumzo na daktari'
+                          ? 'Ongea na daktari'
                           : 'Chats with doctor'),
                   BottomNavigationBarItem(
                       icon: Image.asset(

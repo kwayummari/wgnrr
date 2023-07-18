@@ -167,7 +167,7 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
                 title: AppText(
                   txt: widget.language == 'Kiswahili'
-                      ? 'Post Procedures Results'
+                      ? 'Matokeo ya huduma'
                       : 'Post Procedures Results',
                   size: 15,
                   color: HexColor('#000000'),

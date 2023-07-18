@@ -53,8 +53,7 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                   canvasColor: HexColor('#742B90'),
                   primaryColor: HexColor('#742B90'),
                   textTheme: Theme.of(context).textTheme.copyWith(
-                      bodySmall:
-                          TextStyle(color: HexColor('#cbdd33')))),
+                      bodySmall: TextStyle(color: HexColor('#cbdd33')))),
               child: BottomNavigationBar(
                 selectedItemColor: HexColor('#F5841F'),
                 unselectedItemColor: HexColor('#ffffff'),
@@ -66,7 +65,7 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                         height: 35,
                       ),
                       label: language == 'Kiswahili'
-                          ? 'Mazungumzo na daktari'
+                          ? 'Ongea na daktari'
                           : 'Chats with doctor'),
                   BottomNavigationBarItem(
                       icon: Image.asset(
@@ -74,7 +73,7 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                         height: 35,
                       ),
                       label: language == 'Kiswahili' ? 'Nyumbani' : 'Home'),
-                      BottomNavigationBarItem(
+                  BottomNavigationBarItem(
                       icon: Image.asset(
                         'assets/hospital3.png',
                         height: 40,
