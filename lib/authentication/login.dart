@@ -120,8 +120,6 @@ class _LoginState extends State<Login> {
               ),
               isloading.isLoading
                   ? SpinKitCircle(
-                      // duration: const Duration(seconds: 3),
-                      // size: 100,
                       color: HexColor('#F5841F'),
                     )
                   : Container(
@@ -139,56 +137,9 @@ class _LoginState extends State<Login> {
                         }, bcolor: HexColor('#F5841F'), borderCurve: 20,
                       ),
                     ),
-              // SizedBox(
-              //     child: Container(
-              //       decoration: BoxDecoration(
-              //         color: Colors.black,
-              //         borderRadius: BorderRadius.circular(25.0),
-              //       ),
-              //       height: 50,
-              //       width: 340,
-              //       child: ElevatedButton(
-              //         style: ElevatedButton.styleFrom(
-              //           elevation: 5,
-              //           foregroundColor: HexColor('#F5841F'),
-              //           backgroundColor: HexColor('#F5841F'),
-              //           textStyle:
-              //               GoogleFonts.vesperLibre(color: Colors.white),
-              //           shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(0),
-              //               side: BorderSide(color: Colors.black)),
-              //         ),
-              //         onPressed: () async {
-              //           if (!_formKey.currentState!.validate()) {
-              //             return;
-              //           }
-              //           isloading.isLoading = true;
-              //           loginAuth().login(context, username.text.toString(),
-              //               password.text.toString(), language.toString());
-              //         },
-              //         child: Text(
-              //           language == 'Kiswahili' ? 'Ingia' : 'Sign In',
-              //           style: GoogleFonts.vesperLibre(
-              //             color: Colors.white,
-              //             fontSize: 25,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
               SizedBox(
                 height: 15,
               ),
-              // InkWell(
-              //     child: Text(
-              //         language == 'Kiswahili'
-              //             ? 'Mwanachama Mpya ? Jisajili'
-              //             : 'New user ? Signup now',
-              //         style: GoogleFonts.vesperLibre(color: Colors.white)),
-              //     onTap: () {
-              //       Navigator.of(context).pushReplacement(
-              //           MaterialPageRoute(builder: (context) => Register('')));
-              //     }),
             ],
           ),
         ),

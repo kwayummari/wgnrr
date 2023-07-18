@@ -26,6 +26,7 @@ class loginAuth {
       "password": password.toString(),
     });
     var data = jsonDecode(response.body);
+    print(data);
     if (data == "inactive") {
       await done(context);
       Fluttertoast.showToast(
@@ -41,27 +42,30 @@ class loginAuth {
       );
     } else if (data == "Health Care Providers") {
       await done(context);
-      if(password.toString() == 'password') {
-        Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => updatePasswordDoctor(status: data, username: username.toString(),)));
+      if (password.toString() == 'password') {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => updatePasswordDoctor(
+                  status: data,
+                  username: username.toString(),
+                )));
       } else {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Homepage_hcp('')));
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setString('username', username.toString());
-      sharedPreferences.setString('status', 'Health Care Providers');
-      Fluttertoast.showToast(
-        msg: language == 'Kiswahili'
-            ? 'Umefanikiwa Kuingia'
-            : 'Login Succefully',
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 15.0,
-      );
+            MaterialPageRoute(builder: (context) => Homepage_hcp('')));
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString('username', username.toString());
+        sharedPreferences.setString('status', 'Health Care Providers');
+        Fluttertoast.showToast(
+          msg: language == 'Kiswahili'
+              ? 'Umefanikiwa Kuingia'
+              : 'Login Succefully',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 15.0,
+        );
       }
     } else if (data == "wrong") {
       await done(context);
@@ -78,30 +82,36 @@ class loginAuth {
       );
     } else {
       await done(context);
-      if(password.toString() == 'password') {
-        Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => updatePassword(status: data, username: username.toString(),)));
+      if (password.toString() == 'password') {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => updatePassword(
+                  status: data,
+                  username: username.toString(),
+                )));
       } else {
         final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setString('username', username.toString());
-    sharedPreferences.setString('status', '${data}');
-    Fluttertoast.showToast(
-      msg: language == 'Kiswahili' ? 'Umefanikiwa Kuingia' : 'Login Succefully',
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
-      backgroundColor: Colors.green,
-      textColor: Colors.white,
-      fontSize: 15.0,
-    );
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => Homepage('')));
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString('username', username.toString());
+        sharedPreferences.setString('status', '${data}');
+        Fluttertoast.showToast(
+          msg: language == 'Kiswahili'
+              ? 'Umefanikiwa Kuingia'
+              : 'Login Succefully',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 15.0,
+        );
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => Homepage('')));
       }
-  } }
+    }
+  }
 
   done(BuildContext context) async {
-    await Future.delayed(Duration(seconds: 5), () {
+    await Future.delayed(Duration(milliseconds: 2), () {
       final isloading = Provider.of<SharedData>(context, listen: false);
       isloading.isLoading = false;
     });
