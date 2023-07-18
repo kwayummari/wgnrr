@@ -282,12 +282,6 @@ class _PatientResultsCardState extends State<PatientResultsCard> {
                             header: 'Emaotional Status: ',
                             trailer: 'You are fine',
                           ),
-                        if (int.parse(widget.timeline) < 24)
-                          richText(
-                            header: 'Pain: ',
-                            trailer:
-                                'You feel very sever pain which is normal for now',
-                          ),
                         if (int.parse(widget.timeline) < 24 &&
                             widget.pain == 'Very Severe')
                           richText(
