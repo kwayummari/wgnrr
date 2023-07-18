@@ -53,8 +53,7 @@ class _HomepageState extends State<Homepage> {
                   canvasColor: HexColor('#742B90'),
                   primaryColor: HexColor('#742B90'),
                   textTheme: Theme.of(context).textTheme.copyWith(
-                      bodySmall:
-                          TextStyle(color: HexColor('#cbdd33')))),
+                      bodySmall: TextStyle(color: HexColor('#cbdd33')))),
               child: BottomNavigationBar(
                 selectedItemColor: HexColor('#F5841F'),
                 unselectedItemColor: HexColor('#ffffff'),
@@ -65,7 +64,9 @@ class _HomepageState extends State<Homepage> {
                         'assets/chats.png',
                         height: 40,
                       ),
-                      label: language == 'Kiswahili' ? 'Mazungumzo' : 'Chats'),
+                      label: language == 'Kiswahili'
+                          ? 'Mazungumzo na daktari'
+                          : 'Chats with doctor'),
                   BottomNavigationBarItem(
                       icon: Image.asset(
                         'assets/home.png',

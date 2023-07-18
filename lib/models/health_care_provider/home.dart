@@ -65,13 +65,15 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                         'assets/chats.png',
                         height: 35,
                       ),
-                      label: 'Chats'),
+                      label: language == 'Kiswahili'
+                          ? 'Mazungumzo na daktari'
+                          : 'Chats with doctor'),
                   BottomNavigationBarItem(
                       icon: Image.asset(
                         'assets/home.png',
                         height: 35,
                       ),
-                      label: 'Home'),
+                      label: language == 'Kiswahili' ? 'Nyumbani' : 'Home'),
                       BottomNavigationBarItem(
                       icon: Image.asset(
                         'assets/hospital3.png',
