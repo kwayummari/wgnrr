@@ -24,7 +24,7 @@ class AppText extends StatelessWidget {
         decoration: textdecoration,
         color: color,
         fontSize: size,
-        fontFamily: 'OpenSans',
+        fontFamily: 'Roboto',
         fontWeight: weight,
       ),
     );
