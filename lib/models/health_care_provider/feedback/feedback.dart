@@ -146,7 +146,8 @@ class _QuizState extends State<Quiz> {
                   child: Center(
                     child: AppText(
                       txt:
-                          'Your Ideas, Questions and Feedback are Greatly Appreciated',
+                          language == 'Kiswahili'
+                  ? 'Mawazo yako, Maswali na Maoni yako yanathaminiwa sana.' :'Your Ideas, Questions and Feedback are Greatly Appreciated',
                       size: 15,
                       color: Colors.black,
                       weight: FontWeight.w400,
