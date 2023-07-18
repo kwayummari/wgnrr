@@ -83,8 +83,9 @@ class _QuizState extends State<Quiz> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -104,35 +105,39 @@ class _QuizState extends State<Quiz> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-        drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
-        appBar: AppBar(
-          leading: Builder(
-              builder: (context) => // Ensure Scaffold is in context
-                  IconButton(
-                    icon: Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    ),
-                    onPressed: () => Scaffold.of(context).openDrawer(),
-                  )),
-          automaticallyImplyLeading: false,
-          shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
-          elevation: 4,
-          toolbarHeight: 70,
-          backgroundColor: HexColor('#742B90'),
-          title: AppText(
-              txt: language == 'Kiswahili'
-                  ? 'Karibu ${username}'
-                  : 'Welcome ${username}',
-                  size: 15,
-                  color: Colors.white,
-                  weight: FontWeight.w500,),
-          centerTitle: true,
+      drawer: updates.isNotEmpty
+          ? AppDrawer(
+              username: username,
+              language: language,
+              status: status,
+              update: updates[0]['version'],
+            )
+          : null,
+      appBar: AppBar(
+        leading: Builder(
+            builder: (context) => // Ensure Scaffold is in context
+                IconButton(
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                )),
+        automaticallyImplyLeading: false,
+        shape: Border(bottom: BorderSide(color: Colors.orange, width: 0.2)),
+        elevation: 4,
+        toolbarHeight: 70,
+        backgroundColor: HexColor('#742B90'),
+        title: AppText(
+          txt: language == 'Kiswahili'
+              ? 'Karibu ${username}'
+              : 'Welcome ${username}',
+          size: 15,
+          color: Colors.white,
+          weight: FontWeight.w500,
         ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Align(
           alignment: Alignment.center,
@@ -145,9 +150,9 @@ class _QuizState extends State<Quiz> {
                       left: 35, right: 35, top: 8, bottom: 8),
                   child: Center(
                     child: AppText(
-                      txt:
-                          language == 'Kiswahili'
-                  ? 'Mawazo yako, Maswali na Maoni yako yanathaminiwa sana.' :'Your Ideas, Questions and Feedback are Greatly Appreciated',
+                      txt: language == 'Kiswahili'
+                          ? 'Mawazo yako, Maswali na Maoni yako yanathaminiwa sana.'
+                          : 'Your Ideas, Questions and Feedback are Greatly Appreciated',
                       size: 15,
                       color: Colors.black,
                       weight: FontWeight.w400,
@@ -192,8 +197,8 @@ class _QuizState extends State<Quiz> {
                       txt: language == 'Kiswahili'
                           ? 'Aina ya Maoni'
                           : 'Feedback type',
-                          size: 15,
-                          color: Colors.black,
+                      size: 15,
+                      color: Colors.black,
                     ),
                     validator: (value) {
                       if (value == null) {
@@ -283,8 +288,7 @@ class _QuizState extends State<Quiz> {
                             style: ElevatedButton.styleFrom(
                               foregroundColor: HexColor('#742B90'),
                               backgroundColor: HexColor('#742B90'),
-                              textStyle:
-                                  TextStyle(color: Colors.white),
+                              textStyle: TextStyle(color: Colors.white),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(0),
                                   side: BorderSide(color: Colors.black)),
