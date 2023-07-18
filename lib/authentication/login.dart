@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/auth/login.dart';
 import 'package:wgnrr/provider/shared_data.dart';
 import 'package:wgnrr/utils/widget/bottombar/bottombar.dart';
@@ -25,11 +26,19 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
 
   var language;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var l = sharedPreferences.get('language');
+    setState(() {
+      language = l;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    language = loginAuth().getValidationData();
+    getValidationData();
   }
 
   bool dont_show_password = true;
@@ -91,7 +100,8 @@ class _LoginState extends State<Login> {
                     icon: Icon(
                       Icons.person_pin,
                       color: Colors.black,
-                    ), language: language,
+                    ),
+                    language: language,
                   )),
               SizedBox(
                 height: 20,
@@ -113,7 +123,8 @@ class _LoginState extends State<Login> {
                             dont_show_password = !dont_show_password;
                           });
                         }),
-                        icon: Icon(Icons.remove_red_eye)), language: language,
+                        icon: Icon(Icons.remove_red_eye)),
+                    language: language,
                   )),
               SizedBox(
                 height: 15,
@@ -134,7 +145,9 @@ class _LoginState extends State<Login> {
                           isloading.isLoading = true;
                           loginAuth().login(context, username.text.toString(),
                               password.text.toString(), language.toString());
-                        }, bcolor: HexColor('#F5841F'), borderCurve: 20,
+                        },
+                        bcolor: HexColor('#F5841F'),
+                        borderCurve: 20,
                       ),
                     ),
               SizedBox(

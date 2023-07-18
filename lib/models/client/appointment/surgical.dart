@@ -27,6 +27,31 @@ class Surgical extends StatefulWidget {
 
 class _SurgicalState extends State<Surgical> {
   Future submit() async {
+    if (pain == 'assets/noPain.jpg') {
+      setState(() {
+        pain = 'No Pain';
+      });
+    } else if (pain == 'assets/mild.jpg') {
+      setState(() {
+        pain = 'Mild';
+      });
+    } else if (pain == 'assets/moderate.jpg') {
+      setState(() {
+        pain = 'Moderate';
+      });
+    } else if (pain == 'assets/severe.jpg') {
+      setState(() {
+        pain = 'Severe';
+      });
+    } else if (pain == 'assets/verySevere.jpg') {
+      setState(() {
+        pain = 'Very Severe';
+      });
+    } else if (pain == 'assets/worst.jpg') {
+      setState(() {
+        pain = 'Worst Pain Possible';
+      });
+    }
     if (totalQuestions == null) {
       const url = '${murl}appointment/write_appointment.php';
       var response1 = await http.post(Uri.parse(url), body: {
@@ -175,12 +200,12 @@ class _SurgicalState extends State<Surgical> {
 
   var pain;
   List pains = [
-    'No Pain',
-    'Mild',
-    'Moderate',
-    'Severe',
-    'Very Severe',
-    'Worst Pain Possible'
+    'assets/noPain.jpg',
+    'assets/mild.jpg',
+    'assets/moderate.jpg',
+    'assets/severe.jpg',
+    'assets/verySevere.jpg',
+    'assets/worst.jpg'
   ];
   var blood;
   List bloods = ['0', '1-2', '2-3', '3-4', 'More'];
@@ -282,10 +307,7 @@ class _SurgicalState extends State<Surgical> {
                     items: pains.map((valueItem) {
                       return DropdownMenuItem(
                         value: valueItem,
-                        child: AppText(
-                          txt: valueItem != null ? valueItem : 'default value',
-                          size: 15,
-                        ),
+                        child: Image.asset(valueItem),
                       );
                     }).toList(),
                   ),
