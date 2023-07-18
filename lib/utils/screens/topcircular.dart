@@ -124,13 +124,13 @@ class _TopcircularState extends State<Topcircular> {
   Widget build(BuildContext context) {
     return datas.isEmpty
         ? Padding(
-          padding: const EdgeInsets.only(left: 30, right: 30),
-          child: topcircularShimmerLoading(
+            padding: const EdgeInsets.only(left: 30, right: 30),
+            child: topcircularShimmerLoading(
               borderRadius: 20,
               height: Platform.isIOS ? 200 : 170,
               width: Platform.isIOS ? 200 : 170,
             ),
-        )
+          )
         : StreamBuilder(
             stream: Stream.periodic(Duration(seconds: 10)).asyncMap((i) =>
                 checkConnection()), // i is null here (check periodic docs)
@@ -161,7 +161,8 @@ class _TopcircularState extends State<Topcircular> {
                                     description: datas[i]['description'],
                                     title: datas[i]['title'],
                                     username: username,
-                                    image: datas[i]['image'], language: language,
+                                    image: datas[i]['image'],
+                                    language: language,
                                   )));
                         },
                         child: Container(
@@ -177,12 +178,13 @@ class _TopcircularState extends State<Topcircular> {
                               child: AppText(
                                 txt: datas[i]['title'].toString().length > 40
                                     ? datas[i]['title']
-                                            .toString().toUpperCase()
+                                            .toString()
+                                            .toUpperCase()
                                             .substring(0, 40) +
                                         '...'
                                     : datas[i]['title'].toString(),
-                                    color: Colors.white,
-                                    size: 15,
+                                color: Colors.white,
+                                size: 15,
                               ),
                             ),
                           ),

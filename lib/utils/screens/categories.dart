@@ -145,6 +145,7 @@ class _CategoriesState extends State<Categories> {
                                 data[index]['title'].toString().length > 20
                                     ? data[index]['title']
                                             .toString()
+                                            .toUpperCase()
                                             .substring(0, 20) +
                                         '...'
                                     : data[index]['name']
