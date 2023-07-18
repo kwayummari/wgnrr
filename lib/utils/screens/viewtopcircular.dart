@@ -240,8 +240,8 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                                 MaterialPageRoute(
                                     builder: (context) => Quiz())),
                             label: widget.language == 'Kiswahili'
-                                ? 'Toa mrejesho'
-                                : 'Provide feedback',
+                                  ? 'Toa mrejesho kuhusu maudhui'
+                                  : 'Provide feedback on content',
                             bcolor: HexColor('#F5841F'),
                             borderCurve: 20),
                       ),
