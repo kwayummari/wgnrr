@@ -225,22 +225,7 @@ class _ViewStatsState extends State<ViewStats> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: 340,
-                        child: AppButton(
-                            onPress: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => Quiz())),
-                            label: widget.language == 'Kiswahili'
-                                  ? 'Toa mrejesho kuhusu maudhui'
-                                  : 'Provide feedback on content',
-                            bcolor: HexColor('#F5841F'),
-                            borderCurve: 20),
-                      ),
+                      
                       const SizedBox(
                         height: 30,
                       ),

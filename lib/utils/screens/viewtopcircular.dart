@@ -37,7 +37,7 @@ class Viewtopcircularcategory extends StatefulWidget {
 }
 
 class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
-      var language;
+  var language;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
@@ -46,11 +46,13 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
       language = l;
     });
   }
+
   @override
   void initState() {
     super.initState();
     getValidationData();
   }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -228,22 +230,6 @@ class _ViewtopcircularcategoryState extends State<Viewtopcircularcategory> {
                             size: 18,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: 50,
-                        width: 340,
-                        child: AppButton(
-                            onPress: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => Quiz())),
-                            label: widget.language == 'Kiswahili'
-                                  ? 'Toa mrejesho kuhusu maudhui'
-                                  : 'Provide feedback on content',
-                            bcolor: HexColor('#F5841F'),
-                            borderCurve: 20),
                       ),
                       const SizedBox(
                         height: 30,

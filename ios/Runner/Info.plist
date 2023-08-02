@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mimi Care</string>
+	<string>MIMI_CARE</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Mimi Care</string>
+	<string>MIMI_CARE</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -36,6 +36,8 @@
     <string>your usage description here</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
     <string>Need location when in use</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Your app needs access to the photo library to allow you to choose photos to upload and share with your friends.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Always and when in use!</string>
     <key>NSLocationUsageDescription</key>

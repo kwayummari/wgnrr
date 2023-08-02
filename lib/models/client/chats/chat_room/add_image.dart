@@ -120,16 +120,17 @@ class _AddState extends State<Add> {
                         label: 'Take a Photo',
                         borderRadius: 15,
                         textColor: Colors.white,
-                        bcolor: Colors.black),
+                        bcolor: Colors.purple),
                     AppButton(
                         onPress: () => _pickImage(ImageSource.gallery),
                         label: 'Choose from Gallery',
                         borderRadius: 15,
                         textColor: Colors.white,
-                        bcolor: Colors.black),
+                        bcolor: Colors.purple),
                   ],
                 ),
                 AppInputText(
+                  labelColor: Colors.white,
                   textfieldcontroller: caption,
                   isemail: false,
                   fillcolor: Colors.white,
@@ -149,7 +150,7 @@ class _AddState extends State<Add> {
                       label: 'Save',
                       borderRadius: 25,
                       textColor: Colors.white,
-                      bcolor: Colors.black),
+                      bcolor: Colors.purple),
                 ),
               ],
             )));

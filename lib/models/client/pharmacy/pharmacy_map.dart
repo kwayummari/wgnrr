@@ -179,7 +179,6 @@ class MapSample_pharmacyState extends State<MapSample_pharmacy> {
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               markers: Set.of(_markers!),
-              mapType: MapType.hybrid,
               initialCameraPosition: CameraPosition(
                 target: LatLng(position!.latitude, position!.longitude),
                 zoom: 13.4746,

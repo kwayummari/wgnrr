@@ -3,9 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
-import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Viewchoice extends StatefulWidget {
@@ -221,22 +219,6 @@ class _ViewchoiceState extends State<Viewchoice> {
                             weight: FontWeight.w300,
                             size: 18,
                           ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 300,
-                          height: 50,
-                          child: AppButton(
-                              onPress: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) => Quiz())),
-                              label: widget.language == 'Kiswahili'
-                                  ? 'Toa mrejesho kuhusu maudhui'
-                                  : 'Provide feedback on content',
-                              bcolor: HexColor('#F5841F'),
-                              borderCurve: 20),
                         ),
                       ),
                       SizedBox(

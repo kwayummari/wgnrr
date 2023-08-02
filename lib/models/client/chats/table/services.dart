@@ -156,8 +156,9 @@ class _servicesChoicesState extends State<servicesChoices> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -176,11 +177,14 @@ class _servicesChoicesState extends State<servicesChoices> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+      drawer: updates.isNotEmpty
+          ? AppDrawer(
+              username: username,
+              language: language,
+              status: status,
+              update: updates[0]['version'],
+            )
+          : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context
@@ -197,12 +201,13 @@ class _servicesChoicesState extends State<servicesChoices> {
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
         title: AppText(
-            txt: language == 'Kiswahili'
-                ? 'Karibu ${username}'
-                : 'Welcome ${username}',
-                size: 15,
-                weight: FontWeight.w500,
-                color: Colors.white,),
+          txt: language == 'Kiswahili'
+              ? 'Karibu ${username}'
+              : 'Welcome ${username}',
+          size: 15,
+          weight: FontWeight.w500,
+          color: Colors.white,
+        ),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -235,7 +240,7 @@ class _servicesChoicesState extends State<servicesChoices> {
                     ),
                     // underline: SizedBox(),
                     hint: AppText(
-                      txt:'Select Service',
+                      txt: 'Select Service',
                       size: 15,
                     ),
                     value: option,
@@ -263,6 +268,12 @@ class _servicesChoicesState extends State<servicesChoices> {
                       setState(() {
                         option = value;
                       });
+                    },
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return 'Please select a service';
+                      }
+                      return null; // Return null to indicate the input is valid.
                     },
                   ),
                 ),
@@ -317,6 +328,12 @@ class _servicesChoicesState extends State<servicesChoices> {
                       setState(() {
                         doctor = value;
                       });
+                    },
+                    validator: (value) {
+                      if (value == null || value.toString().isEmpty) {
+                        return 'Please select a Health Care Provider';
+                      }
+                      return null; // Return null to indicate the input is valid.
                     },
                   ),
                 ),

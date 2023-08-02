@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> with WidgetsBindingObserver {
   var language;
   _navigatortohome() async {
     await getValidationData().whenComplete(() async {
-      await Future.delayed(Duration(seconds: 2), () {});
+      await Future.delayed(Duration(milliseconds: 100), () {});
       if (language == null && username == null && status == null) {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Language()));

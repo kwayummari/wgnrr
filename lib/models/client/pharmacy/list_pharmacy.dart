@@ -56,7 +56,7 @@ class _list_chats_pharmacyState extends State<list_chats_pharmacy> {
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
   done() async {
-    await Future.delayed(Duration(seconds: 5), () {
+    await Future.delayed(Duration(milliseconds: 100), () {
       setState(() {
         isLoading = false;
       });

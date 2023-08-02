@@ -318,7 +318,7 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                                                 color: Colors.black,
                                               ),
                                               validator: (value) {
-                                                if (value == null) {
+                                                if (value == null || value.toString().isEmpty) {
                                                   return language == 'Kiswahili'
                                                       ? 'Chagua'
                                                       : "Please select";
@@ -344,6 +344,7 @@ class _list_appointment_doctorState extends State<list_appointment_doctor> {
                                                   ),
                                                 );
                                               }).toList(),
+                                              
                                             ),
                                           ),
                                           Container(

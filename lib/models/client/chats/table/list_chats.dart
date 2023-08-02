@@ -85,15 +85,24 @@ class _list_chatsState extends State<list_chats> {
     get_chats();
   }
 
+   Timer? _timer;
+
   @override
   void initState() {
     super.initState();
     getValidationData();
-    Timer(Duration(seconds: 5), () {
+    _timer = Timer(Duration(seconds: 5), () {
       setState(() {
         _isVisible = false;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    // Cancel the timer to avoid memory leaks
+    _timer?.cancel();
+    super.dispose();
   }
 
   TextEditingController comments = TextEditingController();
@@ -129,10 +138,7 @@ class _list_chatsState extends State<list_chats> {
               color: Colors.black,
             )),
           )
-        : StreamBuilder(
-            stream: Stream.periodic(Duration(milliseconds: 5)).asyncMap((i) =>
-                getValidationData()), // i is null here (check periodic docs)
-            builder: (context, snapshot) => ListView.builder(
+        :  ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
@@ -219,6 +225,6 @@ class _list_chatsState extends State<list_chats> {
                     );
                   },
                   itemCount: chats == null ? 0 : chats.length,
-                ));
+                );
   }
 }
