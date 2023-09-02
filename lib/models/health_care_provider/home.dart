@@ -66,7 +66,7 @@ class _Homepage_hcpState extends State<Homepage_hcp> {
                       ),
                       label: language == 'Kiswahili'
                           ? 'Ongea na daktari'
-                          : 'Chat with doctor'),
+                          : 'Chat with client'),
                   BottomNavigationBarItem(
                       icon: Image.asset(
                         'assets/home.png',
