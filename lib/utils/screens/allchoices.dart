@@ -123,8 +123,9 @@ class _AllState extends State<All> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -147,11 +148,14 @@ class _AllState extends State<All> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+      drawer: updates.isNotEmpty
+          ? AppDrawer(
+              username: username,
+              language: language,
+              status: status,
+              update: updates[0]['version'],
+            )
+          : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context
@@ -208,7 +212,7 @@ class _AllState extends State<All> {
                                   radius: 20,
                                   child: Image.asset('assets/icon.ico')),
                               AppText(
-                                txt: 'MIMI CARE',
+                                txt: 'MimiCare',
                                 color: Colors.black,
                                 size: 15,
                                 weight: FontWeight.w500,
@@ -273,6 +277,7 @@ class _AllState extends State<All> {
                                             title: data[index]['name'],
                                             username: username,
                                             image: data[index]['image'],
+                                            reference: data[index]['reference'],
                                             language: language,
                                           )));
                                 },
@@ -332,6 +337,7 @@ class _AllState extends State<All> {
                                             title: data[index]['name'],
                                             username: username,
                                             image: data[index]['image'],
+                                            reference: data[index]['reference'],
                                             language: language,
                                           )));
                                 },
@@ -357,6 +363,7 @@ class _AllState extends State<All> {
                                           date: data[index]['date'],
                                           description: data[index]
                                               ['description'],
+                                          reference: data[index]['reference'],
                                           title: data[index]['name'],
                                           username: username,
                                           image: data[index]['image'],

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:wgnrr/medication/medication.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
 import 'package:wgnrr/models/client/appointment/results.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/settings/settings.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -29,11 +32,52 @@ class _AppDrawerState extends State<AppDrawer> {
   @override
   void initState() {
     super.initState();
+    getValidationData();
+  }
+
+  var isMedication;
+  var tabs;
+  var hours;
+  var next_time;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var u = sharedPreferences.get('isMedication');
+    var s = sharedPreferences.get('tabs');
+    var b = sharedPreferences.get('hours');
+    var l = sharedPreferences.get('next_time');
+    setState(() {
+      isMedication = u;
+      tabs = s;
+      hours = b;
+      next_time = l;
+    });
+  }
+
+  reset() async {
+    DateTime now = DateTime.now();
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.setString('tabs', tabs);
+    sharedPreferences.setString('hours', tabs);
+    sharedPreferences.setString(
+        'next_time', now.add(Duration(hours: hours)).toIso8601String());
+    sharedPreferences.setString('isMedication', '1');
+    Navigator.pop(context);
+  }
+
+  clear() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    sharedPreferences.remove('tabs');
+    sharedPreferences.remove('hours');
+    sharedPreferences.remove('next_time');
+    sharedPreferences.remove('isMedication');
+    Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width / 3;
     return Drawer(
       backgroundColor: HexColor('#ffffff'),
       child: SingleChildScrollView(
@@ -42,13 +86,13 @@ class _AppDrawerState extends State<AppDrawer> {
             Container(
                 color: Colors.white,
                 child: Image.asset(
-                  'assets/full_logo.png',
-                  height: 300,
+                  'assets/icon.ico',
+                  height: 200,
                 )),
             Divider(
               color: Colors.black,
             ),
-            if (widget.update.toString() != '2' || widget.update == null)
+            if (widget.update.toString() != '3' || widget.update == null)
               ListTile(
                 tileColor: Colors.red,
                 onTap: () async {
@@ -70,7 +114,30 @@ class _AppDrawerState extends State<AppDrawer> {
                   weight: FontWeight.w500,
                 ),
               ),
-            if (widget.update.toString() != '1' || widget.update == null)
+            if (isMedication == '1' &&
+                DateTime.parse(next_time) == DateTime.now())
+              ListTile(
+                tileColor: Colors.red,
+                leading: Icon(
+                  Icons.crisis_alert,
+                  color: Colors.white,
+                  size: 15,
+                ),
+                title: AppText(
+                  txt: widget.language == 'Kiswahili'
+                      ? 'Tafadhali kunywa dawa'
+                      : 'Please take the medication',
+                  size: 15,
+                  color: Colors.white,
+                  weight: FontWeight.w500,
+                ),
+                trailing: AppButton(
+                    onPress: () => reset(),
+                    label: "reset time",
+                    bcolor: HexColor('#F5841F'),
+                    borderCurve: 20),
+              ),
+            if (widget.update.toString() != '3' || widget.update == null)
               Divider(
                 color: Colors.black,
               ),
@@ -146,6 +213,38 @@ class _AppDrawerState extends State<AppDrawer> {
                 weight: FontWeight.w500,
               ),
             ),
+            if (widget.status != 'Health Care Providers')
+              Divider(
+                color: Colors.black,
+              ),
+            if (widget.status != 'Health Care Providers')
+              ListTile(
+                onTap: () {
+                  if (isMedication == 1) {
+                    clear();
+                  } else {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => medication()));
+                  }
+                },
+                leading: Icon(
+                  Icons.meeting_room,
+                  color: Colors.black,
+                  size: 15,
+                ),
+                title: AppText(
+                  txt: isMedication == '1'
+                      ? (widget.language == 'Kiswahili'
+                          ? 'Muongozo wa dawa'
+                          : 'Medication Guide')
+                      : (widget.language == 'Kiswahili'
+                          ? 'Futa muongozo wa dawa'
+                          : 'Clear Medication Guide'),
+                  size: 15,
+                  color: isMedication == '1' ? HexColor('#000000') : Colors.red,
+                  weight: FontWeight.w500,
+                ),
+              ),
             if (widget.status != 'Health Care Providers')
               Divider(
                 color: Colors.black,

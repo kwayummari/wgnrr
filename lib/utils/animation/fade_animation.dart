@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:simple_animations/simple_animations.dart';
 
-enum AniProp {
-  opacity,
-  translateY,
+void main() {
+  runApp(MyApp());
 }
 
-class FadeAnimation extends StatelessWidget {
+class FadeAnimation extends StatefulWidget {
   final double delay;
   final Widget child;
 
@@ -17,34 +15,85 @@ class FadeAnimation extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final tween = TimelineTween()
-      ..addScene(begin: Duration.zero, end: const Duration(milliseconds: 500))
-          .animate(
-            AniProp.opacity,
-            tween: Tween(begin: 0.0, end: 1.0),
-          )
-          .animate(
-            AniProp.translateY,
-            tween: Tween(begin: -30.0, end: 0.0),
-            curve: Curves.easeOut,
-          );
+  _FadeAnimationState createState() => _FadeAnimationState();
+}
 
-    return PlayAnimation<TimelineValue>(
-      delay: Duration(milliseconds: (500 * delay).round()),
-      duration: tween.duration,
-      tween: tween,
-      builder: (context, child, animation) => Opacity(
-        opacity: animation.get(AniProp.opacity),
-        child: Transform.translate(
-          offset: Offset(
-            0,
-            animation.get(AniProp.translateY),
+class _FadeAnimationState extends State<FadeAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _opacityAnimation;
+  late Animation<Offset> _translateAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+
+    final curve = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
+
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(curve);
+    _translateAnimation =
+        Tween(begin: Offset(0, -30.0), end: Offset(0, 0)).animate(curve);
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _opacityAnimation.value,
+          child: Transform.translate(
+            offset: _translateAnimation.value,
+            child: child,
           ),
-          child: child,
+        );
+      },
+      child: widget.child,
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Fade Animation Example"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FadeAnimation(0.5, Text("Fade Animation Example")),
+              SizedBox(height: 20),
+              FadeAnimation(
+                1.0,
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text("Click me"),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      child: child,
     );
   }
 }

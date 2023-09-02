@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
+import 'package:wgnrr/models/client/chats/table/table.dart';
 
 class Views extends StatefulWidget {
   var username;
@@ -18,7 +18,7 @@ class Views extends StatefulWidget {
   var description;
   var image;
   var language;
-  // ignore: non_constant_identifier_names
+  var reference;
   Views(
       {Key? key,
       required this.language,
@@ -28,6 +28,7 @@ class Views extends StatefulWidget {
       required this.title,
       required this.caption,
       required this.image,
+      required this.reference,
       required this.description})
       : super(key: key);
 
@@ -37,12 +38,15 @@ class Views extends StatefulWidget {
 
 class _ViewsState extends State<Views> {
   var language;
+  var status;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var l = sharedPreferences.get('language');
+    var s = sharedPreferences.get('status');
     setState(() {
       language = l;
+      status = s;
     });
   }
 
@@ -64,9 +68,9 @@ class _ViewsState extends State<Views> {
             left: 0,
             right: 0,
             child: FadeAnimation(
-                1.2,
-                Image.network('${murl}categories/image/${widget.image}'),
-                ),
+              1.2,
+              Image.network('${murl}categories/image/${widget.image}'),
+            ),
           ),
           Positioned(
             top: 50,
@@ -113,9 +117,9 @@ class _ViewsState extends State<Views> {
                         Center(
                           child: AppText(
                             txt: '${widget.title}',
-                              color: HexColor('#000000'),
-                              size: 18,
-                              weight: FontWeight.w700,
+                            color: HexColor('#000000'),
+                            size: 18,
+                            weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -141,9 +145,9 @@ class _ViewsState extends State<Views> {
                               txt: language == 'Kiswahili'
                                   ? 'Tarehe -${widget.date}'
                                   : 'Date - ${widget.date}',
-                                color: HexColor('#000000'),
-                                size: 18,
-                                weight: FontWeight.w300,
+                              color: HexColor('#000000'),
+                              size: 18,
+                              weight: FontWeight.w300,
                             ),
                           ],
                         ),
@@ -166,9 +170,9 @@ class _ViewsState extends State<Views> {
                               txt: language == 'Kiswahili'
                                   ? 'Mwandishi - ${widget.author}'
                                   : 'Author - ${widget.author}',
-                                color: HexColor('#000000'),
-                                size: 15,
-                                weight: FontWeight.w300,
+                              color: HexColor('#000000'),
+                              size: 15,
+                              weight: FontWeight.w300,
                             ),
                           ],
                         ),
@@ -184,8 +188,8 @@ class _ViewsState extends State<Views> {
                       ),
                       AppText(
                         txt: language == 'Kiswahili' ? 'Muhtasari' : 'Caption',
-                          color: HexColor('#981EE4'),
-                          size: 18,
+                        color: HexColor('#981EE4'),
+                        size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -197,9 +201,9 @@ class _ViewsState extends State<Views> {
                             1.3,
                             AppText(
                               txt: '${widget.caption}',
-                                color: HexColor('#000000'),
-                                size: 18,
-                                weight: FontWeight.w300,
+                              color: HexColor('#000000'),
+                              size: 18,
+                              weight: FontWeight.w300,
                             ),
                           ),
                         ),
@@ -208,9 +212,10 @@ class _ViewsState extends State<Views> {
                         height: 30,
                       ),
                       AppText(
-                        txt: language == 'Kiswahili' ? 'Maelezo' : 'Description',
-                          color: HexColor('#981EE4'),
-                          size: 18,
+                        txt:
+                            language == 'Kiswahili' ? 'Maelezo' : 'Description',
+                        color: HexColor('#981EE4'),
+                        size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -220,14 +225,33 @@ class _ViewsState extends State<Views> {
                         child: FadeAnimation(
                           1.4,
                           AppText(
-                            txt:'${widget.description}',
-                              color: HexColor('#000000'),
-                              weight: FontWeight.w300,
-                              size: 18,
+                            txt: '${widget.description}',
+                            color: HexColor('#000000'),
+                            weight: FontWeight.w300,
+                            size: 18,
                           ),
                         ),
                       ),
-                      
+                      AppText(
+                        txt: 'Reference',
+                        color: HexColor('#981EE4'),
+                        size: 18,
+                      ),
+                      AppText(
+                        txt: widget.reference ?? 'MIMI CARE HEALTH CARE PROVIDERS',
+                        color: HexColor('#000000'),
+                        weight: FontWeight.w300,
+                        size: 18,
+                      ),
+                      if (status != 'Health Care Providers')
+                        AppButton(
+                            onPress: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Chat_table())),
+                            label:
+                                'Click Here to chat with medical professional',
+                            bcolor: HexColor('#742B90'),
+                            borderCurve: 20),
                       const SizedBox(
                         height: 30,
                       ),

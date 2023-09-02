@@ -13,7 +13,6 @@ import 'package:http/http.dart' as http;
 import 'package:wgnrr/utils/widget/drawer/app_drawer.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
-
 List datas = [];
 
 class Home extends StatefulWidget {
@@ -65,11 +64,11 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
   }
+
   List updates = [];
   Future update() async {
-    http.Response response;
     const url = '${murl}version/get.php';
     var response1 = await http.get(Uri.parse(url));
     if (response1.statusCode == 200) {
@@ -85,11 +84,14 @@ class _HomeState extends State<Home> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       drawerEnableOpenDragGesture: false,
-      drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+      drawer: updates.isNotEmpty
+          ? AppDrawer(
+              username: username,
+              language: language,
+              status: status,
+              update: updates[0]['version'],
+            )
+          : null,
       appBar: AppBar(
         leading: Builder(
             builder: (context) => // Ensure Scaffold is in context
@@ -117,12 +119,13 @@ class _HomeState extends State<Home> {
         toolbarHeight: 70,
         backgroundColor: HexColor('#742B90'),
         title: AppText(
-            txt: language == 'Kiswahili'
-                ? 'Karibu ${username}'
-                : 'Welcome ${username}',
-                size: 15,
-                color: Colors.white,
-                weight: FontWeight.w500,),
+          txt: language == 'Kiswahili'
+              ? 'Karibu ${username}'
+              : 'Welcome ${username}',
+          size: 15,
+          color: Colors.white,
+          weight: FontWeight.w500,
+        ),
         centerTitle: true,
       ),
       backgroundColor: HexColor('#742B90'),

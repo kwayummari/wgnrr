@@ -131,85 +131,78 @@ class _TopcircularState extends State<Topcircular> {
               width: Platform.isIOS ? 200 : 170,
             ),
           )
-        : StreamBuilder(
-            stream: Stream.periodic(Duration(seconds: 10)).asyncMap((i) =>
-                checkConnection()), // i is null here (check periodic docs)
-            builder: (context, snapshot) => CarouselSlider(
-                  options: CarouselOptions(
-                    height: Platform.isIOS ? 200 : 170,
-                    aspectRatio: 16 / 9,
-                    viewportFraction: 0.9,
-                    initialPage: 0,
-                    enableInfiniteScroll: true,
-                    reverse: false,
-                    autoPlay: true,
-                    autoPlayInterval: Duration(seconds: 8),
-                    autoPlayAnimationDuration: Duration(seconds: 5),
-                    autoPlayCurve: Curves.linear,
-                    enlargeCenterPage: true,
-                    scrollDirection: Axis.horizontal,
-                  ),
-                  items: <Widget>[
-                    for (var i = 0; i < photo.length; i++)
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Viewtopcircularcategory(
-                                    author: datas[i]['author'],
-                                    caption: datas[i]['caption'],
-                                    date: datas[i]['date'],
-                                    description: datas[i]['description'],
-                                    title: datas[i]['title'],
-                                    username: username,
-                                    image: datas[i]['image'],
-                                    language: language,
-                                  )));
-                        },
-                        child: Container(
-                          child: Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color.fromRGBO(116, 43, 144, 0.7),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5.0)),
-                                border: Border.all(color: Colors.black),
-                              ),
-                              child: AppText(
-                                txt: datas[i]['title'].toString().length > 40
-                                    ? datas[i]['title']
-                                            .toString()
-                                            .toUpperCase()
-                                            .substring(0, 40) +
-                                        '...'
-                                    : datas[i]['title'].toString(),
-                                color: Colors.white,
-                                size: 15,
-                              ),
-                            ),
-                          ),
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            border: Border.all(color: Colors.black),
-                            image: DecorationImage(
-                              image: (connectivityResult ==
-                                      ConnectivityResult.wifi)
-                                  ? NetworkImage(
-                                      '${murl}feeds/image/${photo[i]}')
-                                  : (connectivityResult ==
-                                          ConnectivityResult.mobile)
-                                      ? NetworkImage(
-                                          '${murl}feeds/image/${photo[i]}')
-                                      : MemoryImage(photos[i]) as ImageProvider,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
+        : CarouselSlider(
+            options: CarouselOptions(
+              height: Platform.isIOS ? 200 : 170,
+              aspectRatio: 16 / 9,
+              viewportFraction: 0.9,
+              initialPage: 0,
+              enableInfiniteScroll: true,
+              reverse: false,
+              autoPlay: true,
+              autoPlayInterval: Duration(seconds: 8),
+              autoPlayAnimationDuration: Duration(seconds: 5),
+              autoPlayCurve: Curves.linear,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: <Widget>[
+              for (var i = 0; i < photo.length; i++)
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Viewtopcircularcategory(
+                              author: datas[i]['author'],
+                              caption: datas[i]['caption'],
+                              date: datas[i]['date'],
+                              description: datas[i]['description'],
+                              title: datas[i]['title'],
+                              reference: datas[i]['reference'],
+                              username: username,
+                              image: datas[i]['image'],
+                              language: language,
+                            )));
+                  },
+                  child: Container(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          color: Color.fromRGBO(116, 43, 144, 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: AppText(
+                          txt: datas[i]['title'].toString().length > 40
+                              ? datas[i]['title']
+                                      .toString()
+                                      .toUpperCase()
+                                      .substring(0, 40) +
+                                  '...'
+                              : datas[i]['title'].toString(),
+                          color: Colors.white,
+                          size: 15,
                         ),
                       ),
-                  ],
-                ));
+                    ),
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    margin: EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      border: Border.all(color: Colors.black),
+                      image: DecorationImage(
+                        image: (connectivityResult == ConnectivityResult.wifi)
+                            ? NetworkImage('${murl}feeds/image/${photo[i]}')
+                            : (connectivityResult == ConnectivityResult.mobile)
+                                ? NetworkImage('${murl}feeds/image/${photo[i]}')
+                                : MemoryImage(photos[i]) as ImageProvider,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
   }
 }

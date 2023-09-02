@@ -7,8 +7,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/chats/table/table.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:http/http.dart' as http;
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Viewchoicesearch extends StatefulWidget {
@@ -38,12 +40,15 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
     }
   }
   var language;
+  var status;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var l = sharedPreferences.get('language');
+    var s = sharedPreferences.get('status');
     setState(() {
       language = l;
+      status = s;
     });
   }
 
@@ -231,6 +236,15 @@ class _ViewchoicesearchState extends State<Viewchoicesearch> {
                           ),
                         ),
                       ),
+                      if (status != 'Health Care Providers')
+                        AppButton(
+                            onPress: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Chat_table())),
+                            label:
+                                'Click Here to chat with medical professional',
+                            bcolor: HexColor('#742B90'),
+                            borderCurve: 20),
                       const SizedBox(
                         height: 30,
                       ),

@@ -2,8 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
+import 'package:wgnrr/models/client/chats/table/table.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
+import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
 
 class Viewchoice extends StatefulWidget {
@@ -15,6 +18,7 @@ class Viewchoice extends StatefulWidget {
   var description;
   var image;
   var language;
+  var reference;
   // ignore: non_constant_identifier_names
   Viewchoice(
       {Key? key,
@@ -25,6 +29,7 @@ class Viewchoice extends StatefulWidget {
       required this.caption,
       required this.image,
       required this.language,
+      required this.reference,
       required this.description})
       : super(key: key);
 
@@ -33,6 +38,19 @@ class Viewchoice extends StatefulWidget {
 }
 
 class _ViewchoiceState extends State<Viewchoice> {
+  var language;
+  var status;
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var l = sharedPreferences.get('language');
+    var s = sharedPreferences.get('status');
+    setState(() {
+      language = l;
+      status = s;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -47,23 +65,6 @@ class _ViewchoiceState extends State<Viewchoice> {
             child: FadeAnimation(
               1.2,
               Image.network('${murl}choices/image/${widget.image}'),
-              // CachedNetworkImage(
-              //   imageUrl: '${murl}choices/image/${widget.image}',
-              //   progressIndicatorBuilder: (context, url, downloadProgress) =>
-              //       Container(
-              //     height: 400,
-              //     width: double.infinity,
-              //     color: Colors.black,
-              //     child: Center(
-              //       child: CircularProgressIndicator(
-              //         value: downloadProgress.progress,
-              //         color: Colors.white,
-              //         strokeWidth: 3,
-              //       ),
-              //     ),
-              //   ),
-              //   errorWidget: (context, url, error) => Icon(Icons.error),
-              // )
             ),
           ),
           Positioned(
@@ -221,6 +222,27 @@ class _ViewchoiceState extends State<Viewchoice> {
                           ),
                         ),
                       ),
+                      AppText(
+                        txt: 'Reference',
+                        color: HexColor('#981EE4'),
+                        size: 18,
+                      ),
+                      AppText(
+                        txt: widget.reference ??
+                            'MIMI CARE HEALTH CARE PROVIDERS',
+                        color: HexColor('#000000'),
+                        weight: FontWeight.w300,
+                        size: 18,
+                      ),
+                      if (status != 'Health Care Providers')
+                        AppButton(
+                            onPress: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Chat_table())),
+                            label:
+                                'Click Here to chat with medical professional',
+                            bcolor: HexColor('#742B90'),
+                            borderCurve: 20),
                       SizedBox(
                         height: 30,
                       ),

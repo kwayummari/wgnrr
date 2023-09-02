@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:http/http.dart' as http;
@@ -91,14 +90,11 @@ class _CategoriesState extends State<Categories> {
           data.isEmpty
               ? tipShimmerLoading(
                   borderRadius: 20,
-                  height: 125.0,
-                  width: MediaQuery.of(context).size.width / 2.4,
+                  height: 150.0,
+                  width: MediaQuery.of(context).size.width / 1.4,
                 )
               : Expanded(
-                  child: StreamBuilder(
-                  stream: Stream.periodic(Duration(seconds: 10)).asyncMap((i) =>
-                      get_username()), // i is null here (check periodic docs)
-                  builder: (context, snapshot) => ListView.builder(
+                  child: ListView.builder(
                     itemCount: data.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -116,6 +112,7 @@ class _CategoriesState extends State<Categories> {
                                       title: data[index]['title'],
                                       username: username,
                                       image: data[index]['image'],
+                                      reference: data[index]['reference'],
                                       language: language,
                                     )));
                           },
@@ -125,9 +122,9 @@ class _CategoriesState extends State<Categories> {
                                 padding:
                                     const EdgeInsets.only(left: 8, right: 8),
                                 child: Container(
-                                  height: 125.0,
+                                  height: 150.0,
                                   width:
-                                      MediaQuery.of(context).size.width / 2.4,
+                                      MediaQuery.of(context).size.width / 1.4,
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -139,20 +136,25 @@ class _CategoriesState extends State<Categories> {
                                     ),
                                     shape: BoxShape.rectangle,
                                   ),
-                                ),
-                              ),
-                              Text(
-                                data[index]['title'].toString().length > 20
-                                    ? data[index]['title']
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#742B90')
+                                            .withOpacity(0.5),
+                                      ),
+                                      child: AppText(
+                                        txt: data[index]['title']
                                             .toString()
-                                            .toUpperCase()
-                                            .substring(0, 20) +
-                                        '...'
-                                    : data[index]['name']
-                                        .toString()
-                                        .toUpperCase(),
-                                style:
-                                    TextStyle(overflow: TextOverflow.ellipsis),
+                                            .toUpperCase(),
+                                        size: 15,
+                                        weight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                               Align(
                                 alignment: Alignment.bottomLeft,
@@ -180,7 +182,7 @@ class _CategoriesState extends State<Categories> {
                       );
                     },
                   ),
-                )),
+                ),
         ],
       ),
     );

@@ -91,14 +91,11 @@ class _ChoicesState extends State<Choices> {
           data.isEmpty
               ? tipShimmerLoading(
                   borderRadius: 20,
-                  height: 125.0,
-                  width: MediaQuery.of(context).size.width / 2.4,
+                  height: 150.0,
+                  width: MediaQuery.of(context).size.width / 1.4,
                 )
               : Expanded(
-                  child: StreamBuilder(
-                  stream: Stream.periodic(Duration(seconds: 10)).asyncMap((i) =>
-                      get_username()), // i is null here (check periodic docs)
-                  builder: (context, snapshot) => ListView.builder(
+                  child: ListView.builder(
                     itemCount: data.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
@@ -119,9 +116,9 @@ class _ChoicesState extends State<Choices> {
                                 padding:
                                     const EdgeInsets.only(left: 8, right: 8),
                                 child: Container(
-                                  height: 125.0,
+                                  height: 150.0,
                                   width:
-                                      MediaQuery.of(context).size.width / 2.4,
+                                      MediaQuery.of(context).size.width / 1.4,
                                   decoration: BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10.0)),
@@ -133,17 +130,25 @@ class _ChoicesState extends State<Choices> {
                                     ),
                                     shape: BoxShape.rectangle,
                                   ),
-                                ),
-                              ),
-                              Text(
-                                data[index]['name'].toString().length > 20
-                                    ? data[index]['name'].toUpperCase()
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#742B90')
+                                            .withOpacity(0.5),
+                                      ),
+                                      child: AppText(
+                                        txt: data[index]['name']
                                             .toString()
-                                            .substring(0, 20) +
-                                        '...'
-                                    : data[index]['name'].toString(),
-                                style:
-                                    TextStyle(overflow: TextOverflow.ellipsis),
+                                            .toUpperCase(),
+                                        size: 15,
+                                        weight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                               Align(
                                 alignment: Alignment.bottomLeft,
@@ -171,7 +176,7 @@ class _ChoicesState extends State<Choices> {
                       );
                     },
                   ),
-                )),
+                ),
         ],
       ),
     );

@@ -41,7 +41,6 @@ class _StatsState extends State<Stats> {
     } //
   }
 
-
   var username;
   var status;
   var language;
@@ -85,91 +84,108 @@ class _StatsState extends State<Stats> {
                     color: HexColor('#F5841F'),
                     child: AppText(
                       txt: language == 'Kiswahili' ? 'Takwimu' : 'Stats',
-                          color: HexColor('#F5841F'), size: 15,
+                      color: HexColor('#F5841F'),
+                      size: 15,
                     ))),
           ),
-          data.isEmpty ? tipShimmerLoading(borderRadius: 20, height: 125.0, width: MediaQuery.of(context).size.width / 2.4,) :Expanded(
-            child: StreamBuilder(
-        stream: Stream.periodic(Duration(seconds: 10)).asyncMap(
-            (i) => get_username()), // i is null here (check periodic docs)
-        builder: (context, snapshot) => ListView.builder(
-              physics: BouncingScrollPhysics(),
-              primary: true,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ViewStats(
-                                author: data[index]['author'],
-                                caption: data[index]['caption'],
-                                date: data[index]['date'],
-                                description: data[index]['description'],
-                                title: data[index]['title'],
-                                username: username,
-                                image: data[index]['image'], language: language,
-                              )));
-                    },
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: Container(
-                            height: 125.0,
-                            width: MediaQuery.of(context).size.width / 2.4,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10.0)),
-                              border: Border.all(color: Colors.black),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    '${murl}stats/image/${data[index]['image']}'),
-                                fit: BoxFit.fill,
-                              ),
-                              shape: BoxShape.rectangle,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          data[index]['title'].toString().length > 20
-                              ? data[index]['title']
-                                      .toString()
-                                      .substring(0, 20) +
-                                  '...'
-                              : data[index]['title'].toString().toUpperCase(),
-                          style: TextStyle(overflow: TextOverflow.ellipsis),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+          data.isEmpty
+              ? tipShimmerLoading(
+                  borderRadius: 20,
+                  height: 150.0,
+                  width: MediaQuery.of(context).size.width / 1.4,
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    primary: true,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ViewStats(
+                                      author: data[index]['author'],
+                                      caption: data[index]['caption'],
+                                      date: data[index]['date'],
+                                      description: data[index]['description'],
+                                      title: data[index]['title'],
+                                      username: username,
+                                      image: data[index]['image'],
+                                      reference: data[index]['reference'],
+                                      language: language,
+                                    )));
+                          },
+                          child: Column(
                             children: [
-                              AppText(
-                                size: 15,
-                                txt: language == 'Kiswahili'
-                                    ? 'Soma zaidi'
-                                    : 'Read More',
-                                    color: HexColor('#800B24'),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
+                                child: Container(
+                                  height: 150.0,
+                                  width:
+                                      MediaQuery.of(context).size.width / 1.4,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10.0)),
+                                    border: Border.all(color: Colors.black),
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                          '${murl}stats/image/${data[index]['image']}'),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    shape: BoxShape.rectangle,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width,
+                                      decoration: BoxDecoration(
+                                        color: HexColor('#742B90')
+                                            .withOpacity(0.5),
+                                      ),
+                                      child: AppText(
+                                        txt: data[index]['title']
+                                            .toString()
+                                            .toUpperCase(),
+                                        size: 15,
+                                        weight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: HexColor('#800B24'),
-                              )
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AppText(
+                                      size: 15,
+                                      txt: language == 'Kiswahili'
+                                          ? 'Soma zaidi'
+                                          : 'Read More',
+                                      color: HexColor('#800B24'),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: HexColor('#800B24'),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),)
-          ),
+                ),
         ],
       ),
     );

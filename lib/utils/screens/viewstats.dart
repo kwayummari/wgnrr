@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wgnrr/api/const.dart';
-import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
+import 'package:wgnrr/models/client/chats/table/table.dart';
 import 'package:wgnrr/utils/animation/fade_animation.dart';
 import 'package:wgnrr/utils/widget/button/button.dart';
 import 'package:wgnrr/utils/widget/text/text.dart';
@@ -18,6 +18,7 @@ class ViewStats extends StatefulWidget {
   var description;
   var image;
   var language;
+  var reference;
   // ignore: non_constant_identifier_names
   ViewStats(
       {Key? key,
@@ -28,6 +29,7 @@ class ViewStats extends StatefulWidget {
       required this.title,
       required this.caption,
       required this.image,
+      required this.reference,
       required this.description})
       : super(key: key);
 
@@ -36,20 +38,25 @@ class ViewStats extends StatefulWidget {
 }
 
 class _ViewStatsState extends State<ViewStats> {
-    var language;
+  var language;
+  var status;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var l = sharedPreferences.get('language');
+    var s = sharedPreferences.get('status');
     setState(() {
       language = l;
+      status = s;
     });
   }
+
   @override
   void initState() {
     super.initState();
     getValidationData();
   }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
@@ -62,9 +69,9 @@ class _ViewStatsState extends State<ViewStats> {
             left: 0,
             right: 0,
             child: FadeAnimation(
-                1.2,
-                Image.network('${murl}stats/image/${widget.image}'),
-                ),
+              1.2,
+              Image.network('${murl}stats/image/${widget.image}'),
+            ),
           ),
           Positioned(
             top: 50,
@@ -112,8 +119,8 @@ class _ViewStatsState extends State<ViewStats> {
                           child: AppText(
                             txt: '${widget.title}',
                             color: Colors.black,
-                              size: 18,
-                              weight: FontWeight.w700,
+                            size: 18,
+                            weight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -181,10 +188,7 @@ class _ViewStatsState extends State<ViewStats> {
                         height: 10,
                       ),
                       AppText(
-                        txt: 'Caption',
-                          color: HexColor('#981EE4'),
-                          size: 18
-                      ),
+                          txt: 'Caption', color: HexColor('#981EE4'), size: 18),
                       Container(
                         margin: const EdgeInsets.all(15.0),
                         padding: const EdgeInsets.all(3.0),
@@ -195,9 +199,9 @@ class _ViewStatsState extends State<ViewStats> {
                             1.3,
                             AppText(
                               txt: '${widget.caption}',
-                                color: HexColor('#000000'),
-                                size: 18,
-                                weight: FontWeight.w300,
+                              color: HexColor('#000000'),
+                              size: 18,
+                              weight: FontWeight.w300,
                             ),
                           ),
                         ),
@@ -207,8 +211,8 @@ class _ViewStatsState extends State<ViewStats> {
                       ),
                       AppText(
                         txt: 'Description',
-                          color: HexColor('#981EE4'),
-                          size: 18,
+                        color: HexColor('#981EE4'),
+                        size: 18,
                       ),
                       Container(
                         margin: const EdgeInsets.all(15.0),
@@ -219,13 +223,32 @@ class _ViewStatsState extends State<ViewStats> {
                           1.4,
                           AppText(
                             txt: '${widget.description}',
-                              color: HexColor('#000000'),
-                              weight: FontWeight.w300,
-                              size: 18,
+                            color: HexColor('#000000'),
+                            weight: FontWeight.w300,
+                            size: 18,
                           ),
                         ),
                       ),
-                      
+                      AppText(
+                        txt: 'Reference',
+                        color: HexColor('#981EE4'),
+                        size: 18,
+                      ),
+                      AppText(
+                        txt: widget.reference ?? 'MIMI CARE HEALTH CARE PROVIDERS',
+                        color: HexColor('#000000'),
+                        weight: FontWeight.w300,
+                        size: 18,
+                      ),
+                      if (status != 'Health Care Providers')
+                        AppButton(
+                            onPress: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => Chat_table())),
+                            label:
+                                'Click Here to chat with medical professional',
+                            bcolor: HexColor('#742B90'),
+                            borderCurve: 20),
                       const SizedBox(
                         height: 30,
                       ),

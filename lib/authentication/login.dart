@@ -78,9 +78,9 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     width: 20,
                   ),
-                  AppText(txt: 'MIMI ', color: HexColor('#ffffff'), size: 16),
+                  AppText(txt: 'Mimi', color: HexColor('#ffffff'), size: 16),
                   AppText(
-                    txt: 'CARE',
+                    txt: 'Care',
                     size: 16,
                     color: HexColor('#ffffff'),
                     weight: FontWeight.w700,
@@ -153,6 +153,46 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 15,
               ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Disclaimer'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Health Advice Disclaimer',
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 12.0),
+                                Text(
+                                  'The information provided in this app is for general informational purposes only and should not be considered a substitute for professional medical advice. Always consult with a healthcare provider before making any medical decisions.',
+                                  style: TextStyle(fontSize: 16.0),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Got it'),
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Text('Show Disclaimer'),
+                ),
+              )
             ],
           ),
         ),
