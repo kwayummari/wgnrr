@@ -41,6 +41,67 @@ class _HomeState extends State<Home> {
     } //
   }
 
+  List notifications = [];
+  Future get_notification() async {
+    http.Response response;
+    const API_URL = '${murl}notification/get_home.php';
+    response = await http.get(Uri.parse(API_URL));
+    notifications = json.decode(response.body);
+    if (response.statusCode == 200 && notifications.isNotEmpty) {
+      if (notifications[0]['type'] == '1') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Alert! \n\n ${notifications[0]['description']}',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+            elevation: 6.0,
+            action: SnackBarAction(
+              textColor: Colors.white,
+              label: 'OK',
+              onPressed: () =>
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            ),
+          ),
+        );
+      } else if (notifications[0]['type'] == '2') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Message'),
+            content: Text(notifications[0]['description']),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else if (notifications[0]['type'] == '3') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.red,
+            title: Text(
+              'Important!',
+              style: (TextStyle(color: Colors.white)),
+            ),
+            content: Text(
+              notifications[0]['description'],
+              style: (TextStyle(color: Colors.white)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
   var username;
   var status;
   var bot;
@@ -66,6 +127,7 @@ class _HomeState extends State<Home> {
     super.initState();
     getValidationData();
     update();
+    get_notification();
   }
 
   List updates = [];

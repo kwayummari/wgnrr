@@ -41,12 +41,75 @@ class _Chat_tableState extends State<Chat_table> {
     });
   }
 
+  List notifications = [];
+  Future get_notification() async {
+    http.Response response;
+    const API_URL = '${murl}notification/get_doctor.php';
+    response = await http.get(Uri.parse(API_URL));
+    notifications = json.decode(response.body);
+    if (response.statusCode == 200 && notifications.isNotEmpty) {
+      if (notifications[0]['type'] == '1') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Alert! \n\n ${notifications[0]['description']}',
+                style: TextStyle(color: Colors.white)),
+            backgroundColor: Colors.red,
+            elevation: 6.0,
+            action: SnackBarAction(
+              label: 'OK',
+              textColor: Colors.white,
+              onPressed: () =>
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            ),
+          ),
+        );
+      } else if (notifications[0]['type'] == '2') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text('Message'),
+            content: Text(notifications[0]['description']),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        );
+      } else if (notifications[0]['type'] == '3') {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            backgroundColor: Colors.red,
+            title: Text(
+              'Important!',
+              style: (TextStyle(color: Colors.white)),
+            ),
+            content: Text(
+              notifications[0]['description'],
+              style: (TextStyle(color: Colors.white)),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('OK', style: TextStyle(color: Colors.white)),
+              ),
+            ],
+          ),
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getValidationData();
-  update();
+    update();
+    get_notification();
   }
+
   List updates = [];
   Future update() async {
     http.Response response;
@@ -65,11 +128,14 @@ class _Chat_tableState extends State<Chat_table> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         drawerEnableOpenDragGesture: false,
-        drawer: updates.isNotEmpty ? AppDrawer(
-        username: username,
-        language: language,
-        status: status, update: updates[0]['version'],
-      ) : null,
+        drawer: updates.isNotEmpty
+            ? AppDrawer(
+                username: username,
+                language: language,
+                status: status,
+                update: updates[0]['version'],
+              )
+            : null,
         appBar: AppBar(
           actions: [
             Padding(
@@ -101,12 +167,13 @@ class _Chat_tableState extends State<Chat_table> {
           toolbarHeight: 70,
           backgroundColor: HexColor('#742B90'),
           title: AppText(
-              txt: language == 'Kiswahili'
-                  ? 'Karibu ${username}'
-                  : 'Welcome ${username}',
-                  color: Colors.white,
-                  size: 15,
-                  weight: FontWeight.w500,),
+            txt: language == 'Kiswahili'
+                ? 'Karibu ${username}'
+                : 'Welcome ${username}',
+            color: Colors.white,
+            size: 15,
+            weight: FontWeight.w500,
+          ),
           centerTitle: true,
         ),
         body: SingleChildScrollView(

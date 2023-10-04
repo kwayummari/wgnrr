@@ -12,8 +12,8 @@ import 'package:wgnrr/splash/splash.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
-  FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   WidgetsFlutterBinding.ensureInitialized();
+  FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

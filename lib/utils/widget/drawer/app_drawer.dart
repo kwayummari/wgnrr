@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wgnrr/medication/medication.dart';
 import 'package:wgnrr/models/client/appointment/appointment.dart';
 import 'package:wgnrr/models/client/appointment/results.dart';
+import 'package:wgnrr/models/client/appointment/selfCare.dart';
 import 'package:wgnrr/models/client/home.dart';
 import 'package:wgnrr/models/health_care_provider/appointment_doctor/appointment.dart';
 import 'package:wgnrr/models/health_care_provider/feedback/feedback.dart';
@@ -39,14 +41,18 @@ class _AppDrawerState extends State<AppDrawer> {
   var tabs;
   var hours;
   var next_time;
+  var username;
   Future getValidationData() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
+    var user = sharedPreferences.get('username');
     var u = sharedPreferences.get('isMedication');
     var s = sharedPreferences.get('tabs');
     var b = sharedPreferences.get('hours');
     var l = sharedPreferences.get('next_time');
+    print(l.toString());
     setState(() {
+      username = user;
       isMedication = u;
       tabs = s;
       hours = b;
@@ -76,6 +82,10 @@ class _AppDrawerState extends State<AppDrawer> {
     Navigator.pop(context);
   }
 
+  TextEditingController timeOfProcedure = TextEditingController();
+  var tProcedure;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -92,13 +102,30 @@ class _AppDrawerState extends State<AppDrawer> {
             Divider(
               color: Colors.black,
             ),
-            if (widget.update.toString() != '3' || widget.update == null)
+            if (widget.update.toString() != '7' || widget.update == null)
               ListTile(
                 tileColor: Colors.red,
                 onTap: () async {
                   var url =
                       'https://play.google.com/store/apps/details?id=com.wgnrr.app';
-                  launchUrl(Uri.parse(url));
+                  try {
+                    await launchUrl(Uri.parse(url));
+                  } on PlatformException catch (e) {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('Google Play Store not available'),
+                        content: Text(
+                            'The Google Play Store is not available on your device.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
                 leading: Icon(
                   Icons.update,
@@ -114,9 +141,41 @@ class _AppDrawerState extends State<AppDrawer> {
                   weight: FontWeight.w500,
                 ),
               ),
-            if (isMedication == '1' &&
-                DateTime.parse(next_time) == DateTime.now())
-              ListTile(
+            ListTile(
+              onTap: () async {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => selfCare(
+                      client: username,
+                      doctor: 'Dr Mamaboys',
+                      reason: 'Procedure - Surgical',
+                    ),
+                  ),
+                );
+              },
+              leading: Icon(
+                Icons.self_improvement,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili'
+                    ? 'Jitathimini'
+                    : 'Self Care',
+                size: 15,
+                color: Colors.black,
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            Visibility(
+              visible: isMedication == '1' &&
+                  next_time != null &&
+                  DateTime.tryParse(next_time) != null &&
+                  DateTime.tryParse(next_time) == DateTime.now(),
+              child: ListTile(
                 tileColor: Colors.red,
                 leading: Icon(
                   Icons.crisis_alert,
@@ -132,11 +191,13 @@ class _AppDrawerState extends State<AppDrawer> {
                   weight: FontWeight.w500,
                 ),
                 trailing: AppButton(
-                    onPress: () => reset(),
-                    label: "reset time",
-                    bcolor: HexColor('#F5841F'),
-                    borderCurve: 20),
+                  onPress: () => reset(),
+                  label: "reset time",
+                  bcolor: HexColor('#F5841F'),
+                  borderCurve: 20,
+                ),
               ),
+            ),
             if (widget.update.toString() != '3' || widget.update == null)
               Divider(
                 color: Colors.black,

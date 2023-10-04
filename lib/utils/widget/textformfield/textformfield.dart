@@ -9,21 +9,31 @@ class AppTextformfield extends StatelessWidget {
   final IconButton? suffixicon;
   final bool obscure;
   final Function? validate;
+  final TextInputType? type;
+  final Function? onChange;
   String? language;
-  AppTextformfield({
-    Key? key,
-    required this.textfieldcontroller,
-    this.icon,
-    this.suffixicon,
-    required this.language,
-    required this.label,
-    required this.obscure,
-    this.validate,
-  }) : super(key: key);
+  AppTextformfield(
+      {Key? key,
+      required this.textfieldcontroller,
+      this.type,
+      this.icon,
+      this.suffixicon,
+      required this.language,
+      required this.label,
+      required this.obscure,
+      this.validate,
+      this.onChange})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: type ?? TextInputType.text,
+      onChanged: (value) {
+        if (onChange != null) {
+          onChange!(value); // Call the onChange callback with the value
+        }
+      },
       obscureText: obscure,
       obscuringCharacter: '*',
       controller: textfieldcontroller,
