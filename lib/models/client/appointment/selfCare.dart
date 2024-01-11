@@ -30,11 +30,8 @@ class _selfCareState extends State<selfCare> {
   var status;
   var bot;
   var language;
-  Duration? datedifference;
-  String? difference;
+  String? difference = '0';
   Future getValidationData() async {
-    DateTime date1 = DateTime.now();
-    // DateTime date2 = DateTime.parse(widget.date_attended.toString());
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var u = sharedPreferences.get('username');
@@ -46,8 +43,6 @@ class _selfCareState extends State<selfCare> {
       status = s;
       bot = b;
       language = l;
-      // datedifference = date1.difference(date2);
-      // difference = datedifference!.inHours.toString();
     });
   }
 
@@ -60,7 +55,6 @@ class _selfCareState extends State<selfCare> {
 
   List updates = [];
   Future update() async {
-    http.Response response;
     const url = '${murl}version/get.php';
     var response1 = await http.get(Uri.parse(url));
     if (response1.statusCode == 200) {
@@ -85,7 +79,7 @@ class _selfCareState extends State<selfCare> {
           : null,
       appBar: AppBar(
         leading: Builder(
-            builder: (context) => // Ensure Scaffold is in context
+            builder: (context) =>
                 IconButton(
                   icon: Icon(
                     Icons.menu,

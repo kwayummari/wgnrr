@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -69,6 +70,15 @@ class _AppDrawerState extends State<AppDrawer> {
     sharedPreferences.setString(
         'next_time', now.add(Duration(hours: hours)).toIso8601String());
     sharedPreferences.setString('isMedication', '1');
+    Fluttertoast.showToast(
+      msg: 'Medication time was reset successfully',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 15.0,
+    );
     Navigator.pop(context);
   }
 
@@ -102,7 +112,7 @@ class _AppDrawerState extends State<AppDrawer> {
             Divider(
               color: Colors.black,
             ),
-            if (widget.update.toString() != '7' || widget.update == null)
+            if (widget.update.toString() != '8' || widget.update == null)
               ListTile(
                 tileColor: Colors.red,
                 onTap: () async {
@@ -141,45 +151,15 @@ class _AppDrawerState extends State<AppDrawer> {
                   weight: FontWeight.w500,
                 ),
               ),
-            ListTile(
-              onTap: () async {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => selfCare(
-                      client: username,
-                      doctor: 'Dr Mamaboys',
-                      reason: 'Procedure - Surgical',
-                    ),
-                  ),
-                );
-              },
-              leading: Icon(
-                Icons.self_improvement,
-                color: Colors.black,
-                size: 15,
-              ),
-              title: AppText(
-                txt: widget.language == 'Kiswahili'
-                    ? 'Jitathimini'
-                    : 'Self Care',
-                size: 15,
-                color: Colors.black,
-                weight: FontWeight.w500,
-              ),
-            ),
-            Divider(
-              color: Colors.black,
-            ),
             Visibility(
               visible: isMedication == '1' &&
                   next_time != null &&
                   DateTime.tryParse(next_time) != null &&
                   DateTime.tryParse(next_time) == DateTime.now(),
               child: ListTile(
-                tileColor: Colors.red,
                 leading: Icon(
                   Icons.crisis_alert,
-                  color: Colors.white,
+                  color: Colors.black,
                   size: 15,
                 ),
                 title: AppText(
@@ -187,7 +167,7 @@ class _AppDrawerState extends State<AppDrawer> {
                       ? 'Tafadhali kunywa dawa'
                       : 'Please take the medication',
                   size: 15,
-                  color: Colors.white,
+                  color: Colors.black,
                   weight: FontWeight.w500,
                 ),
                 trailing: AppButton(
@@ -225,6 +205,26 @@ class _AppDrawerState extends State<AppDrawer> {
               ),
               title: AppText(
                 txt: widget.status!,
+                size: 15,
+                color: HexColor('#000000'),
+                weight: FontWeight.w500,
+              ),
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            ListTile(
+              onTap: () async {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => Homepage('')));
+              },
+              leading: Icon(
+                Icons.home,
+                color: Colors.black,
+                size: 15,
+              ),
+              title: AppText(
+                txt: widget.language == 'Kiswahili' ? 'Nyumbani' : 'Home',
                 size: 15,
                 color: HexColor('#000000'),
                 weight: FontWeight.w500,
@@ -339,18 +339,27 @@ class _AppDrawerState extends State<AppDrawer> {
             ),
             ListTile(
               onTap: () async {
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Homepage('')));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => selfCare(
+                      client: username,
+                      doctor: 'Dr Mamaboys',
+                      reason: 'Procedure - Surgical',
+                    ),
+                  ),
+                );
               },
               leading: Icon(
-                Icons.home,
+                Icons.self_improvement,
                 color: Colors.black,
                 size: 15,
               ),
               title: AppText(
-                txt: widget.language == 'Kiswahili' ? 'Nyumbani' : 'Home',
+                txt: widget.language == 'Kiswahili'
+                    ? 'Jitathimini'
+                    : 'Self Care',
                 size: 15,
-                color: HexColor('#000000'),
+                color: Colors.black,
                 weight: FontWeight.w500,
               ),
             ),

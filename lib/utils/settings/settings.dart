@@ -37,7 +37,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Future<void> phonecall() async {
     final Uri launchUri = Uri(
       scheme: 'tel',
-      path: '0762996305',
+      path: '0743469680',
     );
     await launchUrl(launchUri);
   }

@@ -31,19 +31,19 @@
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
-    <string>your usage description here</string>
+    <string>for you to use this feature you need to allow MIMI_CARE to capture images using your camera so youy can send  them to your health care provider</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>your usage description here</string>
+    <string>Need access to your microphone for you to be abled to capture image and share it via the app</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>Need location when in use</string>
+    <string>Need location when in use for determining your position and providing nearby health facilities</string>
 	<key>NSPhotoLibraryUsageDescription</key>
     <string>Your app needs access to the photo library to allow you to choose photos to upload and share with your friends.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Always and when in use!</string>
+    <string>Need location when in use for determining your position and providing nearby health facilities</string>
     <key>NSLocationUsageDescription</key>
-    <string>Older devices need location.</string>
+    <string>Older devices need location for determining your position and providing nearby health facilities.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Can I have location always?</string>
+    <string>Need location when in use for determining your position and providing nearby health facilities</string>
 	<key>LSApplicationQueriesSchemes</key>
     <array>
     <string>sms</string>

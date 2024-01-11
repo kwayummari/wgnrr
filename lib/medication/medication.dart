@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -108,7 +109,6 @@ class _medicationState extends State<medication> {
     sharedPreferences.setString('hours', tabs);
     sharedPreferences.setString('next_time', next_time);
     sharedPreferences.setString('isMedication', '1');
-    Navigator.pop(context);
   }
 
   var isDoctor;
@@ -435,6 +435,18 @@ class _medicationState extends State<medication> {
                   if ((pth != null || mth != null) && isDoctor != null ||
                       drug != null) {
                     setAlarm();
+                    Fluttertoast.showToast(
+                      msg: language == 'Kiswahili'
+                          ? 'Umefanikiwa'
+                          : 'Successful',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.CENTER,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.green,
+                      textColor: Colors.white,
+                      fontSize: 15.0,
+                    );
+                    Navigator.pop(context);
                   }
                 },
                 bcolor: HexColor('#F5841F'),
