@@ -118,6 +118,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         title: 'MimiCare',
         theme: ThemeData(
           // timePickerTheme: Theme.of(context).primaryColor,
+          scaffoldBackgroundColor: Colors.white,
           cardColor: Colors.amber.shade900,
           highlightColor: Colors.amber.shade900,
           splashColor: Colors.amber.shade900,

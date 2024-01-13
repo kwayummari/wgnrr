@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -155,9 +156,9 @@ class MapSampleState extends State<MapSample> {
                     txt: language == 'Kiswahili'
                         ? 'Chagua Kituo'
                         : 'Choose Facility',
-                        size: 15,
-                        weight: FontWeight.w500,
-                        color: Colors.white,
+                    size: 15,
+                    weight: FontWeight.w500,
+                    color: Colors.white,
                   )),
             ),
             Spacer(),
@@ -175,13 +176,19 @@ class MapSampleState extends State<MapSample> {
               myLocationEnabled: true,
               markers: Set.of(_markers!),
               initialCameraPosition: CameraPosition(
-                target: LatLng(
-                    position!.latitude, position!.longitude),
+                target: LatLng(position!.latitude, position!.longitude),
                 zoom: 13.4746,
               ),
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
-                controller.setMapStyle("mapbox://styles/mapbox/54196e48a30d7f1");
+                if (Platform.isAndroid) {
+                  
+                  controller
+                      .setMapStyle("mapbox://styles/mapbox/54196e48a30d7f1");
+                } else {
+                  controller
+                      .setMapStyle("mapbox://styles/mapbox/9995ba591aaddfcf");
+                }
               },
             ),
     );
